@@ -1,0 +1,129 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "relationJoins"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id            String   @id @default(uuid())
+  customer_name String
+  account       String
+  alamat        String
+  no_telp       String?
+  email         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  purchase_order PurchaseOrder[]
+
+  @@map("customer")
+}
+
+model PurchaseOrder {
+  id        String   @id @default(uuid())
+  no_po     String
+  tgl_po    DateTime
+  foto_po   String?
+  status_po String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  delivery_note      DeliveryNote?
+  faktur             Faktur?
+  faktur_pajak       FakturPajak?
+  tandaterimatagihan TandaTerimaTagihan?
+  statusserahdokumen StatusSerahDokumen[]
+
+  customer    Customer @relation(fields: [customer_id], references: [id], onDelete: Cascade)
+  customer_id String
+
+  @@map("purchase_order")
+}
+
+model DeliveryNote {
+  id        String   @id @default(uuid())
+  no_dn     String?
+  foto1_dn  String?
+  foto2_dn  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  purchase_order PurchaseOrder @relation(fields: [po_id], references: [id], onDelete: Cascade)
+  po_id          String        @unique
+
+  @@map("delivery_note")
+}
+
+model Faktur {
+  id        String    @id @default(uuid())
+  no_fk     String?
+  tgl_fk    DateTime?
+  tgl_jt    DateTime?
+  nilai     String?
+  foto1_fk  String?
+  foto2_fk  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  purchase_order PurchaseOrder @relation(fields: [po_id], references: [id], onDelete: Cascade)
+  po_id          String        @unique
+
+  @@map("faktur")
+}
+
+model FakturPajak {
+  id        String    @id @default(uuid())
+  no_fkp    String?
+  tgl_fkp   DateTime?
+  foto_fkp  String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  purchase_order PurchaseOrder @relation(fields: [po_id], references: [id], onDelete: Cascade)
+  po_id          String        @unique
+
+  @@map("faktur_pajak")
+}
+
+model TandaTerimaTagihan {
+  id           String                  @id @default(uuid())
+  no_penagihan String?
+  status       EnumTandaTerimaTagihan?
+  tgl_jt       DateTime?
+  foto_ttt     String?
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+
+  purchase_order PurchaseOrder @relation(fields: [po_id], references: [id], onDelete: Cascade)
+  po_id          String        @unique
+
+  @@map("tanda_terima_tagihan")
+}
+
+enum EnumTandaTerimaTagihan {
+  selesai       @map("Selesai")
+  belum_selesai @map("Belum Selesai")
+}
+
+model StatusSerahDokumen {
+  id           String   @id @default(uuid())
+  status_serah String?
+  user         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  purchase_order PurchaseOrder @relation(fields: [po_id], references: [id], onDelete: Cascade)
+  po_id          String
+
+  @@map("status_serah_dokumen")
+}
