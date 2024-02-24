@@ -23,6 +23,8 @@ import { Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
 import Link from "next/link";
 
+export const revalidate = 0;
+
 export const MainMonitoringList = async () => {
   const data = await getMainMonitoring();
 

@@ -1,11 +1,11 @@
 "use client";
 import { deleteMainMonitoring } from "@/actions/actionMainMonitoring";
 import { useToast } from "../ui/use-toast";
-import { formatTimeAndDateIsoFetch } from "@/lib/utils";
 import { Button } from "../ui/button";
 
 export default function DeleteMainMonitoringList({ id }: { id: string }) {
   const { toast } = useToast();
+
   const handleDelete = async (formData: FormData) => {
     try {
       await deleteMainMonitoring(id);
