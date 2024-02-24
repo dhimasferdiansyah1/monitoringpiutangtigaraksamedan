@@ -22,8 +22,9 @@ import {
 import { Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
 import Link from "next/link";
+export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
-export const revalidate = 1;
+export const revalidate = 0;
 
 export const MainMonitoringList = async () => {
   const data = await getMainMonitoring();
