@@ -22,8 +22,6 @@ export async function getMainMonitoring() {
   return mainMonitoring;
 }
 
-export const revalidate = 0;
-
 export async function deleteMainMonitoring(id: string) {
   try {
     await prisma.purchaseOrder.delete({
