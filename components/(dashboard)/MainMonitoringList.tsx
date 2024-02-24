@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 import { getMainMonitoring } from "@/actions/actionMainMonitoring";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
@@ -22,8 +24,6 @@ import {
 import { Suspense } from "react";
 import { Skeleton } from "../ui/skeleton";
 import Link from "next/link";
-
-export const revalidate = 0;
 
 export const MainMonitoringList = async () => {
   const data = await getMainMonitoring();
