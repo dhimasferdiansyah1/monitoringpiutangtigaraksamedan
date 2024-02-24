@@ -60,11 +60,6 @@ const NavbarDashboard = () => {
       label: "Customer",
     },
     {
-      href: "/dashboard/purchaseorder",
-      icon: <ShoppingCart className="h-4 w-4" />,
-      label: "Purchase order",
-    },
-    {
       href: "/dashboard/statusserah",
       icon: <BarChartHorizontal className="h-4 w-4" />,
       label: "Status Serah",
@@ -111,7 +106,7 @@ const NavbarDashboard = () => {
                     <Link
                       key={route.href}
                       href={route.href}
-                      className={`flex items-center text-sm transition-colors hover:text-primary ${
+                      className={`flex items-center gap-1.5 text-sm transition-colors hover:text-primary ${
                         pathname === route.href
                           ? " font-medium text-black dark:text-white"
                           : " font-medium text-muted-foreground"

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import NavbarDashboard from "@/components/(dashboard)/NavbarDashboard";
-import "@/app/(home)/globals.css";
+import "@/app/(landingPage)/globals.css";
 import Footer from "@/components/Footer";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
@@ -22,7 +22,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className}`}>
         <ThemeProvider
           attribute="class"
