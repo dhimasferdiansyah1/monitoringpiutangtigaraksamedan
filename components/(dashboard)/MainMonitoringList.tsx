@@ -207,7 +207,7 @@ export const MainMonitoringList = async () => {
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
-                  <Link href={`/dashboard/main/detail/${po.id}`}>
+                  <Link href={`/dashboard/detail/${po.id}`}>
                     <Button variant="secondary">
                       Detail <ChevronRight className="h-5 w-5" />
                     </Button>

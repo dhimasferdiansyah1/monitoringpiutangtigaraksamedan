@@ -21,3 +21,11 @@ export const TambahPurchaseOrderSchema = z.object({
   status_serah: z.string(),
   user: z.string().min(1),
 });
+
+export const EditPurchaseOrderShcema = z.object({
+  no_po: numericPurchaseOrderRequiredString,
+  tgl_po: z.string({
+    required_error: "Tanggal purchase order tidak boleh kosong",
+  }),
+  foto_po: z.string().optional(),
+});
