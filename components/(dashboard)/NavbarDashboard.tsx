@@ -50,7 +50,7 @@ const NavbarDashboard = () => {
 
   const secondaryRoutes = [
     {
-      href: "/dashboard/main",
+      href: "/dashboard",
       icon: <ActivitySquare className="h-4 w-4" />,
       label: "Main monitoring",
     },

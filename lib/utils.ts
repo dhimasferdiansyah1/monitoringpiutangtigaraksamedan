@@ -26,8 +26,13 @@ export function uuidModifiedShort() {
   return uuid.substr(uuid.length - 5);
 }
 
-export const formatTimeAndDateIsoFetch = (from: string) => {
-  return formatISO9075(from, { format: "extended" });
+export const formatDateAndTimeIsoFetch = (from: string | undefined) => {
+  try {
+    const parsedDate = parseISO(from ?? "");
+    const formattedDate = format(parsedDate, "dd/MM/yyyy");
+    const formattedTime = format(parsedDate, "HH:mm:ss");
+    return `${formattedDate} ${formattedTime}`;
+  } catch {}
 };
 
 export const formatDateIsoFetch = (from: string | undefined) => {

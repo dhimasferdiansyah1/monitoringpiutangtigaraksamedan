@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -152,7 +151,7 @@ export default function FormTambahPurchaseOrder() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Tanggal Purchase Order</FormLabel>
-                <div className="flex gap-4">
+                <div className="flex flex-col md:flex-row gap-4">
                   <FormControl>
                     <Popover>
                       <PopoverTrigger asChild>

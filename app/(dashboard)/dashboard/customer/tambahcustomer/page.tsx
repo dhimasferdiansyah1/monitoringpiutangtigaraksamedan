@@ -1,8 +1,8 @@
-import FormTambahPurchaseOrder from "@/components/(dashboard)/tambahpurchaseorder/FormTambahPurchaseOrder";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Suspense } from "react";
+import React, { Suspense } from "react";
+import FormTambahCustomer from "@/components/(dashboard)/customer/tambahcustomer/FormTambahCustomer";
 
-export default function TambahPurchaseOrderPage() {
+export default function TambahCustomerPage() {
   return (
     <div className="mx-auto max-w-7xl">
       <div className="container mx-auto">
@@ -12,7 +12,7 @@ export default function TambahPurchaseOrderPage() {
               <Skeleton className="w-[300px] h-[600px] mt-8 lg:w-[512px] lg:h-[512px]" />
             }
           >
-            <FormTambahPurchaseOrder />
+            <FormTambahCustomer />
           </Suspense>
         </div>
       </div>

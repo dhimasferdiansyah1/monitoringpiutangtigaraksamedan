@@ -2,7 +2,7 @@ import { getMainMonitoring } from "@/actions/actionMainMonitoring";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { ChevronRight, Info, SquarePen, Store, Trash2 } from "lucide-react";
-import { formatDateIsoFetch, formatTimeAndDateIsoFetch } from "@/lib/utils";
+import { formatDateIsoFetch, formatDateAndTimeIsoFetch } from "@/lib/utils";
 import DeleteMainMonitoringList from "./DeleteMonitoringList";
 import {
   Popover,
@@ -168,7 +168,7 @@ export const MainMonitoringList = async () => {
                           <div className="flex flex-col space-x-0 text-sm">
                             <p>{status.status_serah}</p>
                             <p>
-                              {formatTimeAndDateIsoFetch(
+                              {formatDateAndTimeIsoFetch(
                                 status.updatedAt.toISOString()
                               )}
                             </p>
@@ -188,18 +188,17 @@ export const MainMonitoringList = async () => {
                     <AlertDialogContent>
                       <AlertDialogHeader>
                         <AlertDialogTitle>
-                          Apakah kamu yakin ingin menghapus purchase order{" "}
+                          Jika kamu setuju untuk menghapus, maka tindakan ini
+                          tidak bisa dibatalkan.
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Ini akan menghapus purchase order{" "}
                           <span className="text-destructive">{po.no_po}</span>{" "}
-                          dengan account customer{" "}
+                          yang dimiliki customer{" "}
                           <span className="text-muted-foreground">
                             {po.customer.customer_name} ({po.customer.account})
                           </span>
                           ?
-                        </AlertDialogTitle>
-                        <AlertDialogDescription>
-                          Tindakan ini tidak bisa dibatalkan. Ini akan menghapus
-                          secara permanen Purchase order {po.no_po} dan seluruh
-                          dokumen terkait purchase order tersebut.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
