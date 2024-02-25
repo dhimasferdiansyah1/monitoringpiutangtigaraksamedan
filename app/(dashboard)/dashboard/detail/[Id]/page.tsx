@@ -24,6 +24,7 @@ import DeliveryNoteCard from "@/components/(dashboard)/detail/DeliveryNoteCard";
 import FakturCard from "@/components/(dashboard)/detail/FakturCard";
 import FakturPajakCard from "@/components/(dashboard)/detail/FakturPajakCard";
 import TandaTerimaTagihanCard from "@/components/(dashboard)/detail/TandaTerimaTagihanCard";
+import { notFound } from "next/navigation";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -34,6 +35,11 @@ export default async function DetailPage({
 }) {
   const id = params.Id;
   const detail = await getAllDetail(id);
+
+  if (!detail) {
+    return notFound();
+  }
+
   return (
     <div className="mx-auto my-12 max-w-7xl">
       <div className="container mx-auto">
@@ -43,7 +49,7 @@ export default async function DetailPage({
             <div className="mx-4 mb-8 flex items-center justify-center gap-2 text-sm font-thin text-muted-foreground">
               <Clock className="h-4 w-4" />
               dibuat {formatDateDistanceToNow(
-                detail?.createdAt?.toISOString()
+                detail.createdAt.toISOString()
               )}{" "}
               yang lalu
             </div>
@@ -58,7 +64,7 @@ export default async function DetailPage({
                     <Skeleton className="h-[224px] w-[329px] lg:h-full lg:w-full" />
                   }
                 >
-                  <CustomerCard customerId={detail?.customer?.id ?? ""} />
+                  <CustomerCard customerId={detail.customer.id} />
                 </Suspense>
                 <div className="mt-4 flex gap-2 px-2 font-bold">
                   <CheckSquare className="h-5 w-5" />
@@ -90,9 +96,9 @@ export default async function DetailPage({
                       <Skeleton className="h-[224px] w-[329px] lg:w-[385px]" />
                     }
                   >
-                    <PurchaseOrderCard purchaseOrderId={detail?.id ?? ""} />
+                    <PurchaseOrderCard purchaseOrderId={detail.id} />
                     <Link
-                      href={`/dashboard/detail/${detail?.id}/purchaseorder/${detail?.id}`}
+                      href={`/dashboard/detail/${detail.id}/purchaseorder/${detail.id}`}
                     >
                       <Button variant="secondary" className="flex gap-2">
                         Edit
@@ -114,13 +120,13 @@ export default async function DetailPage({
                     }
                   >
                     <DeliveryNoteCard
-                      deliveryNoteId={detail?.delivery_note?.id ?? ""}
+                      deliveryNoteId={detail.delivery_note?.id ?? ""}
                     />
                     <Link
                       href={`/dashboard/detail/${detail?.id}/deliverynote/${detail?.delivery_note?.id}`}
                     >
                       <Button variant="secondary">
-                        {detail?.delivery_note?.no_dn?.length ?? 0 > 0 ? (
+                        {detail.delivery_note?.no_dn?.length ?? 0 > 0 ? (
                           <p className="flex gap-2">
                             Edit{" "}
                             <Pencil className="hover:text-primary-400 h-4 w-4 cursor-pointer text-primary" />
@@ -147,9 +153,9 @@ export default async function DetailPage({
                       <Skeleton className="h-[224px] w-[329px] lg:w-[385px]" />
                     }
                   >
-                    <FakturCard fakturId={detail?.faktur?.id ?? ""} />
+                    <FakturCard fakturId={detail.faktur?.id ?? ""} />
                     <Link
-                      href={`/dashboard/detail/${detail?.id}/faktur/${detail?.faktur?.id}`}
+                      href={`/dashboard/detail/${detail.id}/faktur/${detail.faktur?.id}`}
                     >
                       <Button variant="secondary">
                         {detail?.faktur?.no_fk?.length ?? 0 > 0 ? (
@@ -180,7 +186,7 @@ export default async function DetailPage({
                     }
                   >
                     <FakturPajakCard
-                      fakturPajakId={detail?.faktur_pajak?.id ?? ""}
+                      fakturPajakId={detail.faktur_pajak?.id ?? ""}
                     />
                   </Suspense>
                 </div>
@@ -197,9 +203,7 @@ export default async function DetailPage({
                     }
                   >
                     <TandaTerimaTagihanCard
-                      tandaTerimaTagihanId={
-                        detail?.tandaterimatagihan?.id ?? ""
-                      }
+                      tandaTerimaTagihanId={detail.tandaterimatagihan?.id ?? ""}
                     />
                   </Suspense>
                 </div>

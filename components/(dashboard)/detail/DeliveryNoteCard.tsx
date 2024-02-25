@@ -1,6 +1,5 @@
 import { getDeliveryNoteUniqe } from "@/actions/actionDeliveryNote";
 import { Card } from "@/components/ui/card";
-import Link from "next/link";
 import {
   Dialog,
   DialogContent,
@@ -20,14 +19,20 @@ export default async function DeliveryNoteCard({
 }: {
   deliveryNoteId: string;
 }) {
-  const deliveryNote = await getDeliveryNoteUniqe(deliveryNoteId);
+  const id = deliveryNoteId;
+  const deliveryNote = await getDeliveryNoteUniqe(id);
+
+  if (!deliveryNote) {
+    return <p>Delivery note not found</p>;
+  }
+
   return (
     <Card className="flex w-full flex-col overflow-auto text-wrap p-4 shadow-none dark:bg-zinc-900">
       <div className="flex items-start gap-2">
         <p className="min-w-12 max-w-24 text-balance">No. Delivery Note</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {deliveryNote?.no_dn || (
+          {deliveryNote.no_dn || (
             <p className="text-destructive">Tidak memiliki</p>
           )}
         </div>
@@ -41,7 +46,7 @@ export default async function DeliveryNoteCard({
         <div>
           <div className=" break-all text-muted-foreground">
             <div className=" break-all text-muted-foreground">
-              {deliveryNote?.foto1_dn ? (
+              {deliveryNote.foto1_dn ? (
                 <p></p>
               ) : (
                 <p className="pb-2 text-center">⚠️silahkan upload foto</p>
@@ -57,10 +62,10 @@ export default async function DeliveryNoteCard({
                       Foto Delivery Note {deliveryNote?.foto1_dn}
                     </DialogTitle>
                     <DialogDescription>
-                      {deliveryNote?.foto1_dn ? (
+                      {deliveryNote.foto1_dn ? (
                         <>
                           <Image
-                            src={deliveryNote?.foto1_dn}
+                            src={deliveryNote.foto1_dn}
                             alt={`Foto faktur ${deliveryNote.foto1_dn}`}
                             width={1000}
                             height={1000}
@@ -108,7 +113,7 @@ export default async function DeliveryNoteCard({
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle className="mb-4">
-                    Foto Delivery Note {deliveryNote?.foto2_dn}
+                    Foto Delivery Note {deliveryNote.foto2_dn}
                   </DialogTitle>
                   <DialogDescription>
                     {deliveryNote?.foto2_dn ? (

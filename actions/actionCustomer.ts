@@ -61,7 +61,7 @@ export async function createCustomerList(formData: FormData) {
   redirect("/dashboard/customer");
 }
 
-export async function getCustomerUniqe(id?: string) {
+export async function getCustomerUniqe(id: string) {
   const customer = await prisma.customer.findUnique({
     where: {
       id: id,
