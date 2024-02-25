@@ -60,3 +60,32 @@ export async function createCustomerList(formData: FormData) {
   revalidatePath("/dashboard/customer");
   redirect("/dashboard/customer");
 }
+
+export async function getCustomerUniqe(id?: string) {
+  const customer = await prisma.customer.findUnique({
+    where: {
+      id: id,
+    },
+  });
+  return customer;
+}
+
+export async function updateCustomerList(id: string, formData: FormData) {
+  const values = Object.fromEntries(formData.entries());
+  try {
+    await prisma.customer.update({
+      where: {
+        id,
+      },
+      data: {
+        ...values,
+      },
+    });
+    // Return a success message and the updated customer object
+  } catch (error) {
+    // Return a failure message and the error object
+    console.error(error);
+  }
+  revalidatePath("/dashboard/customer");
+  redirect("/dashboard/customer"); // Navigate to the new post page
+}
