@@ -59,22 +59,22 @@ export default async function DetailPage({
                   <StoreIcon className="h-5 w-5" />
                   <p>Customer</p>
                 </div>
-                <Suspense
+                {/* <Suspense
                   fallback={
                     <Skeleton className="h-[224px] w-[329px] lg:h-full lg:w-full" />
                   }
                 >
                   <CustomerCard customerId={detail.customer.id} />
-                </Suspense>
+                </Suspense> */}
                 <div className="mt-4 flex gap-2 px-2 font-bold">
                   <CheckSquare className="h-5 w-5" />
                   Status Serah Dokumen
                 </div>
-                <Suspense
+                {/* <Suspense
                   fallback={<Skeleton className="lg:h-full lg:w-full" />}
                 >
                   <StatusSerahDokumenCard />
-                </Suspense>
+                </Suspense> */}
               </div>
               <div className="flex w-full flex-col gap-4 lg:basis-2/6">
                 <div className="flex flex-col items-start gap-2 lg:basis-1/6">
@@ -91,7 +91,7 @@ export default async function DetailPage({
                       {detail?.status_po}
                     </div>
                   </div>
-                  <Suspense
+                  {/* <Suspense
                     fallback={
                       <Skeleton className="h-[224px] w-[329px] lg:w-[385px]" />
                     }
@@ -105,7 +105,7 @@ export default async function DetailPage({
                         <Pencil className="hover:text-primary-400 h-4 w-4 cursor-pointer text-primary" />
                       </Button>
                     </Link>
-                  </Suspense>
+                  </Suspense> */}
                 </div>
                 <hr className="my-1.5" />
 
@@ -114,7 +114,7 @@ export default async function DetailPage({
                     <Truck className="h-5 w-5" />
                     Delivery Note
                   </div>
-                  <Suspense
+                  {/* <Suspense
                     fallback={
                       <Skeleton className="h-[224px] w-[329px] lg:w-[385px]" />
                     }
@@ -139,7 +139,7 @@ export default async function DetailPage({
                         )}
                       </Button>
                     </Link>
-                  </Suspense>
+                  </Suspense> */}
                 </div>
                 <hr className="my-1.5" />
 
@@ -148,7 +148,7 @@ export default async function DetailPage({
                     <Receipt className="h-5 w-5" />
                     Faktur
                   </div>
-                  <Suspense
+                  {/* <Suspense
                     fallback={
                       <Skeleton className="h-[224px] w-[329px] lg:w-[385px]" />
                     }
@@ -171,7 +171,7 @@ export default async function DetailPage({
                         )}
                       </Button>
                     </Link>
-                  </Suspense>
+                  </Suspense> */}
                 </div>
                 <hr className="my-1.5" />
 
@@ -180,7 +180,7 @@ export default async function DetailPage({
                     <Receipt className="h-5 w-5" />
                     Faktur Pajak
                   </div>
-                  <Suspense
+                  {/* <Suspense
                     fallback={
                       <Skeleton className="h-[205px] w-[329px] lg:w-[385px]" />
                     }
@@ -188,7 +188,7 @@ export default async function DetailPage({
                     <FakturPajakCard
                       fakturPajakId={detail.faktur_pajak?.id ?? ""}
                     />
-                  </Suspense>
+                  </Suspense> */}
                 </div>
                 <hr className="my-1.5" />
 
@@ -197,7 +197,7 @@ export default async function DetailPage({
                     <NotebookPen className="h-5 w-5" />
                     Tanda Terima Tagihan
                   </div>
-                  <Suspense
+                  {/* <Suspense
                     fallback={
                       <Skeleton className="h-[288px] w-[329px] lg:w-[385px]" />
                     }
@@ -205,7 +205,7 @@ export default async function DetailPage({
                     <TandaTerimaTagihanCard
                       tandaTerimaTagihanId={detail.tandaterimatagihan?.id ?? ""}
                     />
-                  </Suspense>
+                  </Suspense> */}
                 </div>
               </div>
             </Card>
