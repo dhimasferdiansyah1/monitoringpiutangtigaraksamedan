@@ -1,5 +1,4 @@
 import { Card } from "@/components/ui/card";
-import { getPurchaseOrderUniqe } from "@/actions/actionPurchaseOrder";
 import { formatDateIsoFetch } from "@/lib/utils";
 import {
   Dialog,
@@ -11,16 +10,17 @@ import {
 } from "@/components/ui/dialog";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
-export const fetchCache = "force-no-store";
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+import { getAllDetail } from "@/actions/actionDetail";
+// export const fetchCache = "force-no-store";
+// export const dynamic = "force-dynamic";
+// export const revalidate = 0;
 
 export default async function PurchaseOrderCard({
-  purchaseOrderId,
+  params,
 }: {
-  purchaseOrderId: string;
+  params: { id: string };
 }) {
-  const purchaseOrder = await getPurchaseOrderUniqe(purchaseOrderId);
+  const purchaseOrder = await getAllDetail(params.id);
   return (
     <Card className="flex w-full flex-col overflow-auto text-wrap p-4 shadow-none dark:bg-zinc-900">
       <div className="flex items-start gap-2">

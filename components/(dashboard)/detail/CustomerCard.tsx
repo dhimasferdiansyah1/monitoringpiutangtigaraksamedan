@@ -1,26 +1,25 @@
-import { getCustomerUniqe } from "@/actions/actionCustomer";
+import { getAllDetail } from "@/actions/actionDetail";
 import { Card } from "@/components/ui/card";
-export const fetchCache = "force-no-store";
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// export const fetchCache = "force-no-store";
+// export const dynamic = "force-dynamic";
+// export const revalidate = 0;
 
 export default async function CustomerCard({
-  customerId,
+  params,
 }: {
-  customerId: string;
+  params: { id: string };
 }) {
-  const id = customerId;
-  const customer = await getCustomerUniqe(id);
+  const customer = await getAllDetail(params.id);
   if (!customer) {
     return <p>Customer note not found</p>;
   }
   return (
-    <Card className="flex h-1/5 min-h-fit w-full flex-col overflow-auto text-wrap p-4 shadow-none dark:bg-zinc-900">
+    <Card className="flex h-1/5 min-h-max w-full flex-col overflow-auto text-wrap p-4 shadow-none dark:bg-zinc-900">
       <div className="flex items-start gap-2">
         <p className="min-w-12 max-w-24 text-balance">Nama Customer</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {customer.customer_name || (
+          {customer.customer.customer_name || (
             <p className="text-destructive">Tidak memiliki</p>
           )}
         </div>
@@ -29,7 +28,7 @@ export default async function CustomerCard({
         <p className="min-w-24 break-all">Account</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {customer.account || (
+          {customer.customer.account || (
             <p className="text-destructive">Tidak memiliki</p>
           )}
         </div>
@@ -39,7 +38,7 @@ export default async function CustomerCard({
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
-            {customer.alamat || (
+            {customer.customer.alamat || (
               <span className="text-destructive">Tidak memiliki</span>
             )}
           </div>
@@ -50,7 +49,7 @@ export default async function CustomerCard({
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
-            {customer.no_telp || (
+            {customer.customer.no_telp || (
               <span className="text-destructive">Tidak memiliki</span>
             )}
           </div>
@@ -61,7 +60,7 @@ export default async function CustomerCard({
         <span>:</span>
         <div>
           <div className="break-all text-muted-foreground">
-            {customer.email || (
+            {customer.customer.email || (
               <span className="text-destructive">Tidak memiliki</span>
             )}
           </div>

@@ -4,10 +4,8 @@ import {
   Clock,
   NotebookPen,
   Pencil,
-  Plus,
   Receipt,
   ShoppingCart,
-  Store,
   StoreIcon,
   Truck,
 } from "lucide-react";
@@ -25,8 +23,8 @@ import FakturCard from "@/components/(dashboard)/detail/FakturCard";
 import FakturPajakCard from "@/components/(dashboard)/detail/FakturPajakCard";
 import TandaTerimaTagihanCard from "@/components/(dashboard)/detail/TandaTerimaTagihanCard";
 import { notFound } from "next/navigation";
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// export const dynamic = "force-dynamic";
+// export const revalidate = 0;
 
 export default async function DetailPage({
   params,
@@ -59,22 +57,22 @@ export default async function DetailPage({
                   <StoreIcon className="h-5 w-5" />
                   <p>Customer</p>
                 </div>
-                {/* <Suspense
+                <Suspense
                   fallback={
                     <Skeleton className="h-[224px] w-[329px] lg:h-full lg:w-full" />
                   }
                 >
-                  <CustomerCard customerId={detail.customer.id} />
-                </Suspense> */}
+                  <CustomerCard params={detail} />
+                </Suspense>
                 <div className="mt-4 flex gap-2 px-2 font-bold">
                   <CheckSquare className="h-5 w-5" />
                   Status Serah Dokumen
                 </div>
-                {/* <Suspense
+                <Suspense
                   fallback={<Skeleton className="lg:h-full lg:w-full" />}
                 >
                   <StatusSerahDokumenCard />
-                </Suspense> */}
+                </Suspense>
               </div>
               <div className="flex w-full flex-col gap-4 lg:basis-2/6">
                 <div className="flex flex-col items-start gap-2 lg:basis-1/6">
@@ -91,12 +89,12 @@ export default async function DetailPage({
                       {detail?.status_po}
                     </div>
                   </div>
-                  {/* <Suspense
+                  <Suspense
                     fallback={
                       <Skeleton className="h-[224px] w-[329px] lg:w-[385px]" />
                     }
                   >
-                    <PurchaseOrderCard purchaseOrderId={detail.id} />
+                    <PurchaseOrderCard params={detail} />
                     <Link
                       href={`/dashboard/detail/${detail.id}/purchaseorder/${detail.id}`}
                     >
@@ -105,7 +103,7 @@ export default async function DetailPage({
                         <Pencil className="hover:text-primary-400 h-4 w-4 cursor-pointer text-primary" />
                       </Button>
                     </Link>
-                  </Suspense> */}
+                  </Suspense>
                 </div>
                 <hr className="my-1.5" />
 
