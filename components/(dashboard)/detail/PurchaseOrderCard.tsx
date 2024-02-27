@@ -37,7 +37,7 @@ export default async function PurchaseOrderCard({
         <p className="min-w-24 max-w-24 break-all">Tgl. Purchase Order</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {formatDateIsoFetch(purchaseOrder?.tgl_po?.toISOString()) || (
+          {formatDateIsoFetch(purchaseOrder?.tgl_po.toISOString()) || (
             <p className="text-destructive">Tidak memiliki</p>
           )}
         </div>
