@@ -10,6 +10,7 @@ const MainMonitoringList = dynamic(
     ),
   { loading: () => <SkeletonDashboard /> }
 );
+export const revalidate = 0;
 
 export default function DashboardPage() {
   return (
