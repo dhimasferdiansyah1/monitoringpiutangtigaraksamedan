@@ -11,9 +11,6 @@ import {
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 import { getAllDetail } from "@/actions/actionDetail";
-// export const fetchCache = "force-no-store";
-// export const dynamic = "force-dynamic";
-// export const revalidate = 0;
 
 export default async function PurchaseOrderCard({
   params,
@@ -21,6 +18,9 @@ export default async function PurchaseOrderCard({
   params: { id: string };
 }) {
   const purchaseOrder = await getAllDetail(params.id);
+  if (!purchaseOrder === undefined) {
+    <p>Purchase order not found</p>;
+  }
   return (
     <Card className="flex w-full flex-col overflow-auto text-wrap p-4 shadow-none dark:bg-zinc-900">
       <div className="flex items-start gap-2">
@@ -69,9 +69,9 @@ export default async function PurchaseOrderCard({
                         <Image
                           src={purchaseOrder?.foto_po}
                           alt={`Foto purchase order ${purchaseOrder.no_po}`}
-                          width={1000}
-                          height={1000}
-                          className="mb-4 h-[550px] w-auto"
+                          width={512}
+                          height={512}
+                          className="mb-4 h-[550px] w-auto object-contain"
                         />
                         <a
                           href={purchaseOrder?.foto_po}

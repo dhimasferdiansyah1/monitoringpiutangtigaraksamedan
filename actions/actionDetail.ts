@@ -1,9 +1,9 @@
 import prisma from "@/lib/prisma";
 
-export async function getAllDetail(id: string) {
+export async function getAllDetail(Id: string) {
   const detail = await prisma.purchaseOrder.findUnique({
     where: {
-      id: id,
+      id: Id,
     },
     include: {
       customer: true,

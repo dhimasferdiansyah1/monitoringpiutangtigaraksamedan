@@ -1,4 +1,5 @@
 import { getDeliveryNoteUniqe } from "@/actions/actionDeliveryNote";
+import { getAllDetail } from "@/actions/actionDetail";
 import { Card } from "@/components/ui/card";
 import {
   Dialog,
@@ -10,19 +11,15 @@ import {
 } from "@/components/ui/dialog";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
-export const fetchCache = "force-no-store";
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 export default async function DeliveryNoteCard({
-  deliveryNoteId,
+  params,
 }: {
-  deliveryNoteId: string;
+  params: { id: string };
 }) {
-  const id = deliveryNoteId;
-  const deliveryNote = await getDeliveryNoteUniqe(id);
+  const deliveryNote = await getAllDetail(params.id);
 
-  if (!deliveryNote) {
+  if (!deliveryNote?.delivery_note?.no_dn === undefined) {
     return <p>Delivery note not found</p>;
   }
 
@@ -32,7 +29,7 @@ export default async function DeliveryNoteCard({
         <p className="min-w-12 max-w-24 text-balance">No. Delivery Note</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {deliveryNote.no_dn || (
+          {deliveryNote?.delivery_note?.no_dn || (
             <p className="text-destructive">Tidak memiliki</p>
           )}
         </div>
@@ -46,7 +43,7 @@ export default async function DeliveryNoteCard({
         <div>
           <div className=" break-all text-muted-foreground">
             <div className=" break-all text-muted-foreground">
-              {deliveryNote.foto1_dn ? (
+              {deliveryNote?.delivery_note?.foto1_dn ? (
                 <p></p>
               ) : (
                 <p className="pb-2 text-center">⚠️silahkan upload foto</p>
@@ -59,20 +56,20 @@ export default async function DeliveryNoteCard({
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle className="mb-4">
-                      Foto Delivery Note {deliveryNote?.foto1_dn}
+                      Foto Delivery Note {deliveryNote?.delivery_note?.foto1_dn}
                     </DialogTitle>
                     <DialogDescription>
-                      {deliveryNote.foto1_dn ? (
+                      {deliveryNote?.delivery_note?.foto1_dn ? (
                         <>
                           <Image
-                            src={deliveryNote.foto1_dn}
-                            alt={`Foto faktur ${deliveryNote.foto1_dn}`}
-                            width={1000}
-                            height={1000}
-                            className="mb-4 h-[550px] w-auto"
+                            src={deliveryNote.delivery_note.foto1_dn}
+                            alt={`Foto faktur ${deliveryNote.delivery_note.foto1_dn}`}
+                            width={512}
+                            height={512}
+                            className="mb-4 h-[550px] w-auto object-contain"
                           />
                           <a
-                            href={deliveryNote.foto1_dn}
+                            href={deliveryNote.delivery_note.foto1_dn}
                             target="_blank"
                             className="mt-4"
                           >
@@ -100,7 +97,7 @@ export default async function DeliveryNoteCard({
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
-            {deliveryNote?.foto2_dn ? (
+            {deliveryNote?.delivery_note?.foto2_dn ? (
               <p></p>
             ) : (
               <p className="pb-2 text-center">⚠️silahkan upload foto</p>
@@ -113,20 +110,20 @@ export default async function DeliveryNoteCard({
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle className="mb-4">
-                    Foto Delivery Note {deliveryNote.foto2_dn}
+                    Foto Delivery Note {deliveryNote?.delivery_note?.foto2_dn}
                   </DialogTitle>
                   <DialogDescription>
-                    {deliveryNote?.foto2_dn ? (
+                    {deliveryNote?.delivery_note?.foto2_dn ? (
                       <>
                         <Image
-                          src={deliveryNote?.foto2_dn}
-                          alt={`Foto faktur ${deliveryNote.foto2_dn}`}
-                          width={1000}
-                          height={1000}
-                          className="mb-4 h-[550px] w-auto"
+                          src={deliveryNote?.delivery_note.foto2_dn}
+                          alt={`Foto faktur ${deliveryNote.delivery_note.foto2_dn}`}
+                          width={512}
+                          height={512}
+                          className="mb-4 h-[550px] w-auto object-contain"
                         />
                         <a
-                          href={deliveryNote.foto2_dn}
+                          href={deliveryNote.delivery_note.foto2_dn}
                           target="_blank"
                           className="mt-4"
                         >

@@ -86,13 +86,13 @@ export default function FormDetailPurchaseOrder({
     try {
       await createPurchaseOrderDetail(formData, id);
       toast({
-        title: "Delivery Note berhasil di tambahkan",
+        title: "Purchase Order berhasil di tambahkan",
         description: formatDateAndTimeIsoFetch(new Date().toString()),
         variant: "default",
       });
     } catch (error) {
       toast({
-        title: "Delivery Note gagal di tambahkan",
+        title: "Purchase Order gagal di tambahkan",
         description: formatDateAndTimeIsoFetch(new Date().toString()),
         variant: "default",
       });
@@ -108,9 +108,9 @@ export default function FormDetailPurchaseOrder({
         >
           <Card className="space-y-4 p-8 dark:bg-zinc-900">
             <CardHeader className="-m-6 mb-2">
-              <CardTitle>Tambah / Ubah Delivery Note</CardTitle>
+              <CardTitle>Tambah / Ubah Purchase Order</CardTitle>
               <CardDescription>
-                Silahkan menambahkan atau mengubah data delivery note dibawah
+                Silahkan menambahkan atau mengubah data Purchase Order dibawah
                 ini.
               </CardDescription>
             </CardHeader>
@@ -120,9 +120,9 @@ export default function FormDetailPurchaseOrder({
                 control={control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>No. Delivery Note</FormLabel>
+                    <FormLabel>No. Purchase Order</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="No. Delivery Note..." />
+                      <Input {...field} placeholder="No. Purchase Order..." />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -185,7 +185,7 @@ export default function FormDetailPurchaseOrder({
                 </div>
               ) : (
                 <p className="text-sm text-yellow-600 dark:text-yellow-400">
-                  Tidak ada foto sebelum Delivery, silahkan mengupload!
+                  Tidak ada foto Purchase Order, silahkan mengupload!
                 </p>
               )}
 
@@ -220,7 +220,7 @@ export default function FormDetailPurchaseOrder({
                   render={({ field: { value, ...fieldValues } }) => (
                     <FormItem>
                       <Label>
-                        Ubah/Upload Foto sebelum Delivery{" "}
+                        Ubah/Upload Foto Purchase Order{" "}
                         <span className="text-muted-foreground">
                           (Max file: 8MB)
                         </span>

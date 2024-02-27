@@ -11,16 +11,20 @@ import {
 } from "@/components/ui/dialog";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
+import { getAllDetail } from "@/actions/actionDetail";
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default async function FakturCard({ fakturId }: { fakturId: string }) {
-  const id = fakturId;
-  const faktur = await getFakturUniqe(id);
+export default async function FakturCard({
+  params,
+}: {
+  params: { id: string };
+}) {
+  const faktur = await getAllDetail(params.id);
 
   if (!faktur) {
-    return <p>Faktur note not found</p>;
+    return <p>Tidak ada faktur</p>;
   }
   return (
     <Card className="flex w-full flex-col overflow-auto text-wrap p-4 shadow-none dark:bg-zinc-900">
@@ -28,7 +32,7 @@ export default async function FakturCard({ fakturId }: { fakturId: string }) {
         <p className="min-w-24 max-w-24 text-balance">No. Faktur</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {faktur.no_fk || (
+          {faktur.faktur?.no_fk || (
             <p className="text-destructive dark:text-red-400">Tidak memiliki</p>
           )}
         </div>
@@ -38,7 +42,7 @@ export default async function FakturCard({ fakturId }: { fakturId: string }) {
         <p className="min-w-24 max-w-24 text-balance">Tgl. Faktur</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {formatDateIsoFetch(faktur.tgl_fk?.toISOString()) || (
+          {formatDateIsoFetch(faktur.faktur?.tgl_fk?.toISOString()) || (
             <span className="text-destructive dark:text-red-400">
               Tidak memiliki
             </span>
@@ -51,7 +55,7 @@ export default async function FakturCard({ fakturId }: { fakturId: string }) {
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
-            {formatDateIsoFetch(faktur.tgl_jt?.toISOString()) || (
+            {formatDateIsoFetch(faktur.faktur?.tgl_jt?.toISOString()) || (
               <span className="text-destructive dark:text-red-400">
                 Tidak memiliki
               </span>
@@ -65,7 +69,7 @@ export default async function FakturCard({ fakturId }: { fakturId: string }) {
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
-            {faktur.nilai || (
+            {faktur.faktur?.nilai || (
               <span className="text-destructive dark:text-red-400">
                 Tidak memiliki
               </span>
@@ -80,7 +84,7 @@ export default async function FakturCard({ fakturId }: { fakturId: string }) {
         <div>
           <div className=" break-all text-muted-foreground">
             <div className=" break-all text-muted-foreground">
-              {faktur.foto1_fk ? (
+              {faktur.faktur?.foto1_fk ? (
                 <p></p>
               ) : (
                 <p className="pb-2 text-center">⚠️silahkan upload foto</p>
@@ -93,20 +97,20 @@ export default async function FakturCard({ fakturId }: { fakturId: string }) {
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle className="mb-4">
-                      Foto faktur {faktur?.no_fk}
+                      Foto faktur {faktur?.faktur?.foto1_fk}
                     </DialogTitle>
                     <DialogDescription>
-                      {faktur.foto1_fk ? (
+                      {faktur?.faktur?.foto1_fk ? (
                         <>
                           <Image
-                            src={faktur?.foto1_fk}
-                            alt={`Foto faktur ${faktur?.foto1_fk}`}
+                            src={faktur?.faktur?.foto1_fk}
+                            alt={`Foto faktur ${faktur?.faktur?.foto1_fk}`}
                             width={1000}
                             height={1000}
                             className="mb-4 h-[550px] w-auto"
                           />
                           <a
-                            href={faktur?.foto1_fk}
+                            href={faktur?.faktur?.foto1_fk}
                             target="_blank"
                             className="mt-4"
                           >
@@ -134,7 +138,7 @@ export default async function FakturCard({ fakturId }: { fakturId: string }) {
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
-            {faktur?.foto2_fk ? (
+            {faktur?.faktur?.foto2_fk ? (
               <p></p>
             ) : (
               <p className="pb-2 text-center">⚠️silahkan upload foto</p>
@@ -147,20 +151,20 @@ export default async function FakturCard({ fakturId }: { fakturId: string }) {
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle className="mb-4">
-                    Foto faktur {faktur?.no_fk}
+                    Foto faktur {faktur?.faktur?.foto2_fk}
                   </DialogTitle>
                   <DialogDescription>
-                    {faktur?.foto2_fk ? (
+                    {faktur?.faktur?.foto2_fk ? (
                       <>
                         <Image
-                          src={faktur?.foto2_fk}
-                          alt={`Foto faktur ${faktur?.foto2_fk}`}
+                          src={faktur?.faktur?.foto2_fk}
+                          alt={`Foto faktur ${faktur?.faktur?.foto2_fk}`}
                           width={1000}
                           height={1000}
                           className="mb-4 h-[550px] w-auto"
                         />
                         <a
-                          href={faktur?.foto2_fk}
+                          href={faktur?.faktur?.foto2_fk}
                           target="_blank"
                           className="mt-4"
                         >

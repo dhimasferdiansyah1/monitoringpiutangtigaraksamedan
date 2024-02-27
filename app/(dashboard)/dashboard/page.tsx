@@ -1,12 +1,15 @@
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-import { MainMonitoringList } from "@/components/(dashboard)/MainMonitoringList";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import SkeletonDashboard from "@/components/ui/skeleton-dashboard";
 import { PlusCircle } from "lucide-react";
 import Link from "next/link";
-import { Suspense } from "react";
+const MainMonitoringList = dynamic(
+  () =>
+    import("@/components/(dashboard)/MainMonitoringList").then(
+      (mod) => mod.MainMonitoringList
+    ),
+  { loading: () => <SkeletonDashboard /> }
+);
 
 export default function DashboardPage() {
   return (
@@ -26,9 +29,7 @@ export default function DashboardPage() {
           </div>
         </div>
         <div className="my-4 grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">
-          <Suspense fallback={<SkeletonDashboard />}>
-            <MainMonitoringList />
-          </Suspense>
+          <MainMonitoringList />
         </div>
       </div>
     </div>

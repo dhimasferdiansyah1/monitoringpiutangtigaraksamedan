@@ -1,22 +1,24 @@
 import { Card } from "@/components/ui/card";
 import { getTandaTerimaTagihanUniqe } from "@/actions/actionTandaTerimaTagihan";
-export const fetchCache = "force-no-store";
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+import { getAllDetail } from "@/actions/actionDetail";
 
 export default async function TandaTerimaTagihanCard({
-  tandaTerimaTagihanId,
+  params,
 }: {
-  tandaTerimaTagihanId: string;
+  params: { id: string };
 }) {
-  const ttt = await getTandaTerimaTagihanUniqe(tandaTerimaTagihanId);
+  const ttt = await getAllDetail(params.id);
+
+  if (!ttt) {
+    return <p>Tidak ada tanda terima tagihan</p>;
+  }
   return (
     <Card className="flex w-full flex-col overflow-auto text-wrap p-4 shadow-none dark:bg-zinc-900">
       <div className="flex items-start gap-2">
         <p className="min-w-24 max-w-24 text-balance">No. Penagihan</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {ttt?.no_penagihan || (
+          {ttt.tandaterimatagihan?.no_penagihan || (
             <p className="text-destructive dark:text-red-400">Tidak memiliki</p>
           )}
         </div>
@@ -26,7 +28,7 @@ export default async function TandaTerimaTagihanCard({
         <p className="min-w-24 max-w-24 text-balance">Status</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {ttt?.status || (
+          {ttt?.tandaterimatagihan?.status || (
             <p className="text-destructive dark:text-red-400">Tidak memiliki</p>
           )}
         </div>
@@ -39,7 +41,7 @@ export default async function TandaTerimaTagihanCard({
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
-            {(ttt?.tgl_jt?.toISOString() ?? "") || (
+            {(ttt?.tandaterimatagihan?.tgl_jt?.toISOString() ?? "") || (
               <span className="text-destructive dark:text-red-400">
                 Tidak memiliki
               </span>
@@ -55,7 +57,7 @@ export default async function TandaTerimaTagihanCard({
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
-            {ttt?.foto_ttt || (
+            {ttt?.tandaterimatagihan?.foto_ttt || (
               <span className="text-destructive dark:text-red-400">
                 Tidak memiliki
               </span>

@@ -1,22 +1,24 @@
 import { Card } from "@/components/ui/card";
 import { getFakturPajakUniqe } from "@/actions/actionFakturPajak";
-export const fetchCache = "force-no-store";
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+import { getAllDetail } from "@/actions/actionDetail";
 
 export default async function FakturPajakCard({
-  fakturPajakId,
+  params,
 }: {
-  fakturPajakId: string;
+  params: { id: string };
 }) {
-  const fakturPajak = await getFakturPajakUniqe(fakturPajakId);
+  const fakturPajak = await getAllDetail(params.id);
+
+  if (!fakturPajak) {
+    return <p>Tidak ada faktur pajak</p>;
+  }
   return (
     <Card className="flex w-full flex-col overflow-auto text-wrap p-4 shadow-none dark:bg-zinc-900">
       <div className="flex items-start gap-2">
         <p className="min-w-12 max-w-24 text-balance">No. Faktur Pajak</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {fakturPajak?.no_fkp || (
+          {fakturPajak.faktur_pajak?.no_fkp || (
             <p className="text-destructive dark:text-red-400">Tidak memiliki</p>
           )}
         </div>
@@ -26,7 +28,7 @@ export default async function FakturPajakCard({
         <p className="min-w-24 max-w-24 text-balance">Tgl. Faktur Pajak</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {(fakturPajak?.tgl_fkp?.toISOString() ?? "") || (
+          {(fakturPajak.faktur_pajak?.tgl_fkp?.toISOString() ?? "") || (
             <p className="text-destructive dark:text-red-400">Tidak memiliki</p>
           )}
         </div>
@@ -37,7 +39,7 @@ export default async function FakturPajakCard({
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
-            {fakturPajak?.foto_fkp || (
+            {fakturPajak.faktur_pajak?.foto_fkp || (
               <span className="text-destructive dark:text-red-400">
                 Tidak memiliki
               </span>

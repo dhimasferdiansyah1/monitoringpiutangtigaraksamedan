@@ -133,7 +133,7 @@ export default function TambahDeliveryNote({
               />
               {deliveryNoteId.foto1_dn ? (
                 <div className="my-4">
-                  <p>Foto Purchase Order tersedia</p>
+                  <p>Foto Delivery Note tersedia</p>
                   <Image
                     src={deliveryNoteId.foto1_dn || ""}
                     width={512}
