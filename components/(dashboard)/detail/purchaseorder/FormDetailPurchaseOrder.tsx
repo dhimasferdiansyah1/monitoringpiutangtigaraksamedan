@@ -122,7 +122,7 @@ export default function FormDetailPurchaseOrder({
                   <FormItem>
                     <FormLabel>No. Purchase Order</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="No. Purchase Order..." />
+                      <Input {...field} placeholder="No. Purchase Order" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

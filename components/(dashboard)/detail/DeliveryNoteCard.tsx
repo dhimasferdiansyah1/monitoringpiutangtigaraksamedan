@@ -56,7 +56,7 @@ export default async function DeliveryNoteCard({
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle className="mb-4">
-                      Foto Delivery Note {deliveryNote?.delivery_note?.foto1_dn}
+                      Foto Delivery Note {deliveryNote?.delivery_note?.no_dn}
                     </DialogTitle>
                     <DialogDescription>
                       {deliveryNote?.delivery_note?.foto1_dn ? (
@@ -110,7 +110,7 @@ export default async function DeliveryNoteCard({
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle className="mb-4">
-                    Foto Delivery Note {deliveryNote?.delivery_note?.foto2_dn}
+                    Foto Delivery Note {deliveryNote?.delivery_note?.no_dn}
                   </DialogTitle>
                   <DialogDescription>
                     {deliveryNote?.delivery_note?.foto2_dn ? (

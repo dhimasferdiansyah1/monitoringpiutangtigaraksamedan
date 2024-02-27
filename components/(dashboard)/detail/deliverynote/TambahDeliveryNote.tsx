@@ -125,7 +125,7 @@ export default function TambahDeliveryNote({
                   <FormItem>
                     <FormLabel>No. Delivery Note</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder="No. Delivery Note..." />
+                      <Input {...field} placeholder="No. Delivery Note" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

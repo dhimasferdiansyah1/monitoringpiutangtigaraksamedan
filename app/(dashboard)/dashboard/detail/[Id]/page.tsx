@@ -173,6 +173,23 @@ export default async function DetailPage({
                     Faktur Pajak
                   </div>
                   <FakturPajakCard params={detail} />
+                  <Link
+                    href={`/dashboard/detail/${detail.id}/fakturpajak/${detail.faktur_pajak?.id}`}
+                  >
+                    <Button variant="secondary">
+                      {detail?.faktur_pajak?.no_fkp?.length ?? 0 > 0 ? (
+                        <p className="flex gap-2">
+                          Edit{" "}
+                          <Pencil className="hover:text-primary-400 h-4 w-4 cursor-pointer text-primary" />
+                        </p>
+                      ) : (
+                        <p className="flex gap-2">
+                          <Plus className="hover:text-primary-400 h-4 w-4 cursor-pointer text-primary" />
+                          Tambah
+                        </p>
+                      )}
+                    </Button>
+                  </Link>
                 </div>
                 <hr className="my-1.5" />
 
@@ -182,6 +199,24 @@ export default async function DetailPage({
                     Tanda Terima Tagihan
                   </div>
                   <TandaTerimaTagihanCard params={detail} />
+                  <Link
+                    href={`/dashboard/detail/${detail.id}/tandaterimatagihan/${detail.tandaterimatagihan?.id}`}
+                  >
+                    <Button variant="secondary">
+                      {detail?.tandaterimatagihan?.no_penagihan?.length ??
+                      0 > 0 ? (
+                        <p className="flex gap-2">
+                          Edit{" "}
+                          <Pencil className="hover:text-primary-400 h-4 w-4 cursor-pointer text-primary" />
+                        </p>
+                      ) : (
+                        <p className="flex gap-2">
+                          <Plus className="hover:text-primary-400 h-4 w-4 cursor-pointer text-primary" />
+                          Tambah
+                        </p>
+                      )}
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </Card>

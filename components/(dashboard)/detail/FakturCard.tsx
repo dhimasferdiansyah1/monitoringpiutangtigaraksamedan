@@ -105,9 +105,9 @@ export default async function FakturCard({
                           <Image
                             src={faktur?.faktur?.foto1_fk}
                             alt={`Foto faktur ${faktur?.faktur?.foto1_fk}`}
-                            width={1000}
-                            height={1000}
-                            className="mb-4 h-[550px] w-auto"
+                            width={512}
+                            height={512}
+                            className="mb-4 h-[550px] w-auto object-contain"
                           />
                           <a
                             href={faktur?.faktur?.foto1_fk}
@@ -159,9 +159,9 @@ export default async function FakturCard({
                         <Image
                           src={faktur?.faktur?.foto2_fk}
                           alt={`Foto faktur ${faktur?.faktur?.foto2_fk}`}
-                          width={1000}
-                          height={1000}
-                          className="mb-4 h-[550px] w-auto"
+                          width={512}
+                          height={512}
+                          className="mb-4 h-[550px] w-auto object-contain"
                         />
                         <a
                           href={faktur?.faktur?.foto2_fk}
