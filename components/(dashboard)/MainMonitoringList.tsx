@@ -20,6 +20,9 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Link from "next/link";
+export const fetchCache = "force-no-store";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const MainMonitoringList = async () => {
   const data = await getMainMonitoring();
