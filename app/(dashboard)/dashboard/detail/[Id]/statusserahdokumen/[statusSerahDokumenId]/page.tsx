@@ -25,7 +25,7 @@ export default async function statusSerahDokumenDetail({
               <Skeleton className="my-8 h-[400px] w-[200px] lg:h-[600px] lg:w-[500px]" />
             }
           >
-            <TambahStatusSerahDokumen statusSerahDokumenId={purchaseOrder} />
+            {/* <TambahStatusSerahDokumen statusSerahDokumenId={purchaseOrder} /> */}
           </Suspense>
         </div>
       </div>

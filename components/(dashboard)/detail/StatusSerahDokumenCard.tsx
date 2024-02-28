@@ -16,7 +16,7 @@ export default async function StatusSerahDokumenCard({
   }
   return (
     <Card className="flex h-full w-full flex-col gap-2 overflow-auto text-wrap p-4 shadow-none dark:bg-zinc-900">
-      {statusserahdokumen.statusserahdokumen?.map((status, i) => (
+      {statusserahdokumen.statusserahdokumen?.map((status) => (
         <div key={statusserahdokumen.id} className="flex w-full items-center">
           <div
             className="flex-col rounded-md rounded-r-none border p-4 w-full"
