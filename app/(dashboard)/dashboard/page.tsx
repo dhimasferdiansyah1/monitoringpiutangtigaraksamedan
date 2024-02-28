@@ -15,7 +15,7 @@ export const revalidate = 0;
 export default function DashboardPage() {
   return (
     <div className="mx-auto my-6 max-w-7xl">
-      <div className="container mx-auto px-0">
+      <div className="container mx-auto lg:px-0">
         <div className="flex flex-col">
           <h1 className="my-4 text-center text-2xl font-bold">
             Main Monitoring

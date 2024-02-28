@@ -16,7 +16,12 @@ export async function getMainMonitoring() {
       faktur: true,
       faktur_pajak: true,
       tandaterimatagihan: true,
-      statusserahdokumen: true,
+      statusserahdokumen: {
+        take: 1,
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
     },
   });
 
