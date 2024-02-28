@@ -16,8 +16,10 @@ export async function getMainMonitoring() {
       faktur: true,
       faktur_pajak: true,
       tandaterimatagihan: true,
+      statusserahdokumen: true,
     },
   });
+
   return mainMonitoring;
 }
 
@@ -32,4 +34,15 @@ export async function deleteMainMonitoring(id: string) {
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function getStatusSerahDokumenUniqe() {
+  const statusSerahDokumen = await prisma.statusSerahDokumen.findMany({
+    where: {
+      id: {
+        not: undefined,
+      },
+    },
+  });
+  return statusSerahDokumen;
 }
