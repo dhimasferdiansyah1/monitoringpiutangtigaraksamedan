@@ -30,7 +30,7 @@ const PurchaseOrderCard = dynamic(
 );
 const StatusSerahDokumenCard = dynamic(
   () => import("@/components/(dashboard)/detail/StatusSerahDokumenCard"),
-  { loading: () => <Skeleton className="lg:h-full lg:w-full" /> }
+  { ssr: false, loading: () => <Skeleton className="lg:h-full lg:w-full" /> }
 );
 const DeliveryNoteCard = dynamic(
   () => import("@/components/(dashboard)/detail/DeliveryNoteCard"),
