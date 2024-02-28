@@ -47,7 +47,7 @@ useEffect(() => {
   }
 
   fetchData();
-}, [statusSerahDokumenId]);
+}, [statusSerahDokumenId.id]);
 
 const form = useForm<z.infer<typeof statusSerahDokumenSchema>>({
   resolver: zodResolver(statusSerahDokumenSchema),
