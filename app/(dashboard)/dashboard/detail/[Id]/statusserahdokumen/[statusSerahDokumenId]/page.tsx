@@ -7,9 +7,9 @@ import { getStatusSerahDokumenUniqe } from "@/actions/actionStatusSerahDokumen";
 export default async function statusSerahDokumenDetail({
   params,
 }: {
-  params: { purchaseOrderId: string };
+  params: { statusSerahDokumenId: string };
 }) {
-  const id = params.purchaseOrderId;
+  const id = params.statusSerahDokumenId;
   const purchaseOrder = await getStatusSerahDokumenUniqe(id);
 
   if (!purchaseOrder) {
@@ -25,7 +25,7 @@ export default async function statusSerahDokumenDetail({
               <Skeleton className="my-8 h-[400px] w-[200px] lg:h-[600px] lg:w-[500px]" />
             }
           >
-            <TambahStatusSerahDokumen purchaseOrderId={purchaseOrder} />
+            <TambahStatusSerahDokumen statusSerahDokumenId={purchaseOrder} />
           </Suspense>
         </div>
       </div>

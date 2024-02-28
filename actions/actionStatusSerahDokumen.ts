@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function getStatusSerahDokumenUniqe(id: string) {
-  const purchaseOrder = await prisma.purchaseOrder.findUnique({
+  const statusSerahDokumen = await prisma.purchaseOrder.findUnique({
     where: {
       id: id,
     },
@@ -14,7 +14,7 @@ export async function getStatusSerahDokumenUniqe(id: string) {
       statusserahdokumen: true,
     },
   });
-  return purchaseOrder;
+  return statusSerahDokumen;
 }
 
 export async function createStatusSerahDokumenDetail(

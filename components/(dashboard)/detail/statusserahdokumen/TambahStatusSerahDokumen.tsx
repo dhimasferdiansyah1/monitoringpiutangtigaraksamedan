@@ -21,7 +21,7 @@ import {
 
 import { useToast } from "@/components/ui/use-toast";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 import { PurchaseOrder } from "@prisma/client";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -32,15 +32,15 @@ import {
 } from "@/actions/actionStatusSerahDokumen";
 
 export default function TambahStatusSerahDokumen({
-  purchaseOrderId,
+  statusSerahDokumenId,
 }: {
-  purchaseOrderId: PurchaseOrder;
+  statusSerahDokumenId: PurchaseOrder;
 }) {
   const [statusSerahDokumen, setStatusSerahDokumen] = useState<string[]>([]);
 
   useEffect(() => {
     async function fetchData() {
-      const status = await getStatusSerahDokumenUniqe(purchaseOrderId.id);
+      const status = await getStatusSerahDokumenUniqe(statusSerahDokumenId.id);
       const allStatus =
         status?.statusserahdokumen?.map(
           (item: { status_serah: any }) => item.status_serah
@@ -49,7 +49,7 @@ export default function TambahStatusSerahDokumen({
     }
 
     fetchData();
-  }, [purchaseOrderId]);
+  }, [statusSerahDokumenId]);
 
   const form = useForm<z.infer<typeof statusSerahDokumenSchema>>({
     resolver: zodResolver(statusSerahDokumenSchema),
@@ -71,7 +71,7 @@ export default function TambahStatusSerahDokumen({
   ) => {
     const formData = new FormData();
     console.log(values);
-    const id = purchaseOrderId.id;
+    const id = statusSerahDokumenId.id;
 
     Object.entries(values).forEach(([key, value]) => {
       if (value) {
@@ -139,7 +139,7 @@ export default function TambahStatusSerahDokumen({
 
   return (
     <Form {...form}>
-      {purchaseOrderId ? (
+      {statusSerahDokumenId ? (
         <form
           onSubmit={handleSubmit(handleSubmitStatusSerahDokumen)}
           className="my-8 w-full sm:px-20 md:px-32 lg:max-w-7xl"
