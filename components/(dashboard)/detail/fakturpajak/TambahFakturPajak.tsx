@@ -37,7 +37,7 @@ import Image from "next/image";
 import { Pencil } from "lucide-react";
 import { FakturPajak } from "@prisma/client";
 import { Skeleton } from "@/components/ui/skeleton";
-import { createFakturDetail } from "@/actions/actionFaktur";
+import { createFakturPajakDetail } from "@/actions/actionFakturPajak";
 import { editfakturPajakSchema } from "@/types/fakturPajak";
 
 export default function TambahFakturPajak({
@@ -82,7 +82,7 @@ export default function TambahFakturPajak({
     });
 
     try {
-      await createFakturDetail(formData, id);
+      await createFakturPajakDetail(formData, id);
       toast({
         description: "Data berhasil di kirim",
         variant: "default",

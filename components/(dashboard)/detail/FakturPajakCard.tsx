@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
+import { formatDateIsoFetch } from "@/lib/utils";
 
 export default async function FakturPajakCard({
   params,
@@ -38,7 +39,9 @@ export default async function FakturPajakCard({
         <p className="min-w-24 max-w-24 text-balance">Tgl. Faktur Pajak</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {(fakturPajak.faktur_pajak?.tgl_fkp?.toISOString() ?? "") || (
+          {formatDateIsoFetch(
+            fakturPajak.faktur_pajak?.tgl_fkp?.toISOString() ?? ""
+          ) || (
             <p className="text-destructive dark:text-red-400">Tidak memiliki</p>
           )}
         </div>
