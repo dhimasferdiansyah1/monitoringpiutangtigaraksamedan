@@ -150,8 +150,7 @@ export const MainMonitoringList = async () => {
                       )}
                     </div>
                   </div>
-
-                  {/* {po.statusserahdokumen.map((status) => (
+                  {po.statusserahdokumen.map((status) => (
                     <div
                       key={status.id}
                       className="mt-3 flex text-muted-foreground"
@@ -166,7 +165,7 @@ export const MainMonitoringList = async () => {
                         <p>{status.user}</p>
                       </div>
                     </div>
-                  ))} */}
+                  ))}
                 </div>
               </div>
 

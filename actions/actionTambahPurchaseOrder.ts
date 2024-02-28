@@ -64,6 +64,7 @@ export async function createPurchaseOrder(formData: FormData) {
             id: idStatusSerahDokumenFormat,
             status_serah: status_serah,
             user: "Sales",
+            role: "Admin",
           },
         },
       },

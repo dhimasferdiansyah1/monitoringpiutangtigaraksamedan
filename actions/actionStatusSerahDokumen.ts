@@ -38,6 +38,7 @@ export async function createStatusSerahDokumenDetail(
         create: {
           status_serah: status_serah,
           user: "Sales",
+          role: "Admin",
         },
       },
     },
