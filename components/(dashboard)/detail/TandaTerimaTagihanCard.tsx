@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { getTandaTerimaTagihanUniqe } from "@/actions/actionTandaTerimaTagihan";
 import { getAllDetail } from "@/actions/actionDetail";
+import { formatDateIsoFetch } from "@/lib/utils";
 
 export default async function TandaTerimaTagihanCard({
   params,
@@ -28,7 +29,11 @@ export default async function TandaTerimaTagihanCard({
         <p className="min-w-24 max-w-24 text-balance">Status</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {ttt?.tandaterimatagihan?.status || (
+          {ttt?.tandaterimatagihan?.status === "belum_selesai" ? (
+            "Belum Selesai"
+          ) : ttt?.tandaterimatagihan?.status === "selesai" ? (
+            "Selesai"
+          ) : (
             <p className="text-destructive dark:text-red-400">Tidak memiliki</p>
           )}
         </div>
@@ -41,7 +46,9 @@ export default async function TandaTerimaTagihanCard({
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
-            {(ttt?.tandaterimatagihan?.tgl_jt?.toISOString() ?? "") || (
+            {formatDateIsoFetch(
+              ttt?.tandaterimatagihan?.tgl_jt?.toISOString() ?? ""
+            ) || (
               <span className="text-destructive dark:text-red-400">
                 Tidak memiliki
               </span>

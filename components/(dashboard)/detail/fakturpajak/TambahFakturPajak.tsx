@@ -38,7 +38,7 @@ import { Pencil } from "lucide-react";
 import { FakturPajak } from "@prisma/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { createFakturDetail } from "@/actions/actionFaktur";
-import { editfakturPajakSchema } from "@/types/fakturpajak";
+import { editfakturPajakSchema } from "@/types/fakturPajak";
 
 export default function TambahFakturPajak({
   fakturPajakId,

@@ -119,6 +119,7 @@ model StatusSerahDokumen {
   id           String   @id @default(uuid())
   status_serah String?
   user         String?
+  role         String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -126,4 +127,9 @@ model StatusSerahDokumen {
   po_id          String
 
   @@map("status_serah_dokumen")
+}
+
+model Pembayaran {
+  id            String  @id @default(uuid())
+  no_pembayaran String?
 }

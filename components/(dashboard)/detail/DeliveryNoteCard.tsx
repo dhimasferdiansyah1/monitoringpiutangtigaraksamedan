@@ -30,7 +30,7 @@ export default async function DeliveryNoteCard({
         <span>:</span>
         <div className=" break-all text-muted-foreground">
           {deliveryNote?.delivery_note?.no_dn || (
-            <p className="text-destructive">Tidak memiliki</p>
+            <p className="text-destructive dark:text-red-400">Tidak memiliki</p>
           )}
         </div>
       </div>

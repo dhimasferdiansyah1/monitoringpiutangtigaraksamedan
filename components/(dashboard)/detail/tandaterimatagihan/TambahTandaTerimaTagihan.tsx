@@ -38,7 +38,7 @@ import { Pencil } from "lucide-react";
 import { TandaTerimaTagihan } from "@prisma/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { createFakturDetail } from "@/actions/actionFaktur";
-import { editfakturPajakSchema } from "@/types/fakturpajak";
+import { editfakturPajakSchema } from "@/types/fakturPajak";
 import { editTandaTerimaTagihanSchema } from "@/types/tandaTerimaTagihan";
 import { createTandaTerimaTagihanDetail } from "@/actions/actionTandaTerimaTagihan";
 import Select from "@/components/ui/select";
@@ -78,6 +78,7 @@ export default function TambahTandaTerimaTagihan({
     values: z.infer<typeof editTandaTerimaTagihanSchema>
   ) => {
     const formData = new FormData();
+    console.log(values);
     const id = tandaTerimaTagihanId.id;
 
     Object.entries(values).forEach(([key, value]) => {
@@ -193,14 +194,12 @@ export default function TambahTandaTerimaTagihan({
                   <FormItem>
                     <FormLabel>Status</FormLabel>
                     <FormControl>
-                      <Select
-                        {...field}
-                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                          field.onChange(e.target.value)
-                        }
-                      >
-                        <option value="Belum Lunas">Belum Lunas</option>
-                        <option value="Lunas">Lunas</option>
+                      <Select {...field} defaultValue="">
+                        <option value="" hidden>
+                          Pilih Status
+                        </option>
+                        <option value="belum_selesai">Belum Selesai</option>
+                        <option value="selesai">Selesai</option>
                       </Select>
                     </FormControl>
                     <FormMessage />
