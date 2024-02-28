@@ -1,9 +1,8 @@
 import React, { Suspense } from "react";
-import { getPurchaseOrderUniqe } from "@/actions/actionPurchaseOrder";
 import { notFound } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import FormDetailPurchaseOrder from "@/components/(dashboard)/detail/purchaseorder/FormDetailPurchaseOrder";
 import TambahStatusSerahDokumen from "@/components/(dashboard)/detail/statusserahdokumen/TambahStatusSerahDokumen";
+import { getStatusSerahDokumenUniqe } from "@/actions/actionStatusSerahDokumen";
 
 export default async function statusSerahDokumenDetail({
   params,
@@ -11,7 +10,7 @@ export default async function statusSerahDokumenDetail({
   params: { purchaseOrderId: string };
 }) {
   const id = params.purchaseOrderId;
-  const purchaseOrder = await getPurchaseOrderUniqe(id);
+  const purchaseOrder = await getStatusSerahDokumenUniqe(id);
 
   if (!purchaseOrder) {
     notFound();
