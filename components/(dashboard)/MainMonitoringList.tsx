@@ -20,14 +20,12 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import Link from "next/link";
-import { getStatusSerahDokumenUniqe } from "@/actions/actionMainMonitoring";
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const MainMonitoringList = async () => {
   const data = await getMainMonitoring();
-  const statusserah = await getStatusSerahDokumenUniqe();
 
   return (
     <>
@@ -153,7 +151,7 @@ export const MainMonitoringList = async () => {
                     </div>
                   </div>
 
-                  {statusserah.map((status) => (
+                  {po.statusserahdokumen.map((status) => (
                     <div
                       key={status.id}
                       className="mt-3 flex text-muted-foreground"

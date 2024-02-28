@@ -28,10 +28,10 @@ const PurchaseOrderCard = dynamic(
   () => import("@/components/(dashboard)/detail/PurchaseOrderCard"),
   { loading: () => <Skeleton className="h-[224px] w-[329px] lg:w-[385px]" /> }
 );
-// const StatusSerahDokumenCard = dynamic(
-//   () => import("@/components/(dashboard)/detail/StatusSerahDokumenCard"),
-//   { ssr: false, loading: () => <Skeleton className="lg:h-full lg:w-full" /> }
-// );
+const StatusSerahDokumenCard = dynamic(
+  () => import("@/components/(dashboard)/detail/StatusSerahDokumenCard"),
+  { ssr: false, loading: () => <Skeleton className="lg:h-full lg:w-full" /> }
+);
 const DeliveryNoteCard = dynamic(
   () => import("@/components/(dashboard)/detail/DeliveryNoteCard"),
   { loading: () => <Skeleton className="h-[224px] w-[329px] lg:w-[385px]" /> }
@@ -86,7 +86,7 @@ export default async function DetailPage({
                   <CheckSquare className="h-5 w-5" />
                   Status Serah Dokumen
                 </div>
-                {/* <StatusSerahDokumenCard params={detail} /> */}
+                <StatusSerahDokumenCard params={detail} />
               </div>
               <div className="flex w-full flex-col gap-4 lg:basis-2/6">
                 <div className="flex flex-col items-start gap-2 lg:basis-1/6">
