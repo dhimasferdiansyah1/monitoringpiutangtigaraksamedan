@@ -128,8 +128,3 @@ model StatusSerahDokumen {
 
   @@map("status_serah_dokumen")
 }
-
-model Pembayaran {
-  id            String  @id @default(uuid())
-  no_pembayaran String?
-}
