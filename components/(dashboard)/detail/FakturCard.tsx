@@ -39,7 +39,7 @@ export default async function FakturCard({
 
   let d = "2021-12-16 06:07:40";
   setDateAsUTC(d).toLocaleString();
-  console.log(setDateAsUTC(d));
+
 
   // output: 12/16/2021, 6:07:40 AM
 
@@ -62,7 +62,7 @@ export default async function FakturCard({
         <p className="min-w-24 max-w-24 text-balance">Tgl. Faktur</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {formatDateIsoFetch(faktur.faktur?.tgl_fk?.toISOString()) || (
+          {setDateAsUTC(faktur.faktur?.tgl_fk?.toISOString())?.toString() || (
             <span className="text-destructive dark:text-red-400">
               Tidak memiliki
             </span>
