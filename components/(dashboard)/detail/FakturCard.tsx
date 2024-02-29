@@ -22,7 +22,8 @@ export default async function FakturCard({
   params: { id: string };
 }) {
   const faktur = await getAllDetail(params.id);
-
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  console.log(timezone);
   if (!faktur) {
     return <p>Tidak ada faktur</p>;
   }
@@ -42,7 +43,15 @@ export default async function FakturCard({
         <p className="min-w-24 max-w-24 text-balance">Tgl. Faktur</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {formatDateIsoFetch(faktur.faktur?.tgl_fk?.toISOString()) || (
+          {faktur.faktur?.tgl_fk?.toString() || (
+            <span className="text-destructive dark:text-red-400">
+              Tidak memiliki
+            </span>
+          )}
+        </div>
+        <p>Format</p>
+        <div className=" break-all text-muted-foreground">
+          {formatDateIsoFetch(faktur.faktur?.tgl_fk?.toString()) || (
             <span className="text-destructive dark:text-red-400">
               Tidak memiliki
             </span>
