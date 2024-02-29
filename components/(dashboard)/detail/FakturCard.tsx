@@ -23,25 +23,9 @@ export default async function FakturCard({
 }) {
   const faktur = await getAllDetail(params.id);
 
-  function setDateAsUTC(d: any) {
-    let date = new Date(d);
-    return new Date(
-      Date.UTC(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
-        date.getHours(),
-        date.getMinutes(),
-        date.getSeconds()
-      )
-    );
-  }
-
-  let d = "2021-12-16 06:07:40";
-  setDateAsUTC(d).toLocaleString();
-
-
-  // output: 12/16/2021, 6:07:40 AM
+  var date = new Date("6/29/2011 4:52:48 PM UTC");
+  date.toString(); // "Wed Jun 29 2011 09:52:48 GMT-0700 (PDT)"
+  console.log(date);
 
   if (!faktur) {
     return <p>Tidak ada faktur</p>;
@@ -62,7 +46,7 @@ export default async function FakturCard({
         <p className="min-w-24 max-w-24 text-balance">Tgl. Faktur</p>
         <span>:</span>
         <div className=" break-all text-muted-foreground">
-          {setDateAsUTC(faktur.faktur?.tgl_fk?.toISOString())?.toString() || (
+          {formatDateIsoFetch(faktur.faktur?.tgl_fk?.toISOString()) || (
             <span className="text-destructive dark:text-red-400">
               Tidak memiliki
             </span>
