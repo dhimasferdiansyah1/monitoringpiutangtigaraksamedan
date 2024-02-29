@@ -50,7 +50,7 @@ export default function FormDetailPurchaseOrder({
     resolver: zodResolver(EditPurchaseOrderShcema),
     defaultValues: {
       no_po: purchaseOrder.no_po,
-      tgl_po: purchaseOrder.tgl_po.toISOString(),
+      tgl_po: purchaseOrder.tgl_po,
       foto_po: purchaseOrder.foto_po || undefined,
     },
   });
@@ -75,11 +75,15 @@ export default function FormDetailPurchaseOrder({
     values: z.infer<typeof EditPurchaseOrderShcema>
   ) => {
     const formData = new FormData();
+    console.log(values);
     const id = purchaseOrderId.id;
 
     Object.entries(values).forEach(([key, value]) => {
       if (value) {
-        formData.append(key, value);
+        formData.append(
+          key,
+          value instanceof Date ? value.toISOString() : value
+        );
       }
     });
 
@@ -134,40 +138,52 @@ export default function FormDetailPurchaseOrder({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Tanggal Purchase Order</FormLabel>
-                    <FormControl>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant={"outline"}
-                              className={cn(
-                                "w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, "PPP")
-                              ) : (
-                                <span>Tanggal purchase order</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={
-                              field.value ? new Date(field.value) : undefined
-                            }
-                            onSelect={(date) =>
-                              field.onChange(date?.toISOString())
-                            }
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </FormControl>
+                    <div className="flex flex-col md:flex-row gap-4">
+                      <FormControl>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant={"outline"}
+                                className={cn(
+                                  "w-full pl-3 text-left font-normal",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value ? (
+                                  format(field.value, "PPP")
+                                ) : (
+                                  <span>Tanggal purchase order</span>
+                                )}
+                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={
+                                field.value ? new Date(field.value) : undefined
+                              }
+                              onSelect={(date) => {
+                                console.log(date);
+                                field.onChange(date?.toISOString());
+                              }}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </FormControl>
+                      <Button
+                        variant="outline"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          field.onChange(new Date().toISOString());
+                        }}
+                      >
+                        Hari ini
+                      </Button>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

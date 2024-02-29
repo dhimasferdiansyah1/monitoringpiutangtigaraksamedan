@@ -51,7 +51,7 @@ const TandaTerimaTagihanCard = dynamic(
 );
 import { notFound } from "next/navigation";
 import { differenceInDays, isPast } from "date-fns";
-import { useEffect, useState } from "react";
+
 
 export default async function DetailPage({
   params,

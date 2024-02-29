@@ -45,7 +45,9 @@ export default function TambahFaktur({ fakturId }: { fakturId: Faktur }) {
     resolver: zodResolver(editFakturSchema),
     defaultValues: {
       no_fk: fakturId.no_fk || undefined,
-      tgl_fk: fakturId.tgl_fk?.toISOString(),
+      tgl_fk: fakturId.tgl_fk?.toLocaleString("en-US", {
+        timeZone: "Asia/Jakarta",
+      }),
       tgl_jt: fakturId.tgl_jt?.toISOString(),
       nilai: fakturId.nilai || undefined,
       foto1_fk: fakturId.foto1_fk || undefined,

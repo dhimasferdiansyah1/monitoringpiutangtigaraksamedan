@@ -24,8 +24,11 @@ export const TambahPurchaseOrderSchema = z.object({
 
 export const EditPurchaseOrderShcema = z.object({
   no_po: numericPurchaseOrderRequiredString,
-  tgl_po: z.string({
-    required_error: "Tanggal purchase order tidak boleh kosong",
-  }),
+  tgl_po: z.coerce.date().refine(
+    (value) => {
+      return value instanceof Date;
+    },
+    { message: "Tanggal purchase order tidak boleh kosong" }
+  ),
   foto_po: z.string().optional(),
 });

@@ -21,8 +21,8 @@ model Customer {
   alamat        String
   no_telp       String?
   email         String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now()) @db.Timestamptz
+  updatedAt     DateTime @updatedAt @db.Timestamptz
 
   purchase_order PurchaseOrder[]
 
@@ -32,11 +32,11 @@ model Customer {
 model PurchaseOrder {
   id        String   @id @default(uuid())
   no_po     String
-  tgl_po    DateTime
+  tgl_po    DateTime @db.Timestamptz
   foto_po   String?
   status_po String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @db.Timestamptz
+  updatedAt DateTime @updatedAt @db.Timestamptz
 
   delivery_note      DeliveryNote?
   faktur             Faktur?
@@ -55,8 +55,8 @@ model DeliveryNote {
   no_dn     String?
   foto1_dn  String?
   foto2_dn  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @db.Timestamptz
+  updatedAt DateTime @updatedAt @db.Timestamptz
 
   purchase_order PurchaseOrder @relation(fields: [po_id], references: [id], onDelete: Cascade)
   po_id          String        @unique
@@ -67,13 +67,13 @@ model DeliveryNote {
 model Faktur {
   id        String    @id @default(uuid())
   no_fk     String?
-  tgl_fk    DateTime?
-  tgl_jt    DateTime?
+  tgl_fk    DateTime? @db.Timestamptz
+  tgl_jt    DateTime? @db.Timestamptz
   nilai     String?
   foto1_fk  String?
   foto2_fk  String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime  @default(now()) @db.Timestamptz
+  updatedAt DateTime  @updatedAt @db.Timestamptz
 
   purchase_order PurchaseOrder @relation(fields: [po_id], references: [id], onDelete: Cascade)
   po_id          String        @unique
@@ -84,10 +84,10 @@ model Faktur {
 model FakturPajak {
   id        String    @id @default(uuid())
   no_fkp    String?
-  tgl_fkp   DateTime?
+  tgl_fkp   DateTime? @db.Timestamptz
   foto_fkp  String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime  @default(now()) @db.Timestamptz
+  updatedAt DateTime  @updatedAt @db.Timestamptz
 
   purchase_order PurchaseOrder @relation(fields: [po_id], references: [id], onDelete: Cascade)
   po_id          String        @unique
@@ -99,10 +99,10 @@ model TandaTerimaTagihan {
   id           String                  @id @default(uuid())
   no_penagihan String?
   status       EnumTandaTerimaTagihan?
-  tgl_jt       DateTime?
+  tgl_jt       DateTime?               @db.Timestamptz
   foto_ttt     String?
-  createdAt    DateTime                @default(now())
-  updatedAt    DateTime                @updatedAt
+  createdAt    DateTime                @default(now()) @db.Timestamptz
+  updatedAt    DateTime                @updatedAt @db.Timestamptz
 
   purchase_order PurchaseOrder @relation(fields: [po_id], references: [id], onDelete: Cascade)
   po_id          String        @unique
@@ -120,8 +120,8 @@ model StatusSerahDokumen {
   status_serah String?
   user         String?
   role         String?
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now()) @db.Timestamptz
+  updatedAt    DateTime @updatedAt @db.Timestamptz
 
   purchase_order PurchaseOrder @relation(fields: [po_id], references: [id], onDelete: Cascade)
   po_id          String
