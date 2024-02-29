@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import {
   CheckSquare,
   Clock,
+  Hourglass,
   NotebookPen,
   Pencil,
   Plus,
@@ -49,6 +50,8 @@ const TandaTerimaTagihanCard = dynamic(
   { loading: () => <Skeleton className="h-[288px] w-[329px] lg:w-[385px]" /> }
 );
 import { notFound } from "next/navigation";
+import { differenceInDays, isPast } from "date-fns";
+import { useEffect, useState } from "react";
 
 export default async function DetailPage({
   params,
@@ -61,6 +64,35 @@ export default async function DetailPage({
   if (!detail) {
     return notFound();
   }
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set jam today menjadi 00:00:00
+
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0); // Set jam tomorrow menjadi 00:00:00
+
+  const tgl_jt = new Date(detail.faktur?.tgl_jt || "");
+  tgl_jt.setHours(0, 0, 0, 0); // Set jam tgl_jt menjadi 00:00:00
+
+  const jarakHari = differenceInDays(tgl_jt, today);
+
+  const bgColor =
+    jarakHari >= 2
+      ? "bg-green-500"
+      : jarakHari === 1
+      ? "bg-yellow-500"
+      : jarakHari === 0
+      ? "bg-red-500"
+      : "bg-red-700";
+
+  const bgAnimColor =
+    jarakHari >= 2
+      ? "bg-green-400"
+      : jarakHari === 1
+      ? "bg-yellow-400"
+      : jarakHari === 0
+      ? "bg-red-400"
+      : "bg-red-600";
 
   return (
     <div className="mx-auto my-12 max-w-7xl">
@@ -68,12 +100,34 @@ export default async function DetailPage({
         <div className="flex items-center justify-center">
           <div className="flex w-full flex-col">
             <div className="mb-2 text-center text-2xl font-bold">Detail</div>
-            <div className="mx-4 mb-8 flex items-center justify-center gap-2 text-sm font-thin text-muted-foreground">
+            <div className="mx-4 mb-2 flex flex-col md:flex-row text-center items-center justify-center gap-2 text-sm font-thin text-muted-foreground">
               <Clock className="h-4 w-4" />
               dibuat {formatDateDistanceToNow(
                 detail.createdAt.toISOString()
               )}{" "}
               yang lalu
+            </div>
+            <div className="relative mx-4 mb-8 flex items-center justify-center gap-2 text-sm font-thin text-muted-foreground">
+              <span className="relative flex h-3 w-3">
+                <span
+                  className={`animate-ping absolute items-center justify-center inline-flex h-full w-full rounded-full ${bgAnimColor} opacity-75`}
+                ></span>
+                <span
+                  className={`relative inline-flex items-center justify-center rounded-full h-3 w-3 ${bgColor}`}
+                ></span>
+              </span>
+
+              {jarakHari === 0
+                ? // Hari ini
+                  "sudah jatuh tempo"
+                : jarakHari === 1
+                ? // Besok
+                  "besok jatuh tempo"
+                : jarakHari > 0
+                ? // Jatuh tempo X hari lagi
+                  `${jarakHari} hari lagi jatuh tempo`
+                : // Jatuh tempo telah lewat X hari
+                  `jatuh tempo telah lewat ${Math.abs(jarakHari)} hari`}
             </div>
             <Card className="flex w-full flex-col justify-between gap-4 border-white shadow-none dark:border-zinc-950 lg:flex-row  lg:border-zinc-200 lg:p-4 lg:shadow-sm dark:lg:border-zinc-800">
               <div className="flex w-full flex-col gap-2 lg:basis-4/6">

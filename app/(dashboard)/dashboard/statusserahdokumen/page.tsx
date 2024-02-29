@@ -28,12 +28,6 @@ export default function StatusSerahDokumenPage() {
                   Status Serah Dokumen
                 </h1>
               </div>
-              <Link href="/dashboard/customer/tambahcustomer">
-                <Button variant="secondary" className="flex gap-2">
-                  <Plus className="h-5 w-5" />
-                  Tambah Status
-                </Button>
-              </Link>
             </div>
             <div className="flex flex-col gap-2">
               <Suspense fallback={<SkeletonCustomer />}>
