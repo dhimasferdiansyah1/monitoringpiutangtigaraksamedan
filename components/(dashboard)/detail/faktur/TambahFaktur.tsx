@@ -55,6 +55,9 @@ export default function TambahFaktur({ fakturId }: { fakturId: Faktur }) {
     },
   });
 
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  console.log(timezone);
+
   const { toast } = useToast();
 
   const [imageUrl, setImageUrl] = useState("");
