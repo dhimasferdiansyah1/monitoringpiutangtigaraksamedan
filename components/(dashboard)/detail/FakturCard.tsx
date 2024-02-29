@@ -23,18 +23,25 @@ export default async function FakturCard({
 }) {
   const faktur = await getAllDetail(params.id);
 
-  function convertUTCDateToLocalDate(date: Date) {
-    var newDate = new Date(date);
-    newDate.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return newDate;
+  function setDateAsUTC(d: any) {
+    let date = new Date(d);
+    return new Date(
+      Date.UTC(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds()
+      )
+    );
   }
 
-  var date: Date | undefined = undefined;
-  if (faktur?.faktur?.tgl_fk) {
-    date = convertUTCDateToLocalDate(new Date(faktur.faktur.tgl_fk));
-  }
+  let d = "2021-12-16 06:07:40";
+  setDateAsUTC(d).toLocaleString();
+  console.log(setDateAsUTC(d));
 
-  console.log(date);
+  // output: 12/16/2021, 6:07:40 AM
 
   if (!faktur) {
     return <p>Tidak ada faktur</p>;
