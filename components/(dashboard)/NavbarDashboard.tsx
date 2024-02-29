@@ -60,7 +60,7 @@ const NavbarDashboard = () => {
       label: "Customer",
     },
     {
-      href: "/dashboard/statusserah",
+      href: "/dashboard/statusserahdokumen",
       icon: <BarChartHorizontal className="h-4 w-4" />,
       label: "Status Serah",
     },
