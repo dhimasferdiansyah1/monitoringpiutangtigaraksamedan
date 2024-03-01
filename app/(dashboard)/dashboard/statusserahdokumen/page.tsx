@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-const CustomerList = dynamic(
+const StatusSerahDokumenList = dynamic(
   () =>
     import(
       "@/components/(dashboard)/statusserahdokumen/StatusSerahDokumenList"
@@ -8,7 +8,6 @@ const CustomerList = dynamic(
     loading: () => <SkeletonCustomer />,
   }
 );
-import StatusSerahDokumenList from "@/components/(dashboard)/statusserahdokumen/StatusSerahDokumenList";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import SkeletonCustomer from "@/components/ui/skeleton-customer";
