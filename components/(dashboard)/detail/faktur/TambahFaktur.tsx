@@ -45,9 +45,7 @@ export default function TambahFaktur({ fakturId }: { fakturId: Faktur }) {
     resolver: zodResolver(editFakturSchema),
     defaultValues: {
       no_fk: fakturId.no_fk || undefined,
-      tgl_fk: fakturId.tgl_fk?.toLocaleString("en-US", {
-        timeZone: "Asia/Jakarta",
-      }),
+      tgl_fk: fakturId.tgl_fk === null ? undefined : fakturId.tgl_fk,
       tgl_jt: fakturId.tgl_jt?.toISOString(),
       nilai: fakturId.nilai || undefined,
       foto1_fk: fakturId.foto1_fk || undefined,
@@ -75,48 +73,31 @@ export default function TambahFaktur({ fakturId }: { fakturId: Faktur }) {
     setValue,
     formState: { isSubmitting },
   } = form;
-  
-  const [tglFaktur, setTglFaktur] = useState<Date | null>(null);
-  const [tglJt, setTglJt] = useState<Date | null>(null);
-
-  const handleTglFakturChange = (date: Date | null) => {
-    setTglFaktur(date);
-    if (date && tglJt) {
-      const diffInDays = Math.floor(
-        (tglJt.getTime() - date.getTime()) / (1000 * 3600 * 24)
-      );
-      setTglJt(new Date(date.getTime() + diffInDays * 1000 * 3600 * 24));
-    }
-  };
-
-  const handleTglJtChange = (date: Date | null) => {
-    setTglJt(date);
-  };
 
   const handleSubmitFaktur = async (
     values: z.infer<typeof editFakturSchema>
   ) => {
     const formData = new FormData();
     console.log(values);
-    const id = fakturId.id;
+    // const id = fakturId.id;
 
-    Object.entries(values).forEach(([key, value]) => {
-      if (value) formData.append(key, value);
-    });
+    // Object.entries(values).forEach(([key, value]) => {
+    //   if (value) formData.append(key, value);
+    // });
 
-    try {
-      await createFakturDetail(formData, id);
-      toast({
-        description: "Data berhasil di kirim",
-        variant: "default",
-      });
-    } catch (error) {
-      console.error(error);
-      toast({
-        description: "Data gagal di kirim",
-        variant: "destructive",
-      });
-    }
+    // try {
+    //   await createFakturDetail(formData, id);
+    //   toast({
+    //     description: "Data berhasil di kirim",
+    //     variant: "default",
+    //   });
+    // } catch (error) {
+    //   console.error(error);
+    //   toast({
+    //     description: "Data gagal di kirim",
+    //     variant: "destructive",
+    //   });
+    // }
   };
   return (
     <Form {...form}>
@@ -169,7 +150,7 @@ export default function TambahFaktur({ fakturId }: { fakturId: Faktur }) {
                                 )}
                               >
                                 {field.value ? (
-                                  format(field.value, "PPP")
+                                  format(new Date(field.value), "PPP") // Convert field.value to a Date object
                                 ) : (
                                   <span>Tanggal Faktur</span>
                                 )}
@@ -223,7 +204,7 @@ export default function TambahFaktur({ fakturId }: { fakturId: Faktur }) {
                               )}
                             >
                               {field.value ? (
-                                format(field.value, "PPP")
+                                format(new Date(field.value), "PPP") // Convert field.value to a Date object
                               ) : (
                                 <span>Tanggal Jatuh Tempo Faktur</span>
                               )}

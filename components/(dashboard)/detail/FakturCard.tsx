@@ -16,16 +16,13 @@ export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+
 export default async function FakturCard({
   params,
 }: {
   params: { id: string };
 }) {
   const faktur = await getAllDetail(params.id);
-
-  var date = new Date("01/03/2024 1:35:48 AM UTC");
-  date.toISOString(); // "Wed Jun 29 2011 09:52:48 GMT-0700 (PDT)"
-  console.log(date + " UTC ");
 
   if (!faktur) {
     return <p>Tidak ada faktur</p>;

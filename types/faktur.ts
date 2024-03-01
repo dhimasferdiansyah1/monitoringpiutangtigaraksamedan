@@ -11,7 +11,7 @@ const numericDeliveryRequiredString = z
 
 export const editFakturSchema = z.object({
   no_fk: numericDeliveryRequiredString,
-  tgl_fk: z.string(),
+  tgl_fk: z.coerce.date(),
   tgl_jt: z.string(),
   nilai: z.string(),
   foto1_fk: z.string().optional(),

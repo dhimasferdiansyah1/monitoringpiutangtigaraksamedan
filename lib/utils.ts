@@ -11,7 +11,7 @@ import {
   formatISO9075,
   parseISO,
 } from "date-fns";
-
+import { zonedTimeToUtc } from "date-fns-tz";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -36,11 +36,24 @@ export const formatDateAndTimeIsoFetch = (from: string | undefined) => {
   } catch {}
 };
 
+
 export const formatDateIsoFetch = (from: string | undefined) => {
   try {
+    // Parse the ISO string into a Date object
     const parsedDate = parseISO(from ?? "");
-    return format(parsedDate, "dd/MM/yyyy");
-  } catch {}
+
+    // Convert the parsed date to UTC, assuming it's initially in Jakarta time
+    const utcDate = zonedTimeToUtc(parsedDate, "Asia/Jakarta");
+
+    // Format the UTC date as "dd/MM/yyyy"
+    const formattedDate = format(utcDate, "dd/MM/yyyy");
+
+    return formattedDate;
+  } catch (error) {
+    // Handle any errors appropriately, e.g., log or return a default value
+    console.error(error);
+    return ""; // Or any other default value
+  }
 };
 
 export const formatDateDistanceToNow = (from: string | undefined) => {
