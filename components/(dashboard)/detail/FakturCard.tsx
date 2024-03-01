@@ -23,7 +23,7 @@ export default async function FakturCard({
 }) {
   const faktur = await getAllDetail(params.id);
 
-  var date = new Date("6/29/2011 4:52:48 PM UTC");
+  var date = new Date("1/03/2024 1:35:23 PM UTC");
   date.toString(); // "Wed Jun 29 2011 09:52:48 GMT-0700 (PDT)"
   console.log(date);
 
