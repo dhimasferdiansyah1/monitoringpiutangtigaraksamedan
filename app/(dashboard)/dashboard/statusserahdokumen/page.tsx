@@ -1,3 +1,4 @@
+export const revalidate = 0;
 import dynamic from "next/dynamic";
 const StatusSerahDokumenList = dynamic(
   () =>
@@ -8,11 +9,8 @@ const StatusSerahDokumenList = dynamic(
     loading: () => <SkeletonCustomer />,
   }
 );
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import SkeletonCustomer from "@/components/ui/skeleton-customer";
-import { Plus } from "lucide-react";
-import Link from "next/link";
 import { Suspense } from "react";
 
 export default function StatusSerahDokumenPage() {

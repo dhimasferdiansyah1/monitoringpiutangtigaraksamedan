@@ -27,7 +27,7 @@ export default function NavbarLandingPage() {
 
   return (
     <>
-      <nav className="sticky top-0 bg-opacity-70 p-1 backdrop-blur-md">
+      <nav className="sticky top-0 bg-opacity-70 p-3 backdrop-blur-md">
         <div className="mx-auto max-w-7xl">
           <div className="container">
             <div className="flex justify-between">
