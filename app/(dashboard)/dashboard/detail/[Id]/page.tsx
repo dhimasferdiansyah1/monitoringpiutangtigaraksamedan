@@ -49,8 +49,8 @@ const TandaTerimaTagihanCard = dynamic(
   { loading: () => <Skeleton className="h-[288px] w-[329px] lg:w-[385px]" /> }
 );
 import { notFound } from "next/navigation";
-import { differenceInDays } from "date-fns";
-
+import { differenceInDays, parseISO } from "date-fns";
+import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
 export default async function DetailPage({
   params,
@@ -70,10 +70,14 @@ export default async function DetailPage({
   tomorrow.setDate(tomorrow.getDate() + 1);
   tomorrow.setHours(0, 0, 0, 0); // Set jam tomorrow menjadi 00:00:00
 
-  const tgl_jt = new Date(detail.faktur?.tgl_jt || "");
-  tgl_jt.setHours(0, 0, 0, 0); // Set jam tgl_jt menjadi 00:00:00
+  // Convert `detail.faktur?.tgl_jt` to Jakarta time
+  const jakartaTglJt = utcToZonedTime(
+    zonedTimeToUtc(parseISO(detail.faktur?.tgl_jt?.toISOString() || ""), "UTC"),
+    "Asia/Jakarta"
+  );
+  jakartaTglJt.setHours(0, 0, 0, 0); // Set jam to 00:00:00 for Jakarta time
 
-  const jarakHari = differenceInDays(tgl_jt, today);
+  const jarakHari = differenceInDays(jakartaTglJt, today);
 
   const bgColor =
     jarakHari >= 2
