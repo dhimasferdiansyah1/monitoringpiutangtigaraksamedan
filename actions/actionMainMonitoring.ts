@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export async function getMainMonitoring() {
   const mainMonitoring = await prisma.purchaseOrder.findMany({
@@ -36,6 +37,7 @@ export async function deleteMainMonitoring(id: string) {
       },
     });
     revalidatePath("/dashboard");
+    redirect("/dashboard");
   } catch (error) {
     console.log(error);
   }
