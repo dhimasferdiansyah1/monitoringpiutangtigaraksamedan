@@ -28,45 +28,52 @@ export function uuidModifiedShort() {
 }
 
 export const formatDateAndTimeIsoFetch = (from: string | undefined) => {
+  // Handle empty input
+  if (!from) {
+    return "";
+  }
+
   try {
-    const parsedDate = parseISO(from ?? "");
-    const formattedDate = format(parsedDate, "dd/MM/yyyy");
-    const formattedTime = format(parsedDate, "HH:mm:ss");
+    // Validate input format
+    const parsedDate = parseISO(from);
+
+    // Convert to UTC and then to Jakarta time
+    const jakartaTime = utcToZonedTime(parsedDate, "Asia/Jakarta");
+
+    // Format date and time in Jakarta time
+    const formattedDate = format(jakartaTime, "dd/MM/yyyy");
+    const formattedTime = format(jakartaTime, "HH:mm:ss");
+
     return `${formattedDate} ${formattedTime}`;
-  } catch {}
+  } catch (error) {
+    console.error(error);
+    // Return default value or error message
+    return "Invalid date and time format";
+  }
 };
 
 export const formatDateIsoFetch = (from: string | undefined) => {
-  try {
-    // Parse the ISO string into a Date object
-    const parsedDate = parseISO(from ?? "");
+  if (!from) {
+    return ""; // Kembalikan nilai kosong jika input tidak ada
+  }
 
-    // Convert the parsed date from UTC to Jakarta time
+  try {
+    // Validasi apakah nilai input sesuai format ISO 8601
+    const parsedDate = parseISO(from);
+
+    // Konversi ke Jakarta time
     const jakartaTime = utcToZonedTime(parsedDate, "Asia/Jakarta");
 
-    // Format the Jakarta time as "dd/MM/yyyy"
+    // Format tanggal
     const formattedDate = format(jakartaTime, "dd/MM/yyyy");
 
     return formattedDate;
   } catch (error) {
-    // Handle any errors appropriately, e.g., log or return a default value
     console.error(error);
-    return ""; // Or any other default value
+    return "Tanggal tidak valid"; // Kembalikan pesan error untuk membantu debugging
   }
 };
 
-export function getLocalTime(date: string) {
-  const localTime = utcToZonedTime(
-    new Date(date),
-    "Asia/Jakarta"
-  ).toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  });
-
-  return localTime; //Output format: 9:30 PM
-}
 
 export const formatDateDistanceToNow = (from: string | undefined) => {
   if (!from) {

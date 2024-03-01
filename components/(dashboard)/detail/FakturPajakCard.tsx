@@ -39,7 +39,7 @@ export default async function FakturPajakCard({
         <span>:</span>
         <div className=" break-all text-muted-foreground">
           {formatDateIsoFetch(
-            fakturPajak.faktur_pajak?.tgl_fkp?.toISOString() ?? ""
+            fakturPajak.faktur_pajak?.tgl_fkp?.toISOString()
           ) || (
             <p className="text-destructive dark:text-red-400">Tidak memiliki</p>
           )}

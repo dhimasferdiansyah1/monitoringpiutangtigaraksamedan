@@ -49,7 +49,8 @@ export default function TambahFakturPajak({
     resolver: zodResolver(editfakturPajakSchema),
     defaultValues: {
       no_fkp: fakturPajakId.no_fkp || undefined,
-      tgl_fkp: fakturPajakId.tgl_fkp?.toISOString(),
+      tgl_fkp:
+        fakturPajakId.tgl_fkp === null ? undefined : fakturPajakId.tgl_fkp,
       foto_fkp: fakturPajakId.foto_fkp || undefined,
     },
   });
@@ -74,11 +75,10 @@ export default function TambahFakturPajak({
     values: z.infer<typeof editfakturPajakSchema>
   ) => {
     const formData = new FormData();
-    console.log(values);
     const id = fakturPajakId.id;
 
     Object.entries(values).forEach(([key, value]) => {
-      if (value) formData.append(key, value);
+      if (value) formData.append(key, String(value));
     });
 
     try {
@@ -146,7 +146,7 @@ export default function TambahFakturPajak({
                                 )}
                               >
                                 {field.value ? (
-                                  format(new Date(field.value), "PPP") // Convert the string value to a Date object
+                                  format(new Date(field.value), "PPP")
                                 ) : (
                                   <span>Tanggal Faktur Pajak</span>
                                 )}

@@ -127,9 +127,7 @@ export const MainMonitoringList = async () => {
                     <p className="w-24">Tanggal FK</p>
                     <span>:</span>
                     <div>
-                      {formatDateIsoFetch(
-                        po.faktur?.tgl_fk?.toISOString() ?? ""
-                      ) || (
+                      {formatDateIsoFetch(po.faktur?.tgl_fk?.toISOString()) || (
                         <p className="text-destructive dark:text-red-400">
                           Tidak memiliki
                         </p>

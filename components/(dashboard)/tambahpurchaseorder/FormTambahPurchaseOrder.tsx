@@ -44,7 +44,7 @@ export default function FormTambahPurchaseOrder() {
     defaultValues: {
       customer_id: "",
       no_po: "",
-      tgl_po: "",
+      tgl_po: new Date(),
       foto_po: "",
       status_po: "Berjalan",
       status_serah: "Sales menerima purchase order dari toko",
@@ -72,7 +72,7 @@ export default function FormTambahPurchaseOrder() {
 
     Object.entries(values).forEach(([key, value]) => {
       if (value) {
-        formData.append(key, value);
+        formData.append(key, String(value));
       }
     });
 

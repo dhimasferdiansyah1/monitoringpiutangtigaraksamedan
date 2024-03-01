@@ -46,7 +46,7 @@ export default function TambahFaktur({ fakturId }: { fakturId: Faktur }) {
     defaultValues: {
       no_fk: fakturId.no_fk || undefined,
       tgl_fk: fakturId.tgl_fk === null ? undefined : fakturId.tgl_fk,
-      tgl_jt: fakturId.tgl_jt?.toISOString(),
+      tgl_jt: fakturId.tgl_jt === null ? undefined : fakturId.tgl_jt,
       nilai: fakturId.nilai || undefined,
       foto1_fk: fakturId.foto1_fk || undefined,
       foto2_fk: fakturId.foto2_fk || undefined,
@@ -78,26 +78,25 @@ export default function TambahFaktur({ fakturId }: { fakturId: Faktur }) {
     values: z.infer<typeof editFakturSchema>
   ) => {
     const formData = new FormData();
-    console.log(values);
-    // const id = fakturId.id;
+    const id = fakturId.id;
 
-    // Object.entries(values).forEach(([key, value]) => {
-    //   if (value) formData.append(key, value);
-    // });
+    Object.entries(values).forEach(([key, value]) => {
+      if (value) formData.append(key, String(value));
+    });
 
-    // try {
-    //   await createFakturDetail(formData, id);
-    //   toast({
-    //     description: "Data berhasil di kirim",
-    //     variant: "default",
-    //   });
-    // } catch (error) {
-    //   console.error(error);
-    //   toast({
-    //     description: "Data gagal di kirim",
-    //     variant: "destructive",
-    //   });
-    // }
+    try {
+      await createFakturDetail(formData, id);
+      toast({
+        description: "Data berhasil di kirim",
+        variant: "default",
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: "Data gagal di kirim",
+        variant: "destructive",
+      });
+    }
   };
   return (
     <Form {...form}>

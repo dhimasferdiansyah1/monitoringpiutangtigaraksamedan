@@ -11,7 +11,7 @@ export const TambahPurchaseOrderSchema = z.object({
     .min(1, "Kode Account Customer harus di pilih terlebih dahulu")
     .max(255),
   no_po: numericPurchaseOrderRequiredString,
-  tgl_po: z.string({
+  tgl_po: z.coerce.date({
     required_error: "Tanggal purchase order tidak boleh kosong",
   }),
   foto_po: z.string().optional(),

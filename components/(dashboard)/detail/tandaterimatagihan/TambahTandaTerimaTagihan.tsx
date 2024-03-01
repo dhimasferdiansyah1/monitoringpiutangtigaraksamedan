@@ -53,7 +53,10 @@ export default function TambahTandaTerimaTagihan({
     defaultValues: {
       no_penagihan: tandaTerimaTagihanId.no_penagihan || undefined,
       status: tandaTerimaTagihanId.status || undefined,
-      tgl_jt: tandaTerimaTagihanId.tgl_jt?.toISOString(),
+      tgl_jt:
+        tandaTerimaTagihanId.tgl_jt === null
+          ? undefined
+          : tandaTerimaTagihanId.tgl_jt,
       foto_ttt: tandaTerimaTagihanId.foto_ttt || undefined,
     },
   });
@@ -78,11 +81,10 @@ export default function TambahTandaTerimaTagihan({
     values: z.infer<typeof editTandaTerimaTagihanSchema>
   ) => {
     const formData = new FormData();
-    console.log(values);
     const id = tandaTerimaTagihanId.id;
 
     Object.entries(values).forEach(([key, value]) => {
-      if (value) formData.append(key, value);
+      if (value) formData.append(key, String(value));
     });
 
     try {
