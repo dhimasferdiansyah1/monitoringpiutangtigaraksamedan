@@ -11,6 +11,9 @@ import {
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
 import { getAllDetail } from "@/actions/actionDetail";
+export const fetchCache = "force-no-store";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function PurchaseOrderCard({
   params,

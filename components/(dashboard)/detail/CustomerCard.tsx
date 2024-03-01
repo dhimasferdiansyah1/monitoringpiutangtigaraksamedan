@@ -1,5 +1,8 @@
 import { getAllDetail } from "@/actions/actionDetail";
 import { Card } from "@/components/ui/card";
+export const fetchCache = "force-no-store";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function CustomerCard({
   params,

@@ -4,6 +4,9 @@ import { getAllDetail } from "@/actions/actionDetail";
 import { Button } from "@/components/ui/button";
 import { formatDateAndTimeIsoFetch } from "@/lib/utils";
 import DeleteStatusSerahDokumen from "./statusserahdokumen/DeleteStatusSerahDokumen";
+export const fetchCache = "force-no-store";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function StatusSerahDokumenCard({
   params,

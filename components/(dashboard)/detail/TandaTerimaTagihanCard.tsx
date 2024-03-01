@@ -2,6 +2,9 @@ import { Card } from "@/components/ui/card";
 import { getTandaTerimaTagihanUniqe } from "@/actions/actionTandaTerimaTagihan";
 import { getAllDetail } from "@/actions/actionDetail";
 import { formatDateIsoFetch } from "@/lib/utils";
+export const fetchCache = "force-no-store";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function TandaTerimaTagihanCard({
   params,

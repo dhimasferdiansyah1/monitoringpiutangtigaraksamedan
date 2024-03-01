@@ -11,6 +11,9 @@ import {
 } from "@/components/ui/dialog";
 import { ImageIcon } from "lucide-react";
 import Image from "next/image";
+export const fetchCache = "force-no-store";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function DeliveryNoteCard({
   params,

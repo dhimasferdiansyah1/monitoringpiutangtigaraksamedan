@@ -3,7 +3,6 @@ import { Card } from "@/components/ui/card";
 import {
   CheckSquare,
   Clock,
-  Hourglass,
   NotebookPen,
   Pencil,
   Plus,
@@ -31,7 +30,7 @@ const PurchaseOrderCard = dynamic(
 );
 const StatusSerahDokumenCard = dynamic(
   () => import("@/components/(dashboard)/detail/StatusSerahDokumenCard"),
-  { ssr: false, loading: () => <Skeleton className="lg:h-full lg:w-full" /> }
+  { loading: () => <Skeleton className="lg:h-full lg:w-full" /> }
 );
 const DeliveryNoteCard = dynamic(
   () => import("@/components/(dashboard)/detail/DeliveryNoteCard"),
@@ -50,7 +49,7 @@ const TandaTerimaTagihanCard = dynamic(
   { loading: () => <Skeleton className="h-[288px] w-[329px] lg:w-[385px]" /> }
 );
 import { notFound } from "next/navigation";
-import { differenceInDays, isPast } from "date-fns";
+import { differenceInDays } from "date-fns";
 
 
 export default async function DetailPage({
