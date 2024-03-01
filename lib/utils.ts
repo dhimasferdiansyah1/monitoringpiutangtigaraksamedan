@@ -11,7 +11,7 @@ import {
   formatISO9075,
   parseISO,
 } from "date-fns";
-import { zonedTimeToUtc } from "date-fns-tz";
+import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -36,17 +36,16 @@ export const formatDateAndTimeIsoFetch = (from: string | undefined) => {
   } catch {}
 };
 
-
 export const formatDateIsoFetch = (from: string | undefined) => {
   try {
     // Parse the ISO string into a Date object
     const parsedDate = parseISO(from ?? "");
 
-    // Convert the parsed date to UTC, assuming it's initially in Jakarta time
-    const utcDate = zonedTimeToUtc(parsedDate, "Asia/Jakarta");
+    // Convert the parsed date from UTC to Jakarta time
+    const jakartaTime = utcToZonedTime(parsedDate, "Asia/Jakarta");
 
-    // Format the UTC date as "dd/MM/yyyy"
-    const formattedDate = format(utcDate, "dd/MM/yyyy");
+    // Format the Jakarta time as "dd/MM/yyyy"
+    const formattedDate = format(jakartaTime, "dd/MM/yyyy");
 
     return formattedDate;
   } catch (error) {
@@ -55,6 +54,19 @@ export const formatDateIsoFetch = (from: string | undefined) => {
     return ""; // Or any other default value
   }
 };
+
+export function getLocalTime(date: string) {
+  const localTime = utcToZonedTime(
+    new Date(date),
+    "Asia/Jakarta"
+  ).toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+
+  return localTime; //Output format: 9:30 PM
+}
 
 export const formatDateDistanceToNow = (from: string | undefined) => {
   if (!from) {
