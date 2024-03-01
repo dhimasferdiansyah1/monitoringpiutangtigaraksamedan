@@ -164,7 +164,7 @@ export default function FormTambahPurchaseOrder() {
                             )}
                           >
                             {field.value ? (
-                              format(field.value, "PPP")
+                              format(new Date(field.value), "PPP") // Convert the string value to a Date object
                             ) : (
                               <span>Tanggal purchase order</span>
                             )}
