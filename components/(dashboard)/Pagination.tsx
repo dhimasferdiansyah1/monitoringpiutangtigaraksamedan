@@ -34,10 +34,10 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
       {
         "rounded-lg": position === "first" || position === "last",
 
-        "z-10 bg-slate-400 rounded-lg text-white": isActive,
-        "hover:bg-slate-300 rounded-lg": !isActive && position !== "middle",
-        "text-slate-900 pointer-events-none": position === "middle",
-      },
+        "z-10 bg-zinc-600 rounded-lg text-white": isActive,
+        "hover:bg-zinc-100 rounded-lg": !isActive && position !== "middle",
+        "text-zinc-900 pointer-events-none": position === "middle",
+      }
     );
 
     return isActive && position === "middle" ? (

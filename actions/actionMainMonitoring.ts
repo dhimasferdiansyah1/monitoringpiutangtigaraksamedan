@@ -12,6 +12,9 @@ export async function getMainMonitoring(query: string, currentPage: number) {
   const mainMonitoring = await prisma.purchaseOrder.findMany({
     skip: offset,
     take: ITEM_PER_PAGE,
+    orderBy: {
+      createdAt: "desc",
+    },
     where: {
       OR: [
         {
