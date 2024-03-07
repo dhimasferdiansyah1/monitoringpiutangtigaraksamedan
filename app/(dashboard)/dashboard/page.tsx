@@ -36,14 +36,14 @@ export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export const MainMonitoringList = async ({
+export default async function DashboardPage({
   searchParams,
 }: {
   searchParams?: {
     search?: string;
     page?: string;
   };
-}) => {
+}) {
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
   const data = await getMainMonitoring(query, currentPage);
@@ -261,5 +261,3 @@ export const MainMonitoringList = async ({
     </div>
   );
 };
-
-export default MainMonitoringList;
