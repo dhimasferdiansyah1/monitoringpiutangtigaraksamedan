@@ -32,6 +32,8 @@ import {
 import Link from "next/link";
 import SearchForm from "@/components/(dashboard)/SearchForm";
 import Pagination from "@/components/(dashboard)/Pagination";
+import { differenceInDays, parseISO } from "date-fns";
+import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -48,6 +50,27 @@ export default async function DashboardPage({
   const currentPage = Number(searchParams?.page) || 1;
   const data = await getMainMonitoring(query, currentPage);
   const totalPages = await getMainMonitoringPages(query);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set jam today to 00:00:00
+
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0); // Set jam tomorrow to 00:00:00
+
+  // Calculate Jakarta date and time for each item in the data array:
+  const jakartaTglJtArray = data.map((main) => {
+    const fakturTglJt = main.faktur?.tgl_jt ?? null;
+
+    return utcToZonedTime(
+      zonedTimeToUtc(parseISO(fakturTglJt?.toISOString() ?? ""), "UTC"),
+      "Asia/Jakarta"
+    );
+  });
+  jakartaTglJtArray.forEach((date) => {
+    date.setHours(0, 0, 0, 0); // Set jam to 00:00:00 for Jakarta time
+  });
+  const jarakHari = differenceInDays(jakartaTglJtArray[0], today); // Calculate jarakHari for the first item (assuming reference for comparison)
   return (
     <div className="mx-auto my-6 max-w-7xl">
       <div className="container mx-auto xl:px-0">
@@ -69,10 +92,10 @@ export default async function DashboardPage({
           </div>
           <div className="my-4 grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">
             {data.length > 0 ? (
-              data.map((po) => (
+              data.map((po, index) => (
                 <Card
                   key={po.id}
-                  className="flex flex-col p-4 duration-200 hover:shadow hover:duration-200 dark:bg-zinc-900 dark:hover:shadow-zinc-800"
+                  className="flex flex-col p-4 duration-200 hover:shadow hover:border-zinc-300 dark:hover:border-zinc-600 hover:duration-200 dark:bg-zinc-900 dark:hover:shadow-zinc-800"
                 >
                   <div className="flex-col">
                     <div className="flex flex-col gap-1">
@@ -208,41 +231,110 @@ export default async function DashboardPage({
                       </div>
                     </div>
 
-                    <div className="mt-4 flex items-center justify-end gap-4">
-                      <AlertDialog>
-                        <AlertDialogTrigger name="delete" aria-label="delete">
-                          <Trash2 className="h-8 w-8 cursor-pointer text-destructive transition-colors duration-300 ease-in-out hover:text-red-400 dark:text-red-400 dark:hover:text-red-300" />
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              Jika kamu setuju untuk menghapus, maka tindakan
-                              ini tidak bisa dibatalkan.
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Ini akan menghapus purchase order{" "}
-                              <span className="text-destructive">
-                                {po.no_po}
-                              </span>{" "}
-                              yang dimiliki customer{" "}
-                              <span className="text-muted-foreground">
-                                {po.customer.customer_name} (
-                                {po.customer.account})
-                              </span>
-                              ?
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Batal</AlertDialogCancel>
-                            <DeleteMainMonitoringList id={po.id} />
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                      <Link href={`/dashboard/detail/${po.id}`}>
-                        <Button variant="secondary">
-                          Detail <ChevronRight className="h-5 w-5" />
-                        </Button>
-                      </Link>
+                    <div className="mt-4 flex justify-between items-center gap-4">
+                      <div className="relative flex items-center justify-center gap-2 text-sm font-thin text-muted-foreground">
+                        <span className="relative flex h-3 w-3">
+                          <span
+                            className={`animate-ping absolute items-center justify-center inline-flex h-full w-full rounded-full ${
+                              // Condition 1: Check if po.faktur?.tgl_jt is null
+                              po.faktur?.tgl_jt === null
+                                ? "bg-gray-400" // Set background color to gray-400
+                                : jarakHari >= 2
+                                ? "bg-green-400" // Set background color to green-400
+                                : jarakHari === 1
+                                ? "bg-yellow-400" // Set background color to yellow-400
+                                : jarakHari === 0
+                                ? "bg-red-400" // Set background color to red-400
+                                : "bg-red-600" // Default color for other cases
+                            } opacity-75`}
+                          />
+                          <span
+                            className={`relative inline-flex items-center justify-center rounded-full h-3 w-3 ${
+                              // Condition 2: Check if po.faktur?.tgl_jt is null
+                              po.faktur?.tgl_jt === null
+                                ? "bg-gray-500" // Set background color to gray-500
+                                : jarakHari >= 2
+                                ? "bg-green-500" // Set background color to green-500
+                                : jarakHari === 1
+                                ? "bg-yellow-500" // Set background color to yellow-500
+                                : jarakHari === 0
+                                ? "bg-red-500" // Set background color to red-500
+                                : "bg-red-700" // Default color for other cases
+                            }`}
+                          />
+                        </span>
+                        {po.faktur?.tgl_jt === undefined ||
+                        po.faktur?.tgl_jt === null ? (
+                          "Belum ada tanggal jatuh tempo"
+                        ) : (
+                          <div>
+                            {differenceInDays(
+                              jakartaTglJtArray[index],
+                              today
+                            ) === 0
+                              ? // Hari ini
+                                "Sudah jatuh tempo"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) === 1
+                              ? // Besok
+                                "Besok jatuh tempo"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) > 0
+                              ? // Jatuh tempo X hari lagi
+                                `${differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                )} hari lagi jatuh tempo`
+                              : // Jatuh tempo telah lewat X hari
+                                `Jatuh tempo telah lewat ${Math.abs(
+                                  differenceInDays(
+                                    jakartaTglJtArray[index],
+                                    today
+                                  )
+                                )} hari`}
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex items-center justify-end gap-4">
+                        <AlertDialog>
+                          <AlertDialogTrigger name="delete" aria-label="delete">
+                            <Trash2 className="h-8 w-8 cursor-pointer text-destructive transition-colors duration-300 ease-in-out hover:text-red-400 dark:text-red-400 dark:hover:text-red-300" />
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                Jika kamu setuju untuk menghapus, maka tindakan
+                                ini tidak bisa dibatalkan.
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Ini akan menghapus purchase order{" "}
+                                <span className="text-destructive">
+                                  {po.no_po}
+                                </span>{" "}
+                                yang dimiliki customer{" "}
+                                <span className="text-muted-foreground">
+                                  {po.customer.customer_name} (
+                                  {po.customer.account})
+                                </span>
+                                ?
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Batal</AlertDialogCancel>
+                              <DeleteMainMonitoringList id={po.id} />
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                        <Link href={`/dashboard/detail/${po.id}`}>
+                          <Button variant="secondary">
+                            Detail <ChevronRight className="h-5 w-5" />
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </Card>

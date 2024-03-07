@@ -4,7 +4,7 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-const ITEM_PER_PAGE = 5;
+const ITEM_PER_PAGE = 6;
 
 export async function getMainMonitoring(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEM_PER_PAGE;

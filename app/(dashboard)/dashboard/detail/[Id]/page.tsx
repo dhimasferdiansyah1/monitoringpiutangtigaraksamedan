@@ -78,9 +78,10 @@ export default async function DetailPage({
   jakartaTglJt.setHours(0, 0, 0, 0); // Set jam to 00:00:00 for Jakarta time
 
   const jarakHari = differenceInDays(jakartaTglJt, today);
-
   const bgColor =
-    jarakHari >= 2
+    detail.faktur?.tgl_jt === null
+      ? "bg-gray-500"
+      : jarakHari >= 2
       ? "bg-green-500"
       : jarakHari === 1
       ? "bg-yellow-500"
@@ -89,7 +90,9 @@ export default async function DetailPage({
       : "bg-red-700";
 
   const bgAnimColor =
-    jarakHari >= 2
+    detail.faktur?.tgl_jt === null
+      ? "bg-gray-400"
+      : jarakHari >= 2
       ? "bg-green-400"
       : jarakHari === 1
       ? "bg-yellow-400"
@@ -119,18 +122,24 @@ export default async function DetailPage({
                   className={`relative inline-flex items-center justify-center rounded-full h-3 w-3 ${bgColor}`}
                 ></span>
               </span>
-
-              {jarakHari === 0
-                ? // Hari ini
-                  "sudah jatuh tempo"
-                : jarakHari === 1
-                ? // Besok
-                  "besok jatuh tempo"
-                : jarakHari > 0
-                ? // Jatuh tempo X hari lagi
-                  `${jarakHari} hari lagi jatuh tempo`
-                : // Jatuh tempo telah lewat X hari
-                  `jatuh tempo telah lewat ${Math.abs(jarakHari)} hari`}
+              {detail.faktur?.tgl_jt === undefined ||
+              detail.faktur?.tgl_jt === null ? (
+                "Belum ada tanggal jatuh tempo"
+              ) : (
+                <div>
+                  {jarakHari === 0
+                    ? // Hari ini
+                      "Sudah jatuh tempo"
+                    : jarakHari === 1
+                    ? // Besok
+                      "Besok jatuh tempo"
+                    : jarakHari > 0
+                    ? // Jatuh tempo X hari lagi
+                      `${jarakHari} hari lagi jatuh tempo`
+                    : // Jatuh tempo telah lewat X hari
+                      `Jatuh tempo telah lewat ${Math.abs(jarakHari)} hari`}
+                </div>
+              )}
             </div>
             <Card className="flex w-full flex-col justify-between gap-4 border-white shadow-none dark:border-zinc-950 lg:flex-row  lg:border-zinc-200 lg:p-4 lg:shadow-sm dark:lg:border-zinc-800">
               <div className="flex w-full flex-col gap-2 lg:basis-4/6">
