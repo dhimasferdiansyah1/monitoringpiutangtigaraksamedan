@@ -4,12 +4,31 @@ import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function getMainMonitoring() {
+const ITEM_PER_PAGE = 5;
+
+export async function getMainMonitoring(query: string, currentPage: number) {
+  const offset = (currentPage - 1) * ITEM_PER_PAGE;
+
   const mainMonitoring = await prisma.purchaseOrder.findMany({
+    skip: offset,
+    take: ITEM_PER_PAGE,
     where: {
-      id: {
-        not: undefined,
-      },
+      OR: [
+        {
+          no_po: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          delivery_note: {
+            no_dn: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
+      ],
     },
     include: {
       customer: true,
@@ -27,6 +46,31 @@ export async function getMainMonitoring() {
   });
 
   return mainMonitoring;
+}
+
+export async function getMainMonitoringPages(query: string) {
+  const response = await prisma.purchaseOrder.count({
+    where: {
+      OR: [
+        {
+          no_po: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          delivery_note: {
+            no_dn: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
+      ],
+    },
+  });
+  const totalPages = Math.ceil(Number(response) / ITEM_PER_PAGE);
+  return totalPages;
 }
 
 export async function deleteMainMonitoring(id: string) {

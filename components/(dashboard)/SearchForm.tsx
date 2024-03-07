@@ -1,0 +1,35 @@
+"use client";
+
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { Search } from "lucide-react";
+import { useDebouncedCallback } from "use-debounce";
+
+export default function SearchForm() {
+  const handleSearch = useDebouncedCallback((value: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    if (value) {
+      params.set("search", value);
+    } else {
+      params.delete("search");
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }, 300);
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  return (
+    <div className="relative flex flex-1">
+      <input
+        type="text"
+        className="w-full rounded-md border p-2 pl-10"
+        placeholder="Search..."
+        onChange={(e) => handleSearch(e.target.value)}
+        defaultValue={searchParams.get("search")?.toString()}
+      />
+      <Search className="absolute left-2 top-2" />
+    </div>
+  );
+}
