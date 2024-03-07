@@ -30,11 +30,11 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
     isActive: boolean;
   }) => {
     const className = cslx(
-      "flex h-10 w-10 items-center justify-center text-sm border",
+      "flex h-10 w-10 items-center justify-center text-sm",
       {
         "rounded-lg": position === "first" || position === "last",
 
-        "z-10 bg-zinc-600 rounded-lg text-white": isActive,
+        "z-10 border rounded-lg": isActive,
         "hover:bg-zinc-100 rounded-lg": !isActive && position !== "middle",
         "text-zinc-900 pointer-events-none": position === "middle",
       }
@@ -59,13 +59,13 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
     isDisabled?: boolean;
   }) => {
     const className = cslx(
-      "flex h-10 w-10 items-center justify-center text-sm border",
+      "flex h-10 w-10 items-center justify-center text-sm",
       {
-        "pointer-event-none": isDisabled,
+        "pointer-event-none text-muted-foreground": isDisabled,
         "hover:bg-gray-100": !isDisabled,
         "mr-2": direction === "left",
         "ml-2": direction === "right",
-      },
+      }
     );
 
     const icon =
@@ -91,7 +91,7 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
         href={createPageURL(cureentPage - 1)}
         isDisabled={cureentPage <= 1}
       />
-      <div className="flex -space-x-px">
+      <div className="flex gap-1">
         {allPages.map((page, index) => {
           let position: "first" | "last" | "middle" | "single" | undefined;
 

@@ -3,6 +3,7 @@
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { useDebouncedCallback } from "use-debounce";
+import { Input } from "../ui/input";
 
 export default function SearchForm() {
   const handleSearch = useDebouncedCallback((value: string) => {
@@ -22,14 +23,14 @@ export default function SearchForm() {
 
   return (
     <div className="relative flex flex-1">
-      <input
+      <Input
         type="text"
         className="w-full rounded-md border p-2 pl-10"
-        placeholder="Search..."
+        placeholder="Cari No. Purchase Order/Delivery Note/Faktur..."
         onChange={(e) => handleSearch(e.target.value)}
         defaultValue={searchParams.get("search")?.toString()}
       />
-      <Search className="absolute left-2 top-2" />
+      <Search className="absolute left-2 top-2 text-muted-foreground" />
     </div>
   );
 }

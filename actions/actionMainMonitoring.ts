@@ -31,6 +31,14 @@ export async function getMainMonitoring(query: string, currentPage: number) {
             },
           },
         },
+        {
+          faktur: {
+            no_fk: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
       ],
     },
     include: {

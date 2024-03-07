@@ -71,6 +71,9 @@ export default async function DashboardPage({
     date.setHours(0, 0, 0, 0); // Set jam to 00:00:00 for Jakarta time
   });
   const jarakHari = differenceInDays(jakartaTglJtArray[0], today); // Calculate jarakHari for the first item (assuming reference for comparison)
+
+  const now = new Date(); // Mendapatkan waktu saat ini
+  const sixHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000); // Menghitung waktu 1 jam yang lalu
   return (
     <div className="mx-auto my-6 max-w-7xl">
       <div className="container mx-auto xl:px-0">
@@ -108,6 +111,14 @@ export default async function DashboardPage({
                                 {po.customer.customer_name}
                               </span>
                             </h1>
+                            <div className="flex items-center justify-center">
+                              {new Date(po.createdAt.toISOString()) >=
+                                sixHoursAgo && (
+                                <p className="bg-green-500 text-white rounded-full px-2 py-1 text-xs">
+                                  New!
+                                </p>
+                              )}
+                            </div>
                           </div>
 
                           <Popover>
@@ -166,25 +177,33 @@ export default async function DashboardPage({
                         <p className="text-muted-foreground">
                           ( {po.customer.account} )
                         </p>
-
                         <div className="flex gap-2">
                           <p className="w-24">Nomor PO</p>
                           <span>:</span>
                           <p>{po.no_po}</p>
                         </div>
-
                         <div className="flex gap-2">
                           <p className="w-24">Nomor DN</p>
                           <span>:</span>
                           <div>
                             {po.delivery_note?.no_dn || (
                               <p className="text-destructive dark:text-red-400">
-                                Belum memiliki
+                                Tidak ada
                               </p>
                             )}
                           </div>
                         </div>
-
+                        <div className="flex gap-2">
+                          <p className="w-24">Nomor FK</p>
+                          <span>:</span>
+                          <div>
+                            {po.faktur?.no_fk || (
+                              <p className="text-destructive dark:text-red-400">
+                                Tidak ada
+                              </p>
+                            )}
+                          </div>
+                        </div>
                         <div className="flex gap-2">
                           <p className="w-24">Tanggal FK</p>
                           <span>:</span>
@@ -193,7 +212,7 @@ export default async function DashboardPage({
                               po.faktur?.tgl_fk?.toISOString()
                             ) || (
                               <p className="text-destructive dark:text-red-400">
-                                Tidak memiliki
+                                Tidak ada
                               </p>
                             )}
                           </div>
@@ -207,7 +226,7 @@ export default async function DashboardPage({
                               po.faktur?.tgl_jt?.toISOString() ?? ""
                             ) || (
                               <p className="text-destructive dark:text-red-400">
-                                Tidak memiliki
+                                Tidak ada
                               </p>
                             )}
                           </div>
