@@ -87,7 +87,7 @@ export default async function DashboardPage({
           <div className="flex justify-between gap-4">
             <SearchForm />
             <Link href="/dashboard/tambahpurchaseorder">
-              <Button className="flex gap-2" variant="secondary">
+              <Button className="flex gap-2" variant="default">
                 <PlusCircle className="w-4 h-4" />
                 Tambah
               </Button>
@@ -107,7 +107,7 @@ export default async function DashboardPage({
                           <div className="flex gap-2">
                             <Store className="h-5 w-5" />
                             <h1 className="relative max-w-40 items-center gap-2 font-bold">
-                              <span className="hover:max-height-full top-0 z-10 line-clamp-[*] block max-w-80 overflow-hidden truncate transition-all duration-300 ease-in-out hover:absolute hover:w-80 hover:overflow-visible hover:text-balance hover:rounded-md hover:bg-muted-foreground hover:px-2 hover:text-white">
+                              <span className="hover:max-height-full top-0 z-10 line-clamp-[*] block max-w-80 overflow-hidden truncate transition-all duration-300 ease-in-out hover:absolute hover:w-80 hover:overflow-visible hover:text-balance hover:rounded-md hover:bg-muted-foreground hover:px-2 hover:text-white dark:hover:bg-zinc-100 dark:hover:text-zinc-950">
                                 {po.customer.customer_name}
                               </span>
                             </h1>
@@ -255,30 +255,46 @@ export default async function DashboardPage({
                         <span className="relative flex h-3 w-3">
                           <span
                             className={`animate-ping absolute items-center justify-center inline-flex h-full w-full rounded-full ${
-                              // Condition 1: Check if po.faktur?.tgl_jt is null
                               po.faktur?.tgl_jt === null
-                                ? "bg-gray-400" // Set background color to gray-400
-                                : jarakHari >= 2
-                                ? "bg-green-400" // Set background color to green-400
-                                : jarakHari === 1
-                                ? "bg-yellow-400" // Set background color to yellow-400
-                                : jarakHari === 0
-                                ? "bg-red-400" // Set background color to red-400
-                                : "bg-red-600" // Default color for other cases
+                                ? "bg-gray-400"
+                                : differenceInDays(
+                                    jakartaTglJtArray[index],
+                                    today
+                                  ) >= 2
+                                ? "bg-green-400"
+                                : differenceInDays(
+                                    jakartaTglJtArray[index],
+                                    today
+                                  ) === 1
+                                ? "bg-yellow-400"
+                                : differenceInDays(
+                                    jakartaTglJtArray[index],
+                                    today
+                                  ) === 0
+                                ? "bg-red-400"
+                                : "bg-red-600"
                             } opacity-75`}
                           />
                           <span
                             className={`relative inline-flex items-center justify-center rounded-full h-3 w-3 ${
-                              // Condition 2: Check if po.faktur?.tgl_jt is null
                               po.faktur?.tgl_jt === null
-                                ? "bg-gray-500" // Set background color to gray-500
-                                : jarakHari >= 2
-                                ? "bg-green-500" // Set background color to green-500
-                                : jarakHari === 1
-                                ? "bg-yellow-500" // Set background color to yellow-500
-                                : jarakHari === 0
-                                ? "bg-red-500" // Set background color to red-500
-                                : "bg-red-700" // Default color for other cases
+                                ? "bg-gray-500"
+                                : differenceInDays(
+                                    jakartaTglJtArray[index],
+                                    today
+                                  ) >= 2
+                                ? "bg-green-500"
+                                : differenceInDays(
+                                    jakartaTglJtArray[index],
+                                    today
+                                  ) === 1
+                                ? "bg-yellow-500"
+                                : differenceInDays(
+                                    jakartaTglJtArray[index],
+                                    today
+                                  ) === 0
+                                ? "bg-red-500"
+                                : "bg-red-700"
                             }`}
                           />
                         </span>
