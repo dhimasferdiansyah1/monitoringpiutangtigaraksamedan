@@ -68,12 +68,12 @@ const NavbarDashboard = () => {
 
   const thirdRoutes = [
     {
-      href: "dashboard/jatuhtempo",
+      href: "/dashboard/jatuhtempo",
       icon: <AlertTriangle className="h-4 w-4" />,
       label: "Jatuh tempo",
     },
     {
-      href: "dashboard/piutangselesai",
+      href: "/dashboard/piutangselesai",
       icon: <BadgeCheck className="h-4 w-4" />,
       label: "Piutang selesai",
     },
