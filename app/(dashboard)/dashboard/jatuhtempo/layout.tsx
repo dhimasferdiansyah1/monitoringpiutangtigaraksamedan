@@ -2,13 +2,9 @@
 import type { Metadata } from "next";
 import "@/app/(landingPage)/globals.css";
 import { Inter } from "next/font/google";
-import { Toaster } from "@/components/ui/toaster";
-import { ThemeProvider } from "@/components/theme-provider";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
-
-const inter = Inter({ subsets: ["latin"], weight: "400", display: "swap" });
 
 const metadata: Metadata = {
   title: {
@@ -40,7 +36,7 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen">
       <div className="max-w-7xl w-full mx-auto">
-        <div className="flex justify-center gap-4 mt-4">
+        <div className="lg:flex-row flex justify-center lg:gap-4 mt-4 flex-wrap">
           {jatuhTempoRoutes.map((route) => (
             <Link key={route.href} href={route.href}>
               <Button

@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import {
   AlignRight,
   ChevronDown,
-  ShoppingCart,
   X,
   ActivitySquare,
   Store,
