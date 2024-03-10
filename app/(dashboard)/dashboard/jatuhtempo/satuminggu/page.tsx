@@ -1,7 +1,3 @@
-import {
-  getMainMonitoring,
-  getMainMonitoringPages,
-} from "@/actions/actionMainMonitoring";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,22 +30,28 @@ import SearchForm from "@/components/(dashboard)/SearchForm";
 import Pagination from "@/components/(dashboard)/Pagination";
 import { differenceInDays, parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
+import {
+  getJatuhTempo,
+  getJatuhTempoBesok,
+  getJatuhTempoBesokPages,
+  getJatuhTempoPages,
+  getJatuhTempoSatuMinggu,
+  getJatuhTempoSatuMingguPages,
+} from "@/actions/actionJatuhTempo";
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default async function DashboardPage({
+export default async function JatuhTempoSatuMingguPage({
   searchParams,
 }: {
   searchParams?: {
-    search?: string;
     page?: string;
   };
 }) {
-  const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const data = await getMainMonitoring(query, currentPage);
-  const totalPages = await getMainMonitoringPages(query);
+  const JatuhTempoSatuMinggu = await getJatuhTempoSatuMinggu(currentPage);
+  const totalPages = await getJatuhTempoSatuMingguPages(currentPage);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set jam today to 00:00:00
@@ -59,7 +61,7 @@ export default async function DashboardPage({
   tomorrow.setHours(0, 0, 0, 0); // Set jam tomorrow to 00:00:00
 
   // Calculate Jakarta date and time for each item in the data array:
-  const jakartaTglJtArray = data.map((main) => {
+  const jakartaTglJtArray = JatuhTempoSatuMinggu.map((main) => {
     const fakturTglJt = main.faktur?.tgl_jt ?? null;
 
     return utcToZonedTime(
@@ -70,35 +72,24 @@ export default async function DashboardPage({
   jakartaTglJtArray.forEach((date) => {
     date.setHours(0, 0, 0, 0); // Set jam to 00:00:00 for Jakarta time
   });
-  const jarakHari = differenceInDays(jakartaTglJtArray[0], today); // Calculate jarakHari for the first item (assuming reference for comparison)
 
   const now = new Date(); // Mendapatkan waktu saat ini
   const sixHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000); // Menghitung waktu 1 jam yang lalu
+
   return (
     <div className="mx-auto my-6 max-w-7xl">
       <div className="container mx-auto xl:px-0">
         <div className="flex flex-col">
-          <h1 className="my-4 text-center text-2xl font-bold">
-            Main Monitoring
-          </h1>
-          <div className="flex justify-end"></div>
+          <h1 className="my-4 text-center text-2xl font-bold">Jatuh Tempo</h1>
         </div>
         <div className="flex flex-col">
-          <div className="flex justify-between gap-4">
-            <SearchForm />
-            <Link href="/dashboard/tambahpurchaseorder">
-              <Button className="flex gap-2" variant="default">
-                <PlusCircle className="w-4 h-4" />
-                Tambah
-              </Button>
-            </Link>
-          </div>
+          <div className="flex justify-end gap-4"></div>
           <div className="my-4 grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">
-            {data.length > 0 ? (
-              data.map((po, index) => (
+            {JatuhTempoSatuMinggu.length > 0 ? (
+              JatuhTempoSatuMinggu.map((po, index) => (
                 <Card
                   key={po.id}
-                  className="flex flex-col p-4 duration-200 hover:shadow hover:border-zinc-400 dark:hover:border-zinc-600 hover:duration-200 dark:bg-zinc-900 dark:hover:shadow-zinc-800"
+                  className="flex flex-col p-4 duration-200 hover:shadow hover:border-zinc-300 dark:hover:border-zinc-600 hover:duration-200 dark:bg-zinc-900 dark:hover:shadow-zinc-800"
                 >
                   <div className="flex-col">
                     <div className="flex flex-col gap-1">
@@ -387,4 +378,4 @@ export default async function DashboardPage({
       </div>
     </div>
   );
-};
+}
