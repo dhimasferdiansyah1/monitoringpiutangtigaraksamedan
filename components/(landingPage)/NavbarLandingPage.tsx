@@ -1,5 +1,5 @@
 "use client";
-
+import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,6 +9,9 @@ import Image from "next/image";
 import { ModeToggle } from "./ThemeToggle";
 
 export default function NavbarLandingPage() {
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { isSignedIn, user } = useUser();
+
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
@@ -20,10 +23,7 @@ export default function NavbarLandingPage() {
     }
   });
 
-  const routes = [
-    { href: "/about", labels: "About" },
-    { href: "/", labels: "Login" },
-  ];
+  const routes = [{ href: "/about", labels: "About" }];
 
   return (
     <>
@@ -60,7 +60,23 @@ export default function NavbarLandingPage() {
                     {route.labels}
                   </Link>
                 ))}
+                {userId == null && (
+                  <Link
+                    href="/login"
+                    className={`text-sm transition-colors hover:text-primary ${
+                      pathname === "/login"
+                        ? " text-black dark:text-white"
+                        : "font-medium text-muted-foreground"
+                    }`}
+                  >
+                    Login
+                  </Link>
+                )}
                 <ModeToggle />
+                <div className="hidden lg:flex gap-2 items-center">
+                  <UserButton />
+                  <p className="text-muted-foreground">{user?.username}</p>
+                </div>
               </div>
               <div className="flex items-center lg:hidden">
                 <motion.button

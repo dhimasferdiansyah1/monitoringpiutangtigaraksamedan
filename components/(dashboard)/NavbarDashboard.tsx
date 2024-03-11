@@ -17,6 +17,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ModeToggle } from "../(landingPage)/ThemeToggle";
+import { UserButton } from "@clerk/nextjs";
 
 const NavbarDashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -136,6 +137,7 @@ const NavbarDashboard = () => {
                 >
                   Perusahaan
                 </a>
+                <UserButton />
                 <ModeToggle />
               </div>
               <div className="flex items-center lg:hidden">

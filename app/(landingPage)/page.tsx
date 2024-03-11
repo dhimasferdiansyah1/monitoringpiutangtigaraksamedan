@@ -1,7 +1,10 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { auth, currentUser } from "@clerk/nextjs";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const { userId } = auth();
+  const user = await currentUser();
   return (
     <main className="mx-auto my-12 max-w-7xl">
       <div className="container mx-auto">
@@ -23,11 +26,13 @@ export default function LandingPage() {
             <p>Dapatkan informasi terkini mengenai progres piutang</p>
           </div>
           <div className="flex flex-col gap-4 sm:flex-row">
-            <a href="/dashboard" className="my-2">
-              <Button variant="default" className="px-12">
-                Dashboard
-              </Button>
-            </a>
+            {userId && (
+              <a href="/dashboard" className="my-2">
+                <Button variant="default" className="px-12">
+                  Dashboard
+                </Button>
+              </a>
+            )}
           </div>
         </div>
       </div>
