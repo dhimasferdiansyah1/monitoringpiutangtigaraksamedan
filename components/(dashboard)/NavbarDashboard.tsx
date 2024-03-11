@@ -211,6 +211,13 @@ const NavbarDashboard = () => {
                         {route.label}
                       </Link>
                     ))}
+                    <a
+                      href="https://www.tigaraksa.co.id/"
+                      target="_blank"
+                      className="font-medium flex cursor-pointer text-muted-foreground transition-colors hover:text-primary px-4 py-2 hover:bg-gray-100 hover:text-black rounded-md"
+                    >
+                      Perusahaan
+                    </a>
                   </ul>
 
                   {/* Master heading with bold text and chevron down */}
@@ -224,6 +231,16 @@ const NavbarDashboard = () => {
                     style={{ maxHeight: isOpen ? "500px" : 0 }}
                   >
                     {secondaryRoutes.map((route) => (
+                      <Link
+                        onClick={() => setIsOpen(false)}
+                        key={route.href}
+                        href={route.href}
+                        className="flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 text-base font-medium text-muted-foreground hover:bg-gray-100 hover:text-black "
+                      >
+                        {route.label}
+                      </Link>
+                    ))}
+                    {thirdRoutes.map((route) => (
                       <Link
                         onClick={() => setIsOpen(false)}
                         key={route.href}
@@ -248,6 +265,7 @@ const NavbarDashboard = () => {
           </div>
         )}
       </AnimatePresence>
+
       <div className="hidden items-center justify-center gap-8 border-b p-5 lg:flex">
         <div className="hidden items-center gap-10 lg:flex">
           {secondaryRoutes.map((route) => (

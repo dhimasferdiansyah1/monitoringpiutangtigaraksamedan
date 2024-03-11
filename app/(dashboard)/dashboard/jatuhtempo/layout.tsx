@@ -1,7 +1,6 @@
 "use client";
 import type { Metadata } from "next";
 import "@/app/(landingPage)/globals.css";
-import { Inter } from "next/font/google";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
@@ -36,7 +35,7 @@ export default function DashboardLayout({
   return (
     <div className="min-h-screen">
       <div className="max-w-7xl w-full mx-auto">
-        <div className="lg:flex-row flex justify-center lg:gap-4 mt-4 flex-wrap">
+        <div className="lg:flex-row flex justify-center gap-2 lg:gap-4 mt-4 flex-wrap">
           {jatuhTempoRoutes.map((route) => (
             <Link key={route.href} href={route.href}>
               <Button

@@ -84,7 +84,7 @@ export default async function DashboardPage({
           <div className="flex justify-end"></div>
         </div>
         <div className="flex flex-col">
-          <div className="flex justify-between gap-4">
+          <div className="flex flex-col-reverse md:flex-row justify-between gap-4">
             <SearchForm />
             <Link href="/dashboard/tambahpurchaseorder">
               <Button className="flex gap-2" variant="default">
@@ -250,8 +250,8 @@ export default async function DashboardPage({
                       </div>
                     </div>
 
-                    <div className="mt-4 flex justify-between items-center gap-4">
-                      <div className="relative flex items-center justify-center gap-2 text-sm font-thin text-muted-foreground">
+                    <div className="mt-4 flex lg:flex-row flex-col lg:justify-between lg:items-center gap-4">
+                      <div className="relative flex items-center justify-Start gap-2 text-sm font-thin text-muted-foreground">
                         <span className="relative flex h-3 w-3">
                           <span
                             className={`animate-ping absolute items-center justify-center inline-flex h-full w-full rounded-full ${
