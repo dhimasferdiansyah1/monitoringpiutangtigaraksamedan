@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { auth, currentUser } from "@clerk/nextjs";
+import Link from "next/link";
 
 export default async function LandingPage() {
   const { userId } = auth();
@@ -32,6 +33,13 @@ export default async function LandingPage() {
                   Dashboard
                 </Button>
               </a>
+            )}
+            {!userId && (
+              <Link href="/sign-in" className="my-2">
+                <Button variant="default" className="px-12">
+                  Login
+                </Button>
+              </Link>
             )}
           </div>
         </div>

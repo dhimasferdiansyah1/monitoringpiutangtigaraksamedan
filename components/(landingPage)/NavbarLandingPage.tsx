@@ -62,7 +62,7 @@ export default function NavbarLandingPage() {
                 ))}
                 {userId == null && (
                   <Link
-                    href="/login"
+                    href="/sign-in"
                     className={`text-sm transition-colors hover:text-primary ${
                       pathname === "/login"
                         ? " text-black dark:text-white"
@@ -139,6 +139,20 @@ export default function NavbarLandingPage() {
                     </Link>
                   </li>
                 ))}
+                <li className="mb-3 ml-8">
+                  {userId == null && (
+                    <Link
+                      href="/sign-in"
+                      className={`text-base font-medium text-muted-foreground hover:text-black dark:text-white ${
+                        pathname === "/login"
+                          ? " text-black dark:text-white"
+                          : "font-medium text-muted-foreground"
+                      }`}
+                    >
+                      Login
+                    </Link>
+                  )}
+                </li>
               </ul>
             </motion.div>
             <motion.div
