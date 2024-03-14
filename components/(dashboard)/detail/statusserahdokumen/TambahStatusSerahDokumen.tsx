@@ -93,7 +93,11 @@ const handleSubmitStatusSerahDokumen = async (
 
 const ListStatusSerahDokumen = [
   { id: "01", status: "Sales menerima purchase order dari toko" },
-  { id: "02", status: "Sales menyerahkan dokumen ke admin sales" },
+  {
+    id: "02",
+    status: "Sales menyerahkan dokumen ke admin sales",
+    role: "Sales",
+  },
   { id: "03", status: "Admin sales menyerahkan dokumen ke admin gudang" },
   { id: "04", status: "Admin gudang menyerahkan dokumen ke driver" },
   { id: "05", status: "Driver melakukan pengantaran barang" },

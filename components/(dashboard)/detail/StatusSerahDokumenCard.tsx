@@ -4,6 +4,8 @@ import { getAllDetail } from "@/actions/actionDetail";
 import { Button } from "@/components/ui/button";
 import { formatDateAndTimeIsoFetch } from "@/lib/utils";
 import DeleteStatusSerahDokumen from "./statusserahdokumen/DeleteStatusSerahDokumen";
+import { auth, currentUser } from "@clerk/nextjs";
+
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -14,6 +16,8 @@ export default async function StatusSerahDokumenCard({
   params: { id: string };
 }) {
   const statusserahdokumen = await getAllDetail(params.id);
+  const { userId } = auth();
+  const user = await currentUser();
   if (!statusserahdokumen) {
     return <p>Tidak ada status serah dokumen</p>;
   }
@@ -28,7 +32,7 @@ export default async function StatusSerahDokumenCard({
             <div className="flex justify-between">
               <div className="flex gap-2 font-bold">
                 <p>{status.user}</p>
-                <p className="hidden font-normal lg:flex">Role Job</p>
+                <p className="hidden font-normal lg:flex">{status.role}</p>
               </div>
               <p className="text-muted-foreground">
                 {formatDateAndTimeIsoFetch(status.createdAt.toISOString())}

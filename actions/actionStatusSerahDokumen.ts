@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { statusSerahDokumenSchema } from "@/types/statusSerahDokumen";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { auth, currentUser } from "@clerk/nextjs";
 
 export async function getStatusSerahDokumenUniqe(id: string) {
   const statusSerahDokumen = await prisma.purchaseOrder.findUnique({
@@ -21,6 +22,8 @@ export async function createStatusSerahDokumenDetail(
   formData: FormData,
   id: string
 ) {
+  const { userId } = auth();
+  const user = await currentUser();
   const purchaseOrderId = await prisma.purchaseOrder.findUnique({
     where: {
       id: id,
@@ -37,8 +40,7 @@ export async function createStatusSerahDokumenDetail(
       statusserahdokumen: {
         create: {
           status_serah: status_serah,
-          user: "Sales",
-          role: "Admin",
+          user: user?.username,
         },
       },
     },
