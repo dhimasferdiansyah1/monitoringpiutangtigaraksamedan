@@ -4,10 +4,11 @@ import { TambahPurchaseOrderSchema } from "@/types/purchaseOrder";
 import { uuidModified, uuidModifiedShort } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { auth, currentUser } from "@clerk/nextjs";
 
 export async function createPurchaseOrder(formData: FormData) {
   const values = Object.fromEntries(formData.entries());
-  const { customer_id, no_po, tgl_po, foto_po, status_po, status_serah, user } =
+  const { customer_id, no_po, tgl_po, foto_po, status_po, status_serah } =
     TambahPurchaseOrderSchema.parse(values);
 
   const nomorPurchaseOrder = no_po;
@@ -24,7 +25,8 @@ export async function createPurchaseOrder(formData: FormData) {
     nomorPurchaseOrderWithoutExt + "-" + "ttt" + uuidModifiedShort();
   const idStatusSerahDokumenFormat =
     nomorPurchaseOrderWithoutExt + "-" + "ssd" + uuidModifiedShort();
-
+  const { userId } = auth();
+  const user = await currentUser();
   try {
     await prisma.purchaseOrder.create({
       data: {
@@ -63,7 +65,7 @@ export async function createPurchaseOrder(formData: FormData) {
           create: {
             id: idStatusSerahDokumenFormat,
             status_serah: status_serah,
-            user: "Sales",
+            user: user?.username,
             role: "Admin",
           },
         },
