@@ -20,7 +20,7 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
-    "@uploadthing/react": "^6.2.4",
+    "@uploadthing/react": "^6.4.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "date-fns": "^2.30.0",
@@ -35,7 +35,7 @@
     "react-hook-form": "^7.50.1",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
-    "uploadthing": "^6.4.1",
+    "uploadthing": "^6.6.0",
     "use-debounce": "^10.0.0",
     "uuid": "^9.0.1",
     "zod": "^3.22.4"
