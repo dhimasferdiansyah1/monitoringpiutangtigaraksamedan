@@ -74,7 +74,6 @@ export const formatDateIsoFetch = (from: string | undefined) => {
   }
 };
 
-
 export const formatDateDistanceToNow = (from: string | undefined) => {
   if (!from) {
     return "Invalid date";

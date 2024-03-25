@@ -6,6 +6,23 @@ import { notFound } from "next/navigation";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { fakturPajakId: string };
+}) {
+  const id = params.fakturPajakId;
+  const fakturPajak = await getFakturPajakDetail(id);
+
+  if (!fakturPajak) {
+    return { notFound: true };
+  }
+
+  return {
+    title: `${fakturPajak.no_fkp ?? "Tambah"} | Faktur Pajak`, // Set the title from fetched data
+  };
+};
+
 export default async function FakturPajakDetail({
   params,
 }: {

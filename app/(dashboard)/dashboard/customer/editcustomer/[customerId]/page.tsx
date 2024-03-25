@@ -4,6 +4,23 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { notFound } from "next/navigation";
 import React, { Suspense } from "react";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { customerId: string };
+}) {
+  const id = params.customerId;
+  const customer = await getCustomerUniqe(id);
+
+  if (!customer) {
+    return { notFound: true };
+  }
+
+  return {
+    title: `${customer.customer_name} | Edit Customer`, // Set the title from fetched data
+  };
+};
+
 export default async function EditCustomerPage({
   params,
 }: {

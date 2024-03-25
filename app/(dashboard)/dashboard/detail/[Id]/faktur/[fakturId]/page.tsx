@@ -6,6 +6,23 @@ import { notFound } from "next/navigation";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { fakturId: string };
+}) {
+  const id = params.fakturId;
+  const faktur = await getFakturDetail(id);
+
+  if (!faktur) {
+    return { notFound: true };
+  }
+
+  return {
+    title: `${faktur.no_fk ?? "Tambah"} | Faktur`, // Set the title from fetched data
+  };
+};
+
 export default async function FakturDetail({
   params,
 }: {

@@ -52,6 +52,23 @@ import { notFound } from "next/navigation";
 import { differenceInDays, parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { Id: string };
+}) {
+  const id = params.Id;
+    const detail = await getAllDetail(id);
+
+    if (!detail) {
+      return { notFound: true };
+    }
+
+    return {
+      title: `${detail.customer.customer_name ?? "Tambah"} | Detail`, // Set the title from fetched data
+    };
+  };
+
 export default async function DetailPage({
   params,
 }: {
@@ -63,6 +80,7 @@ export default async function DetailPage({
   if (!detail) {
     return notFound();
   }
+
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set jam today menjadi 00:00:00
 

@@ -264,18 +264,12 @@ export default function TambahTandaTerimaTagihan({
                       </Label>
                       <FormControl>
                         <UploadDropzone
+                          className="p-8 ut-label:text-lg ut-allowed-content:ut-uploading:text-red-300"
                           config={{ mode: "auto" }}
                           appearance={{
-                            button: {
-                              background: "black",
-                            },
-                            container: {
-                              display: "flex",
-                              color: "black",
-                            },
-                            label: {
-                              color: "GrayText",
-                            },
+                            button: "ut-ready:bg-zinc-700 bg-zinc-700 px-8",
+                            container: "flex",
+                            label: "text-muted-forground",
                           }}
                           endpoint="imageUploader"
                           onClientUploadComplete={(res) => {

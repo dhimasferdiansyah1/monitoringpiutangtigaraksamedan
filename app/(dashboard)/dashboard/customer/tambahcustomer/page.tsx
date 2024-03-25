@@ -1,6 +1,11 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import React, { Suspense } from "react";
 import FormTambahCustomer from "@/components/(dashboard)/customer/tambahcustomer/FormTambahCustomer";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Tambah Customer",
+};
 
 export default function TambahCustomerPage() {
   return (

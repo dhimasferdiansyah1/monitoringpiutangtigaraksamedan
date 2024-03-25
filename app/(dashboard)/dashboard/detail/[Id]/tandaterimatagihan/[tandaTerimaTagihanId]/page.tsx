@@ -6,6 +6,23 @@ import FormDetailPurchaseOrder from "@/components/(dashboard)/detail/purchaseord
 import { getTandaTerimaTagihanDetail } from "@/actions/actionTandaTerimaTagihan";
 import TambahTerimaTagihan from "@/components/(dashboard)/detail/tandaterimatagihan/TambahTandaTerimaTagihan";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { tandaTerimaTagihanId: string };
+}) {
+  const id = params.tandaTerimaTagihanId;
+  const tandaTerimaTagihan = await getTandaTerimaTagihanDetail(id);
+
+  if (!tandaTerimaTagihan) {
+    return { notFound: true };
+  }
+
+  return {
+    title: `${tandaTerimaTagihan.no_penagihan ?? "Tambah"} | Tanda Terima Taighan`, // Set the title from fetched data
+  };
+};
+
 export default async function tandaTerimaTagihanDetail({
   params,
 }: {

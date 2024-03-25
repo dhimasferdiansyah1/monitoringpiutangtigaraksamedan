@@ -3,8 +3,26 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Suspense } from "react";
 import { getDeliveryNoteDetail } from "@/actions/actionDeliveryNote";
 import { notFound } from "next/navigation";
+import { getAllDetail } from "@/actions/actionDetail";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { deliveryNoteId: string };
+}) {
+  const id = params.deliveryNoteId;
+  const deliveryNote = await getDeliveryNoteDetail(id);
+
+  if (!deliveryNote) {
+    return { notFound: true };
+  }
+
+  return {
+    title: `${deliveryNote.no_dn ?? "Tambah"} | Delivery Note`, // Set the title from fetched data
+  };
+};
 
 export default async function DeliveryNoteDetail({
   params,

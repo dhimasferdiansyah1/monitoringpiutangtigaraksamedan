@@ -12,10 +12,11 @@ const inter = Inter({ subsets: ["latin"], weight: "400", display: "swap" });
 export const metadata: Metadata = {
   title: {
     default: "Monitoring Piutang",
-    template: "Monitoring Piutang",
+    template: "%s - Tigaraksa Satria Medan",
   },
-  description: "PT. Tigaraksa Satria, Tbk Cabang Medan",
+  description: "Monitoring Piutang",
 };
+
 
 export default function DashboardLayout({
   children,

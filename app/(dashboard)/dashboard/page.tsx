@@ -34,9 +34,14 @@ import SearchForm from "@/components/(dashboard)/SearchForm";
 import Pagination from "@/components/(dashboard)/Pagination";
 import { differenceInDays, parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
+import { Metadata } from "next";
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+};
 
 export default async function DashboardPage({
   searchParams,

@@ -4,15 +4,32 @@ import { Skeleton } from "@/components/ui/skeleton";
 import TambahStatusSerahDokumen from "@/components/(dashboard)/detail/statusserahdokumen/TambahStatusSerahDokumen";
 import { getStatusSerahDokumenUniqe } from "@/actions/actionStatusSerahDokumen";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { statusSerahDokumenId: string };
+}) {
+  const id = params.statusSerahDokumenId;
+  const statusSerah = await getStatusSerahDokumenUniqe(id);
+
+  if (!statusSerah) {
+    return { notFound: true };
+  }
+
+  return {
+    title: `${statusSerah.no_po} | Status Serah Dokumen`, // Set the title from fetched data
+  };
+}
+
 export default async function statusSerahDokumenDetail({
   params,
 }: {
   params: { statusSerahDokumenId: string };
 }) {
   const id = params.statusSerahDokumenId;
-  const purchaseOrder = await getStatusSerahDokumenUniqe(id);
+  const statusSerah = await getStatusSerahDokumenUniqe(id);
 
-  if (!purchaseOrder) {
+  if (!statusSerah) {
     notFound();
   }
 
@@ -25,7 +42,7 @@ export default async function statusSerahDokumenDetail({
               <Skeleton className="my-8 h-[400px] w-[200px] lg:h-[600px] lg:w-[500px]" />
             }
           >
-            <TambahStatusSerahDokumen statusSerahDokumenId={purchaseOrder} />
+            <TambahStatusSerahDokumen statusSerahDokumenId={statusSerah} />
           </Suspense>
         </div>
       </div>

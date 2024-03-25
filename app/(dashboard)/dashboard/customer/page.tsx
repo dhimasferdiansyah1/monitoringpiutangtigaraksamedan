@@ -8,6 +8,11 @@ import SkeletonCustomer from "@/components/ui/skeleton-customer";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Data Customer",
+};
 
 export default function CustomerPage() {
   return (

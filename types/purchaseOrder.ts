@@ -19,7 +19,6 @@ export const TambahPurchaseOrderSchema = z.object({
     return value === "Berjalan" || value === "Selesai";
   }, "Status harus berupa Berjalan atau Selesai"),
   status_serah: z.string(),
-  user: z.string().min(1),
 });
 
 export const EditPurchaseOrderShcema = z.object({

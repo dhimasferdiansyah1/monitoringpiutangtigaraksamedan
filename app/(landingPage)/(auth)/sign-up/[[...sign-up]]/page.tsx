@@ -2,6 +2,11 @@ import { Button } from "@/components/ui/button";
 import { SignUp } from "@clerk/nextjs";
 import { auth, currentUser } from "@clerk/nextjs";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Masuk",
+};
 
 export default async function Page() {
   // const { userId } = auth();

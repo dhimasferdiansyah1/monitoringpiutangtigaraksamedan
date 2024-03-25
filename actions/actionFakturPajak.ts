@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { editfakturPajakSchema } from "@/types/fakturPajak";
 
 export async function getFakturPajakUniqe(id: string) {
   const fakturPajak = await prisma.fakturPajak.findUnique({
@@ -32,13 +33,16 @@ export async function createFakturPajakDetail(
   });
 
   const values = Object.fromEntries(formData.entries());
+  const { no_fkp, tgl_fkp, foto_fkp } = editfakturPajakSchema.parse(values);
 
   await prisma.fakturPajak.update({
     where: {
       id: fakturPajakId,
     },
     data: {
-      ...values,
+      no_fkp,
+      tgl_fkp,
+      foto_fkp,
     },
   });
   revalidatePath(`/dashboard/detail/${purchaseOrderId?.purchase_order.id}`);

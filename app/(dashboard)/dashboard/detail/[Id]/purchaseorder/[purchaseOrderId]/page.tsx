@@ -4,6 +4,23 @@ import { notFound } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 import FormDetailPurchaseOrder from "@/components/(dashboard)/detail/purchaseorder/FormDetailPurchaseOrder";
 
+export async function generateMetadata({
+  params,
+}: {
+  params: { purchaseOrderId: string };
+}) {
+  const id = params.purchaseOrderId;
+  const purchaseOrder = await getPurchaseOrderUniqe(id);
+
+  if (!purchaseOrder) {
+    return { notFound: true };
+  }
+
+  return {
+    title: `${purchaseOrder.no_po} | Purchase Order`, // Set the title from fetched data
+  };
+};
+
 export default async function purchaseOrderDetail({
   params,
 }: {
