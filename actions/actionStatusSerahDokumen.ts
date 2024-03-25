@@ -75,6 +75,7 @@ export async function getStatusSerahDokumenList() {
       orderBy: {
         createdAt: "desc",
       },
+      take: 1,
       include: {
         purchase_order: true,
       },

@@ -12,6 +12,11 @@ const StatusSerahDokumenList = dynamic(
 import { Card } from "@/components/ui/card";
 import SkeletonCustomer from "@/components/ui/skeleton-customer";
 import { Suspense } from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Status Serah Dokumen",
+};
 
 export default function StatusSerahDokumenPage() {
   return (
