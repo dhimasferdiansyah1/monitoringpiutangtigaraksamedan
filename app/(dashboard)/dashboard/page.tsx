@@ -83,27 +83,31 @@ export default async function DashboardPage({
     <div className="mx-auto my-6 max-w-7xl">
       <div className="container mx-auto xl:px-0">
         <div className="flex flex-col">
-          <h1 className="my-4 text-center text-2xl font-bold">
-            Main Monitoring
-          </h1>
           <div className="flex justify-end"></div>
         </div>
         <div className="flex flex-col">
-          <div className="flex flex-col-reverse md:flex-row justify-between gap-4">
-            <SearchForm />
-            <Link href="/dashboard/tambahpurchaseorder">
-              <Button className="flex gap-2" variant="default">
-                <PlusCircle className="w-4 h-4" />
-                Tambah
-              </Button>
-            </Link>
+          <div className="flex flex-col md:flex-row justify-between gap-4 items-center">
+            <h1 className="text-2xl font-bold text-nowrap">Main Monitoring</h1>
+            <div className="h-5 border hidden lg:flex"></div>
+            <div className="flex gap-2 lg:gap-4 items-center w-full">
+              <p>Search</p>
+              <SearchForm />
+            </div>
+            <div className="flex justify-end w-full md:w-fit">
+              <Link href="/dashboard/tambahpurchaseorder">
+                <Button className="flex gap-2" variant="default">
+                  <PlusCircle className="w-4 h-4" />
+                  Tambah
+                </Button>
+              </Link>
+            </div>
           </div>
           <div className="my-4 grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">
             {data.length > 0 ? (
               data.map((po, index) => (
                 <Card
                   key={po.id}
-                  className="flex flex-col p-4 duration-200 hover:shadow hover:border-zinc-400 dark:hover:border-zinc-600 hover:duration-200 dark:bg-zinc-900 dark:hover:shadow-zinc-800"
+                  className="flex flex-col p-4 duration-200 hover:shadow hover:border-zinc-300 dark:hover:border-zinc-600 hover:duration-200 dark:bg-zinc-900 dark:hover:shadow-zinc-800"
                 >
                   <div className="flex-col">
                     <div className="flex flex-col gap-1">

@@ -71,13 +71,19 @@ export async function deleteStatusSerahDokumen(id: string) {
 
 export async function getStatusSerahDokumenList() {
   try {
-    const status = await prisma.statusSerahDokumen.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-      take: 1,
+    const status = await prisma.purchaseOrder.findMany({
       include: {
-        purchase_order: true,
+        customer: true,
+        faktur: true,
+        faktur_pajak: true,
+        delivery_note: true,
+        tandaterimatagihan: true,
+        statusserahdokumen: {
+          orderBy: {
+            createdAt: "desc",
+          },
+          take: 1,
+        },
       },
     });
     return status;

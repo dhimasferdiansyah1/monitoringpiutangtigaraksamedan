@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 
-import { formatDateIsoFetch } from "@/lib/utils";
+import { formatDateIsoFetch, formatRupiah } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -15,7 +15,6 @@ import { getAllDetail } from "@/actions/actionDetail";
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
-
 
 export default async function FakturCard({
   params,
@@ -70,7 +69,7 @@ export default async function FakturCard({
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
-            {faktur.faktur?.nilai || (
+            {formatRupiah(faktur.faktur?.nilai) || (
               <span className="text-destructive dark:text-red-400">
                 Tidak memiliki
               </span>

@@ -124,3 +124,10 @@ export function generatePagination(cureentPage: number, totalPages: number) {
 
   return [1, "...", cureentPage - 1, cureentPage, cureentPage + 1, totalPages];
 }
+
+export function formatRupiah(nilai: any) {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(parseFloat(nilai ?? "") ?? 0);
+}
