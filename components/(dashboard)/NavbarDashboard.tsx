@@ -18,6 +18,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ModeToggle } from "../(landingPage)/ThemeToggle";
 import { UserButton } from "@clerk/nextjs";
+import { getUser } from "@/actions/actionRole";
+import { UserInfo } from "@prisma/client";
 
 const NavbarDashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -77,6 +79,26 @@ const NavbarDashboard = () => {
       label: "Piutang selesai",
     },
   ];
+
+  const [userInfo, setUserInfo] = useState<UserInfo>();
+
+  const getUserInfo = async () => {
+    try {
+      const response = await fetch("/api/userinfo", {
+        method: "GET",
+      });
+      if (response) {
+        const userInfo = await response.json();
+        if (userInfo) setUserInfo(userInfo);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   return (
     <>
@@ -138,6 +160,15 @@ const NavbarDashboard = () => {
                   Perusahaan
                 </a>
                 <UserButton />
+                {userInfo && userInfo.role ? (
+                  <p className="text-sm text-muted-foreground">
+                    {userInfo.role}
+                  </p>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    Belum memilih role
+                  </p>
+                )}
                 <ModeToggle />
               </div>
               <div className="flex items-center lg:hidden">

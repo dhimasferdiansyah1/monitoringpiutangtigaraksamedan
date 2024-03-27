@@ -23,6 +23,10 @@ import { tambahCustomerSchema } from "@/types/customer";
 import LoadingButton from "../LoadingButton";
 import { createCustomerList } from "@/actions/actionCustomer";
 import { tambahRoleUserSchema } from "@/types/pilihrole";
+import { METHODS } from "http";
+import { useEffect, useState } from "react";
+import { UserInfo } from "@prisma/client";
+import { selectRole } from "@/actions/actionRole";
 
 const roles = [
   "Sales",
@@ -61,7 +65,7 @@ export default function PilihRole() {
     });
 
     try {
-      await createCustomerList(formData);
+      await selectRole(formData);
       toast({
         description: "Data berhasil di kirim",
         variant: "default",

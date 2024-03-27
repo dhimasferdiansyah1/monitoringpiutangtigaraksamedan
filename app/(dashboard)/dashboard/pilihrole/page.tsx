@@ -1,3 +1,4 @@
+import { getUser } from "@/actions/actionRole";
 import PilihRole from "@/components/(dashboard)/pilihrole/PilihRole";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -9,12 +10,18 @@ const pilihRole = dynamic(
   { loading: () => <Skeleton className="lg:h-full lg:w-full" /> }
 );
 
-export default function page() {
+export default async function page() {
+  const userInfo = await getUser();
   return (
     <div className="mx-auto max-w-7xl my-6">
       <div className="container mx-auto px-0">
         <div className="flex flex-col items-center justify-center">
-          <div>Role kamu adalah</div>
+          {userInfo?.role ? (
+            <p>Role kamu adalah {userInfo.role}</p>
+          ) : (
+            <p>Kamu belum memiliki role, silahkan memilih!</p>
+          )}
+
           <PilihRole />
         </div>
       </div>
