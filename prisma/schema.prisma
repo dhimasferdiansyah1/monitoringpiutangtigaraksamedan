@@ -128,3 +128,15 @@ model StatusSerahDokumen {
 
   @@map("status_serah_dokumen")
 }
+
+model UserInfo {
+  id        String   @id @default(uuid())
+  clerkId   String   @unique
+  username  String   @unique
+  email     String   @unique
+  role      String
+  createdAt DateTime @default(now()) @db.Timestamptz
+  updatedAt DateTime @updatedAt @db.Timestamptz
+
+  @@map("user_info")
+}

@@ -38,9 +38,8 @@ const NavbarDashboard = () => {
 
   const extraRoutes = [
     {
-      icon: <HelpCircle className="h-4 w-4" />,
-      href: "/dashboard/help",
-      label: "Help",
+      href: "/dashboard/pilihrole",
+      label: "Pilih Role",
     },
     {
       href: "/dashboard/karyawan",
@@ -50,14 +49,14 @@ const NavbarDashboard = () => {
 
   const secondaryRoutes = [
     {
-      href: "/dashboard",
-      icon: <ActivitySquare className="h-4 w-4" />,
-      label: "Main monitoring",
-    },
-    {
       href: "/dashboard/customer",
       icon: <Store className="h-4 w-4" />,
       label: "Customer",
+    },
+    {
+      href: "/dashboard",
+      icon: <ActivitySquare className="h-4 w-4" />,
+      label: "Main monitoring",
     },
     {
       href: "/dashboard/statusserahdokumen",
@@ -112,7 +111,8 @@ const NavbarDashboard = () => {
                           : " font-medium text-muted-foreground"
                       }`}
                     >
-                      {route.label} {route.icon}
+                      {route.label}
+                      {/* {route.icon} */}
                     </Link>
                   ))}
                 </div>
