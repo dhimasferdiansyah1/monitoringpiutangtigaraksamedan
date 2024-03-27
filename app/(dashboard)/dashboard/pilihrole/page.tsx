@@ -16,7 +16,7 @@ export default async function page() {
     <div className="mx-auto max-w-7xl my-6">
       <div className="container mx-auto px-0">
         <div className="flex flex-col items-center justify-center">
-          {userInfo?.role ? (
+          {userInfo && userInfo.role ? (
             <p>Role kamu adalah {userInfo.role}</p>
           ) : (
             <p>Kamu belum memiliki role, silahkan memilih!</p>

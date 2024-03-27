@@ -1,3 +1,5 @@
+export const revalidate = 0; // and export const revalidate = N sec
+
 import { auth } from "@clerk/nextjs";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";

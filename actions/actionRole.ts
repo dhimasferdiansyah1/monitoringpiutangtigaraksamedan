@@ -1,8 +1,8 @@
-"server";
+"use server";
 import prisma from "@/lib/prisma";
 import { tambahRoleUserSchema } from "@/types/pilihrole";
 import { auth, currentUser } from "@clerk/nextjs";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function selectRole(formData: FormData) {
@@ -23,8 +23,7 @@ export async function selectRole(formData: FormData) {
   } catch (error) {
     console.error(error);
   }
-
-  revalidatePath("/dashboard");
+  revalidatePath("/");
   redirect("/dashboard");
 }
 
@@ -32,7 +31,6 @@ export async function getUser() {
   const { userId } = auth();
   const userInfo = await prisma.userInfo.findUnique({
     where: {
-      role: "Sales",
       clerkId: userId || undefined,
     },
   });

@@ -24,6 +24,13 @@ export async function createStatusSerahDokumenDetail(
 ) {
   const { userId } = auth();
   const user = await currentUser();
+
+  const userInfo = await prisma.userInfo.findUnique({
+    where: {
+      clerkId: userId || undefined,
+    },
+  });
+
   const purchaseOrderId = await prisma.purchaseOrder.findUnique({
     where: {
       id: id,
@@ -41,6 +48,7 @@ export async function createStatusSerahDokumenDetail(
         create: {
           status_serah: status_serah,
           user: user?.username,
+          role: userInfo?.role,
         },
       },
     },

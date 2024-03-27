@@ -86,6 +86,9 @@ const NavbarDashboard = () => {
     try {
       const response = await fetch("/api/userinfo", {
         method: "GET",
+        next: {
+          revalidate: 0,
+        },
       });
       if (response) {
         const userInfo = await response.json();
@@ -161,7 +164,7 @@ const NavbarDashboard = () => {
                 </a>
                 <UserButton />
                 {userInfo && userInfo.role ? (
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-muted rounded-md bg-gradient-to-r from-zinc-600 to-zinc-800 px-2 py-1.5 dark:bg-gradient-to-r dark:text-white dark:from-zinc-500 dark:to-zinc-700">
                     {userInfo.role}
                   </p>
                 ) : (
@@ -200,6 +203,16 @@ const NavbarDashboard = () => {
               transition={{ duration: 0.1, ease: "easeOut" }}
             >
               <div className="mb-1 mr-3 mt-3 flex items-center justify-end gap-4 rounded-lg p-2">
+                <UserButton />
+                {userInfo && userInfo.role ? (
+                  <p className="text-sm text-muted rounded-md bg-gradient-to-r from-zinc-600 to-zinc-800 px-2 py-1.5 dark:bg-gradient-to-r dark:text-white dark:from-zinc-500 dark:to-zinc-700">
+                    {userInfo.role}
+                  </p>
+                ) : (
+                  <p className="text-sm text-muted-foreground">
+                    Belum memilih role
+                  </p>
+                )}
                 <ModeToggle />
                 <X
                   onClick={() => setIsOpen(false)}

@@ -252,7 +252,15 @@ export default async function DashboardPage({
                                   status.updatedAt.toISOString()
                                 )}
                               </p>
-                              <p>{status.user}</p>
+                              <div className="flex gap-2 items-center">
+                                <p className="text-sm font-bold">
+                                  {status.user}
+                                </p>
+                                <p className="border-2 dark:border-zinc-500 h-4"></p>
+                                <p className="text-sm text-black font-bold dark:text-white ">
+                                  {status.role}
+                                </p>
+                              </div>
                             </div>
                           </div>
                         ))}

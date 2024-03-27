@@ -27,6 +27,13 @@ export async function createPurchaseOrder(formData: FormData) {
     nomorPurchaseOrderWithoutExt + "-" + "ssd" + uuidModifiedShort();
   const { userId } = auth();
   const user = await currentUser();
+
+  const userInfo = await prisma.userInfo.findUnique({
+    where: {
+      clerkId: userId || undefined,
+    },
+  });
+
   try {
     await prisma.purchaseOrder.create({
       data: {
@@ -66,7 +73,7 @@ export async function createPurchaseOrder(formData: FormData) {
             id: idStatusSerahDokumenFormat,
             status_serah: status_serah,
             user: user?.username,
-            role: "Admin",
+            role: userInfo?.role,
           },
         },
       },

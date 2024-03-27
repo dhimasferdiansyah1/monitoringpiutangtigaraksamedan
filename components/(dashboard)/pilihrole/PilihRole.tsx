@@ -75,6 +75,7 @@ export default function PilihRole() {
         description: "Data gagal dikirim",
         variant: "destructive",
       });
+      console.error(error);
     }
   }
 
