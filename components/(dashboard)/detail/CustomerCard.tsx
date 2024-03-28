@@ -20,7 +20,7 @@ export default async function CustomerCard({
         <span>:</span>
         <div className=" break-all text-muted-foreground">
           {customer.customer.customer_name || (
-            <p className="text-destructive">Tidak memiliki</p>
+            <p className="text-destructive dark:text-red-400">Tidak memiliki</p>
           )}
         </div>
       </div>
@@ -29,7 +29,7 @@ export default async function CustomerCard({
         <span>:</span>
         <div className=" break-all text-muted-foreground">
           {customer.customer.account || (
-            <p className="text-destructive">Tidak memiliki</p>
+            <p className="text-destructive dark:text-red-400">Tidak memiliki</p>
           )}
         </div>
       </div>
@@ -39,7 +39,9 @@ export default async function CustomerCard({
         <div>
           <div className=" break-all text-muted-foreground">
             {customer.customer.alamat || (
-              <span className="text-destructive">Tidak memiliki</span>
+              <span className="text-destructive dark:text-red-400">
+                Tidak memiliki
+              </span>
             )}
           </div>
         </div>
@@ -50,7 +52,9 @@ export default async function CustomerCard({
         <div>
           <div className=" break-all text-muted-foreground">
             {customer.customer.no_telp || (
-              <span className="text-destructive">Tidak memiliki</span>
+              <span className="text-destructive dark:text-red-400">
+                Tidak memiliki
+              </span>
             )}
           </div>
         </div>
@@ -61,7 +65,9 @@ export default async function CustomerCard({
         <div>
           <div className="break-all text-muted-foreground">
             {customer.customer.email || (
-              <span className="text-destructive">Tidak memiliki</span>
+              <span className="text-destructive dark:text-red-400">
+                Tidak memiliki
+              </span>
             )}
           </div>
         </div>

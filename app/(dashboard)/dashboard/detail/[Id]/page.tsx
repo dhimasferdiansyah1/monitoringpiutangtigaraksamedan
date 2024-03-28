@@ -12,6 +12,12 @@ import {
   StoreIcon,
   Truck,
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { getAllDetail } from "@/actions/actionDetail";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -62,7 +68,7 @@ export async function generateMetadata({ params }: { params: { Id: string } }) {
   }
 
   return {
-    title: `${detail.customer.customer_name ?? "Tambah"} | Detail`, // Set the title from fetched data
+    title: `${detail.customer.customer_name ?? "Tambah"} | Detail`,
   };
 }
 
@@ -157,9 +163,169 @@ export default async function DetailPage({
                 </div>
               )}
             </div>
+            <div className="flex justify-center items-center gap-4 mb-4 flex-wrap">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="cursor-default">
+                    {detail?.no_po && detail.tgl_po && detail.foto_po ? (
+                      <div className="px-3 py-1 bg-muted border rounded-md text-sm flex items-center gap-2">
+                        Purchase Order ✅
+                      </div>
+                    ) : (
+                      <div className="px-3 py-1 bg-muted border rounded-md text-sm flex items-center gap-2">
+                        Purchase Order ❌
+                      </div>
+                    )}
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {detail?.no_po && detail.tgl_po && detail.foto_po ? (
+                      <div className="text-sm flex items-center gap-2">
+                        Lengkap ✅
+                      </div>
+                    ) : (
+                      <div className="text-sm flex items-center gap-2">
+                        Belum Lengkap ❌
+                      </div>
+                    )}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="cursor-default">
+                    {detail?.delivery_note?.no_dn &&
+                    detail.delivery_note.foto1_dn &&
+                    detail.delivery_note.foto2_dn ? (
+                      <div className="px-3 py-1 bg-muted border rounded-md text-sm flex items-center gap-2">
+                        Delivery Note ✅
+                      </div>
+                    ) : (
+                      <div className="px-3 py-1 bg-muted border rounded-md text-sm flex items-center gap-2">
+                        Delivery Note ❌
+                      </div>
+                    )}
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {detail?.delivery_note?.no_dn &&
+                    detail.delivery_note.foto1_dn &&
+                    detail.delivery_note.foto2_dn ? (
+                      <div className="text-sm flex items-center gap-2">
+                        Lengkap ✅
+                      </div>
+                    ) : (
+                      <div className="text-sm flex items-center gap-2">
+                        Belum Lengkap ❌
+                      </div>
+                    )}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="cursor-default">
+                    {detail?.faktur?.no_fk &&
+                    detail.faktur.tgl_fk &&
+                    detail.faktur.tgl_jt &&
+                    detail.faktur.nilai &&
+                    detail.faktur.foto1_fk &&
+                    detail.faktur.foto2_fk ? (
+                      <div className="px-3 py-1 bg-muted border rounded-md text-sm flex items-center gap-2">
+                        Faktur ✅
+                      </div>
+                    ) : (
+                      <div className="px-3 py-1 bg-muted border rounded-md text-sm flex items-center gap-2">
+                        Faktur ❌
+                      </div>
+                    )}
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {detail?.faktur?.no_fk &&
+                    detail.faktur.tgl_fk &&
+                    detail.faktur.tgl_jt &&
+                    detail.faktur.nilai &&
+                    detail.faktur.foto1_fk &&
+                    detail.faktur.foto2_fk ? (
+                      <div className="text-sm flex items-center gap-2">
+                        Lengkap ✅
+                      </div>
+                    ) : (
+                      <div className="text-sm flex items-center gap-2">
+                        Belum Lengkap ❌
+                      </div>
+                    )}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="cursor-default">
+                    {detail?.faktur_pajak?.no_fkp &&
+                    detail.faktur_pajak.tgl_fkp &&
+                    detail.faktur_pajak.foto_fkp ? (
+                      <div className="px-3 py-1 bg-muted border rounded-md text-sm flex items-center gap-2">
+                        Faktur Pajak ✅
+                      </div>
+                    ) : (
+                      <div className="px-3 py-1 bg-muted border rounded-md text-sm flex items-center gap-2">
+                        Faktur Pajak ❌
+                      </div>
+                    )}
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {detail?.faktur_pajak?.no_fkp &&
+                    detail.faktur_pajak.tgl_fkp &&
+                    detail.faktur_pajak.foto_fkp ? (
+                      <div className="text-sm flex items-center gap-2">
+                        Lengkap ✅
+                      </div>
+                    ) : (
+                      <div className="text-sm flex items-center gap-2">
+                        Belum Lengkap ❌
+                      </div>
+                    )}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="cursor-default">
+                    {detail?.tandaterimatagihan?.no_penagihan &&
+                    detail.tandaterimatagihan.status &&
+                    detail.tandaterimatagihan.tgl_jt &&
+                    detail.tandaterimatagihan.foto_ttt ? (
+                      <div className="px-3 py-1 bg-muted border rounded-md text-sm flex items-center gap-2">
+                        Tanda Terima Tagihan ✅
+                      </div>
+                    ) : (
+                      <div className="px-3 py-1 bg-muted border rounded-md text-sm flex items-center gap-2">
+                        Tanda Terima Tagihan ❌
+                      </div>
+                    )}
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    {detail?.tandaterimatagihan?.no_penagihan &&
+                    detail.tandaterimatagihan.status &&
+                    detail.tandaterimatagihan.tgl_jt &&
+                    detail.tandaterimatagihan.foto_ttt ? (
+                      <div className="text-sm flex items-center gap-2">
+                        Lengkap ✅
+                      </div>
+                    ) : (
+                      <div className="text-sm flex items-center gap-2">
+                        Belum Lengkap ❌
+                      </div>
+                    )}
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             <Link
               href={`/dashboard/customer/purchaseorder/${detail.customer.id}`}
-              className="flex items-center justify-end gap-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-600 cursor-pointer"
+              className="flex items-center justify-end gap-2 mb-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-600 cursor-pointer"
             >
               Lihat Semua Purchase Order Yang Dimiliki Oleh Customer Ini
               <ArrowUpRightFromSquare className="h-5 w-5 text-blue-600" />

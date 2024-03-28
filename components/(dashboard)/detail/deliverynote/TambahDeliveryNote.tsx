@@ -189,7 +189,7 @@ export default function TambahDeliveryNote({
                           className="p-8 ut-label:text-lg ut-allowed-content:ut-uploading:text-red-300"
                           config={{ mode: "auto" }}
                           appearance={{
-                            button: "ut-ready:bg-zinc-700 bg-zinc-700 px-8",
+                            button: "ut-ready:bg-zinc-400 bg-zinc-400 px-8",
                             container: "flex",
                             label: "text-muted-forground",
                           }}
@@ -271,7 +271,7 @@ export default function TambahDeliveryNote({
                           className="p-8 ut-label:text-lg ut-allowed-content:ut-uploading:text-red-300"
                           config={{ mode: "auto" }}
                           appearance={{
-                            button: "ut-ready:bg-zinc-700 bg-zinc-700 px-8",
+                            button: "ut-ready:bg-zinc-400 bg-zinc-400 px-8",
                             container: "flex",
                             label: "text-muted-forground",
                           }}

@@ -2,7 +2,13 @@ import { authMiddleware } from "@clerk/nextjs";
 
 export default authMiddleware({
   // Routes that can be accessed while signed out
-  publicRoutes: ["/", "/about", "/api/uploadthing", "/api/webhooks(.*)"],
+  publicRoutes: [
+    "/",
+    "/about",
+    "/api/uploadthing",
+    "/api/webhooks(.*)",
+    "/sign-in",
+  ],
   // Routes that can always be accessed, and have
   // no authentication information
   ignoredRoutes: ["/no-auth-in-this-route"],

@@ -8,7 +8,6 @@ import {
   ChevronRight,
   Info,
   PlusCircle,
-  SquarePen,
   Store,
   Trash2,
   ArrowUpRightFromSquare,
@@ -20,6 +19,12 @@ import {
   formatTimeDistanceToNow,
 } from "@/lib/utils";
 import DeleteMainMonitoringList from "@/components/(dashboard)/DeleteMonitoringList";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   Popover,
   PopoverContent,
@@ -96,7 +101,7 @@ export default async function DashboardPage({
             <h1 className="text-2xl font-bold text-nowrap">Main Monitoring</h1>
             <div className="h-5 border hidden lg:flex"></div>
             <div className="flex gap-2 lg:gap-4 items-center w-full">
-              <p>Search</p>
+              <p className="hidden sm:flex">Search</p>
               <SearchForm />
             </div>
             <div className="flex justify-end w-full md:w-fit">
@@ -126,11 +131,24 @@ export default async function DashboardPage({
                                 {po.customer.customer_name}
                               </span>
                             </h1>
-                            <Link
-                              href={`/dashboard/customer/purchaseorder/${po.customer.id}`}
-                            >
-                              <ArrowUpRightFromSquare className="h-5 w-5 text-blue-600" />
-                            </Link>
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger>
+                                  <Link
+                                    href={`/dashboard/customer/purchaseorder/${po.customer.id}`}
+                                  >
+                                    <ArrowUpRightFromSquare className="h-5 w-5 text-blue-600" />
+                                  </Link>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>
+                                    Lihat semua purchase order yang dimiliki
+                                    oleh customer ini
+                                  </p>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+
                             <div className="flex items-center justify-center">
                               {new Date(po.createdAt.toISOString()) >=
                                 oneHoursAgo && (
