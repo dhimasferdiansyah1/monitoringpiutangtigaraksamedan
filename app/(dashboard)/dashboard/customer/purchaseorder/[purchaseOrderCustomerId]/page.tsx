@@ -1,7 +1,3 @@
-import {
-  getMainMonitoring,
-  getMainMonitoringPages,
-} from "@/actions/actionMainMonitoring";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +7,6 @@ import {
   SquarePen,
   Store,
   Trash2,
-  ArrowUpRightFromSquare,
 } from "lucide-react";
 import { formatDateIsoFetch, formatDateAndTimeIsoFetch } from "@/lib/utils";
 import DeleteMainMonitoringList from "@/components/(dashboard)/DeleteMonitoringList";
@@ -36,6 +31,12 @@ import Pagination from "@/components/(dashboard)/Pagination";
 import { differenceInDays, parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { Metadata } from "next";
+import {
+  getCustomerPurchaseOrderById,
+  getCustomerPurchaseOrderByIdPages,
+  getCustomerPurchaseOrderUniqe,
+  getJatuhTempoCount,
+} from "@/actions/actionCustomerPurchaseOrder";
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -44,18 +45,25 @@ export const metadata: Metadata = {
   title: "Dashboard",
 };
 
-export default async function DashboardPage({
+export default async function PurchaseOrderCustomerByIdPage({
+  params,
   searchParams,
 }: {
   searchParams?: {
     search?: string;
     page?: string;
   };
+  params: {
+    purchaseOrderCustomerId: string;
+  };
 }) {
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const data = await getMainMonitoring(query, currentPage);
-  const totalPages = await getMainMonitoringPages(query);
+  const id = params.purchaseOrderCustomerId;
+  const data = await getCustomerPurchaseOrderById(query, currentPage, id);
+  const totalPages = await getCustomerPurchaseOrderByIdPages(query);
+  const customer = await getCustomerPurchaseOrderUniqe(id);
+  const jatuhTempoCount = await getJatuhTempoCount(id);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set jam today to 00:00:00
@@ -83,13 +91,33 @@ export default async function DashboardPage({
   return (
     <div className="mx-auto my-6 max-w-7xl">
       <div className="container mx-auto xl:px-0">
-        <div className="flex flex-col">
-          <div className="flex justify-end"></div>
+        <div className="flex flex-col justify-center text-center  my-6">
+          <div className="flex justify-center">
+            {" "}
+            <div className="text-2xl font-bold text-nowrap flex gap-2 items-center">
+              <Store className="h-8 w-8" />
+              {customer?.customer_name}
+              <div className="ml-2 text-muted-foreground">
+                ({customer?.account})
+              </div>
+            </div>
+          </div>
+          <p className="text-muted-foreground text-sm">{customer?.alamat}</p>
+          <p className="text-green-600 text-sm mt-2">
+            Total Purchase Order : {customer?.purchase_order.length}
+          </p>
+          {jatuhTempoCount > 0 ? (
+            <p className="text-red-600 text-sm mt-2">
+              Total Jatuh Tempo : {jatuhTempoCount}
+            </p>
+          ) : (
+            <p className="text-green-600 text-sm mt-2">
+              Total Jatuh Tempo : {jatuhTempoCount}
+            </p>
+          )}
         </div>
         <div className="flex flex-col">
           <div className="flex flex-col md:flex-row justify-between gap-4 items-center">
-            <h1 className="text-2xl font-bold text-nowrap">Main Monitoring</h1>
-            <div className="h-5 border hidden lg:flex"></div>
             <div className="flex gap-2 lg:gap-4 items-center w-full">
               <p>Search</p>
               <SearchForm />
@@ -121,11 +149,6 @@ export default async function DashboardPage({
                                 {po.customer.customer_name}
                               </span>
                             </h1>
-                            <Link
-                              href={`/dashboard/customer/purchaseorder/${po.customer.id}`}
-                            >
-                              <ArrowUpRightFromSquare className="h-5 w-5 text-blue-600" />
-                            </Link>
                             <div className="flex items-center justify-center">
                               {new Date(po.createdAt.toISOString()) >=
                                 sixHoursAgo && (
@@ -410,4 +433,4 @@ export default async function DashboardPage({
       </div>
     </div>
   );
-};
+}

@@ -43,7 +43,10 @@ export default async function CustomerList() {
           <TableHead className="px-4 py-2">Alamat</TableHead>
           <TableHead className="px-4 py-2">No. Telp</TableHead>
           <TableHead className="px-4 py-2">Email</TableHead>
-          <TableHead className="px-4 py-2 text-right">Actions</TableHead>
+          <TableHead className="px-4 py-2">
+            Purchase Order Yang Dimiliki
+          </TableHead>
+          <TableHead className="px-4 py-2">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -69,8 +72,15 @@ export default async function CustomerList() {
                 >
                   {item.alamat}
                 </TableCell>
-                <TableCell className="px-4 py-2">{item.no_telp}</TableCell>
-                <TableCell className="px-4 py-2">{item.email}</TableCell>
+                <TableCell className="px-4 py-2">
+                  {item.no_telp ? item.no_telp : "-"}
+                </TableCell>
+                <TableCell className="px-4 py-2">
+                  {item.email ? item.email : "-"}
+                </TableCell>
+                <TableCell className="px-4 py-2">
+                  {item.purchase_order.length}
+                </TableCell>
                 <TableCell className=" px-4 py-2 text-right">
                   <div className="flex gap-4">
                     <Link

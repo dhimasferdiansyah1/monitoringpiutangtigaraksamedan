@@ -16,6 +16,13 @@ export async function getCustomerList() {
       orderBy: {
         id: "asc",
       },
+      include: {
+        purchase_order: {
+          select: {
+            _count: true,
+          },
+        },
+      },
     });
     return customer;
   } catch (error) {

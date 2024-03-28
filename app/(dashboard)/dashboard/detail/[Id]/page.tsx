@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import { Card } from "@/components/ui/card";
 import {
+  ArrowUpRightFromSquare,
   CheckSquare,
   Clock,
   NotebookPen,
@@ -52,22 +53,18 @@ import { notFound } from "next/navigation";
 import { differenceInDays, parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { Id: string };
-}) {
+export async function generateMetadata({ params }: { params: { Id: string } }) {
   const id = params.Id;
-    const detail = await getAllDetail(id);
+  const detail = await getAllDetail(id);
 
-    if (!detail) {
-      return { notFound: true };
-    }
+  if (!detail) {
+    return { notFound: true };
+  }
 
-    return {
-      title: `${detail.customer.customer_name ?? "Tambah"} | Detail`, // Set the title from fetched data
-    };
+  return {
+    title: `${detail.customer.customer_name ?? "Tambah"} | Detail`, // Set the title from fetched data
   };
+}
 
 export default async function DetailPage({
   params,
@@ -124,6 +121,7 @@ export default async function DetailPage({
         <div className="flex items-center justify-center">
           <div className="flex w-full flex-col">
             <div className="mb-2 text-center text-2xl font-bold">Detail</div>
+
             <div className="mx-4 mb-2 flex flex-col md:flex-row text-center items-center justify-center gap-2 text-sm font-thin text-muted-foreground">
               <Clock className="h-4 w-4" />
               dibuat {formatDateDistanceToNow(
@@ -159,6 +157,13 @@ export default async function DetailPage({
                 </div>
               )}
             </div>
+            <Link
+              href={`/dashboard/customer/purchaseorder/${detail.customer.id}`}
+              className="flex items-center justify-end gap-2 text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-600 cursor-pointer"
+            >
+              Lihat Semua Purchase Order Yang Dimiliki Oleh Customer Ini
+              <ArrowUpRightFromSquare className="h-5 w-5 text-blue-600" />
+            </Link>
             <Card className="flex w-full flex-col justify-between gap-4 border-white shadow-none dark:border-zinc-950 lg:flex-row  lg:border-zinc-200 lg:p-4 lg:shadow-sm dark:lg:border-zinc-800">
               <div className="flex w-full flex-col gap-2 lg:basis-4/6">
                 <div className="flex gap-2 px-2 font-bold">

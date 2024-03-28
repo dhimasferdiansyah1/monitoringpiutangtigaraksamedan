@@ -83,7 +83,7 @@ export default function PilihRole() {
     <Form {...form}>
       <form
         noValidate
-        className="space-y-6 lg:w-full w-3/4" // Adjust width as needed
+        className="space-y-6 w-3/4" // Adjust width as needed
         onSubmit={handleSubmit(onSubmit)}
       >
         <Card className="space-y-4 p-8 my-8">
@@ -98,7 +98,6 @@ export default function PilihRole() {
             name="role"
             render={({ field }) => (
               <FormItem className="space-y-3">
-                <FormLabel>Pilih Role</FormLabel>
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}

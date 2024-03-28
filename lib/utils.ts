@@ -126,8 +126,15 @@ export function generatePagination(cureentPage: number, totalPages: number) {
 }
 
 export function formatRupiah(nilai: any) {
-  return new Intl.NumberFormat("id-ID", {
+  const formatted = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
   }).format(parseFloat(nilai ?? "") ?? 0);
+
+  // Hapus ,00 di akhir
+  if (formatted.endsWith(",00")) {
+    return formatted.slice(0, -3);
+  }
+
+  return formatted;
 }
