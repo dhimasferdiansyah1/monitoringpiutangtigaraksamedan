@@ -13,7 +13,12 @@ import {
   Trash2,
   ArrowUpRightFromSquare,
 } from "lucide-react";
-import { formatDateIsoFetch, formatDateAndTimeIsoFetch } from "@/lib/utils";
+import {
+  formatDateIsoFetch,
+  formatDateAndTimeIsoFetch,
+  formatRupiah,
+  formatTimeDistanceToNow,
+} from "@/lib/utils";
 import DeleteMainMonitoringList from "@/components/(dashboard)/DeleteMonitoringList";
 import {
   Popover,
@@ -79,7 +84,7 @@ export default async function DashboardPage({
   const jarakHari = differenceInDays(jakartaTglJtArray[0], today); // Calculate jarakHari for the first item (assuming reference for comparison)
 
   const now = new Date(); // Mendapatkan waktu saat ini
-  const sixHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000); // Menghitung waktu 1 jam yang lalu
+  const oneHoursAgo = new Date(now.getTime() - 1 * 60 * 60 * 1000); // Menghitung waktu 1 jam yang lalu
   return (
     <div className="mx-auto my-6 max-w-7xl">
       <div className="container mx-auto xl:px-0">
@@ -128,9 +133,11 @@ export default async function DashboardPage({
                             </Link>
                             <div className="flex items-center justify-center">
                               {new Date(po.createdAt.toISOString()) >=
-                                sixHoursAgo && (
+                                oneHoursAgo && (
                                 <p className="bg-green-500 text-white rounded-full px-2 py-1 text-xs">
-                                  New!
+                                  {formatTimeDistanceToNow(
+                                    po.createdAt.toISOString()
+                                  )}
                                 </p>
                               )}
                             </div>
@@ -240,6 +247,19 @@ export default async function DashboardPage({
                             {formatDateIsoFetch(
                               po.faktur?.tgl_jt?.toISOString() ?? ""
                             ) || (
+                              <p className="text-destructive dark:text-red-400">
+                                Tidak ada
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex gap-2">
+                          <p className="w-24">Nilai</p>
+                          <span>:</span>
+                          <div>
+                            {po.faktur?.nilai ? (
+                              <p> {formatRupiah(po.faktur?.nilai)}</p>
+                            ) : (
                               <p className="text-destructive dark:text-red-400">
                                 Tidak ada
                               </p>

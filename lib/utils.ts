@@ -10,8 +10,34 @@ import {
   formatISO,
   formatISO9075,
   parseISO,
+  formatDistanceToNowStrict,
 } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
+
+export function formatTimeDistanceToNow(from: string | undefined) {
+  if (!from) {
+    return "Invalid date";
+  }
+
+  try {
+    const parsedDate = parseISO(from);
+    const now = new Date();
+
+    const distance = formatDistanceToNowStrict(parsedDate, { addSuffix: true });
+
+    // Custom format based on seconds
+    const seconds = Number(distance.split(" ")[0]);
+    if (seconds < 60) {
+      return `${seconds}m`;
+    }
+    // Other units (days, months, years)
+    return distance;
+  } catch (error) {
+    console.error("Error formatting date:", error);
+    return "Invalid date format";
+  }
+}
+
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
