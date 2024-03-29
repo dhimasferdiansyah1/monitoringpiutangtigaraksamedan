@@ -58,6 +58,26 @@ export default function TambahFaktur({ fakturId }: { fakturId: Faktur }) {
   const [imageUrl, setImageUrl] = useState("");
   const [imageUrl2, setImageUrl2] = useState("");
 
+  function formatCurrency(value: string) {
+    if (value === "") {
+      return "Rp."; // Menampilkan 'Rp.' jika nilai kosong
+    }
+
+    const formattedValue = `Rp. ${parseInt(value)
+      .toLocaleString("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+      })
+      .slice(3)}`;
+
+    return formattedValue;
+  }
+
+  function removePeriod(value: string) {
+    return value.replace(/\./g, "");
+  }
+
   const [showP, setShowP] = useState(true);
   const hideP = () => {
     setShowP(false);
@@ -79,9 +99,11 @@ export default function TambahFaktur({ fakturId }: { fakturId: Faktur }) {
   ) => {
     const formData = new FormData();
     const id = fakturId.id;
-
     Object.entries(values).forEach(([key, value]) => {
-      if (value) formData.append(key, String(value));
+      if (value) {
+        const valueWithoutPeriod = removePeriod(String(value));
+        formData.append(key, valueWithoutPeriod);
+      }
     });
 
     try {
@@ -237,9 +259,15 @@ export default function TambahFaktur({ fakturId }: { fakturId: Faktur }) {
                     <FormLabel>Nilai Faktur</FormLabel>
                     <FormControl>
                       <Input
-                        type="number"
+                        type="text"
                         {...field}
                         placeholder="Nilai Faktur"
+                        onChange={(e) => {
+                          let value = e.target.value;
+                          value = value.replace(/\D/g, ""); // Menghapus semua karakter non-angka
+                          const formattedValue = formatCurrency(value);
+                          field.onChange(formattedValue);
+                        }}
                       />
                     </FormControl>
                     <FormMessage />

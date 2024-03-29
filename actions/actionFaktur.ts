@@ -33,6 +33,19 @@ export async function createFakturDetail(formData: FormData, fakturId: string) {
   const { no_fk, tgl_fk, tgl_jt, nilai, foto1_fk, foto2_fk } =
     editFakturSchema.parse(values);
 
+  // Fungsi untuk menghapus tanda titik (.) dari string
+  function removePeriod(value: string) {
+    return value.replace(/\./g, "");
+  }
+
+  // Fungsi untuk menghapus awalan 'Rp' dari string
+  function removeRpPrefix(value: string) {
+    return value.replace(/^Rp\s?/i, "");
+  }
+
+  // Menghapus tanda titik (.) dan awalan 'Rp' dari nilai sebelum menyimpan ke database
+  const valueWithoutPeriodAndRpPrefix = removeRpPrefix(removePeriod(nilai));
+
   await prisma.faktur.update({
     where: {
       id: fakturId,
@@ -41,7 +54,7 @@ export async function createFakturDetail(formData: FormData, fakturId: string) {
       no_fk,
       tgl_fk,
       tgl_jt,
-      nilai,
+      nilai: valueWithoutPeriodAndRpPrefix,
       foto1_fk,
       foto2_fk,
     },

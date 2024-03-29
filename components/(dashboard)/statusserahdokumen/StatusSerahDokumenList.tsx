@@ -186,9 +186,7 @@ export default async function StatusSerahDokumenList() {
                   </div>
                 </TableCell>
                 <TableCell className="px-4 py-2">
-                  {item.faktur?.nilai
-                    ? formatRupiah(item.faktur?.nilai ?? "")
-                    : "-"}
+                  {item.faktur?.nilai ? item.faktur?.nilai ?? "" : "-"}
                 </TableCell>
                 <TableCell className="px-4 py-2">
                   {item.statusserahdokumen[0]?.status_serah ?? "-"}

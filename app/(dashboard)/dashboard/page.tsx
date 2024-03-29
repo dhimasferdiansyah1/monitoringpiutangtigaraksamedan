@@ -123,7 +123,7 @@ export default async function DashboardPage({
                   <div className="flex-col">
                     <div className="flex flex-col gap-1">
                       <div className="lg: mb-3 flex flex-col justify-between gap-2 lg:w-[370px] lg:flex-row lg:gap-0">
-                        <div className="flex gap-4">
+                        <div className="flex sm:gap-4 gap-2">
                           <div className="flex gap-2">
                             <Store className="h-5 w-5" />
                             <h1 className="relative max-w-40 items-center gap-2 font-bold">
@@ -276,7 +276,7 @@ export default async function DashboardPage({
                           <span>:</span>
                           <div>
                             {po.faktur?.nilai ? (
-                              <p> {formatRupiah(po.faktur?.nilai)}</p>
+                              <p> {po.faktur?.nilai}</p>
                             ) : (
                               <p className="text-destructive dark:text-red-400">
                                 Tidak ada

@@ -104,6 +104,10 @@ export default function NavbarLandingPage() {
             >
               <div className="mb-1 mr-3 mt-3 flex items-center justify-end gap-4 rounded-lg p-2">
                 <ModeToggle />
+                <div className="flex lg:hidden gap-2 items-center">
+                  <UserButton />
+                  <p className="text-muted-foreground">{user?.username}</p>
+                </div>
                 <X
                   onClick={() => setIsOpen(false)}
                   className="h-8 w-8 cursor-pointer rounded-md border hover:scale-75 hover:duration-75"
