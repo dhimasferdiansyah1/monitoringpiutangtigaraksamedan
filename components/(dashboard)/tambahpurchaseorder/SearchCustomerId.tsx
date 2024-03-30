@@ -71,7 +71,7 @@ export default forwardRef<HTMLInputElement, searchCustomerIdProps>(
         {isListOpen && filteredCustomers.length > 0 && (
           <div className="mt-1 max-h-40 overflow-y-auto rounded-md border shadow-md">
             {filteredCustomers.map((customer) => (
-              <div key={customer.id}>
+              <div key={customer.id} className="flex flex-col border-b">
                 <Suspense>
                   <div
                     key={customer.id}
@@ -92,7 +92,6 @@ export default forwardRef<HTMLInputElement, searchCustomerIdProps>(
         )}
         {selectedCustomer && (
           <h1 className="mt-2 rounded-md border bg-muted p-2">
-            <span className="font-bold">Anda memilih :</span>{" "}
             {selectedCustomer.customer_name} ({selectedCustomer.account}),{" "}
             {selectedCustomer.alamat}
           </h1>

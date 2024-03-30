@@ -8,7 +8,6 @@ const ITEM_PER_PAGE = 6;
 
 export async function getMainMonitoring(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEM_PER_PAGE;
-
   const mainMonitoring = await prisma.purchaseOrder.findMany({
     skip: offset,
     take: ITEM_PER_PAGE,

@@ -11,20 +11,19 @@ export async function createPurchaseOrder(formData: FormData) {
   const { customer_id, no_po, tgl_po, foto_po, status_po, status_serah } =
     TambahPurchaseOrderSchema.parse(values);
 
-  const nomorPurchaseOrder = no_po;
-  const nomorPurchaseOrderWithoutExt = nomorPurchaseOrder;
+ const nomorPurchaseOrderWithoutPeriods = no_po.replace(/\./g, "");
 
-  const idFormat = uuidModified() + "-" + nomorPurchaseOrderWithoutExt;
-  const idDeliveryNoteFormat =
-    nomorPurchaseOrderWithoutExt + "-" + "dn" + uuidModifiedShort();
-  const idFakturFormat =
-    nomorPurchaseOrderWithoutExt + "-" + "fk" + uuidModifiedShort();
-  const idFakturPajakFormat =
-    nomorPurchaseOrderWithoutExt + "-" + "fkp" + uuidModifiedShort();
-  const idTandaTerimaTagihanFormat =
-    nomorPurchaseOrderWithoutExt + "-" + "ttt" + uuidModifiedShort();
-  const idStatusSerahDokumenFormat =
-    nomorPurchaseOrderWithoutExt + "-" + "ssd" + uuidModifiedShort();
+ const idFormat = uuidModified() + "-" + nomorPurchaseOrderWithoutPeriods;
+ const idDeliveryNoteFormat =
+   nomorPurchaseOrderWithoutPeriods + "-" + "dn" + uuidModifiedShort();
+ const idFakturFormat =
+   nomorPurchaseOrderWithoutPeriods + "-" + "fk" + uuidModifiedShort();
+ const idFakturPajakFormat =
+   nomorPurchaseOrderWithoutPeriods + "-" + "fkp" + uuidModifiedShort();
+ const idTandaTerimaTagihanFormat =
+   nomorPurchaseOrderWithoutPeriods + "-" + "ttt" + uuidModifiedShort();
+ const idStatusSerahDokumenFormat =
+   nomorPurchaseOrderWithoutPeriods + "-" + "ssd" + uuidModifiedShort();
   const { userId } = auth();
   const user = await currentUser();
 

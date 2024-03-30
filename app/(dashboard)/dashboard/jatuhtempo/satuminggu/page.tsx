@@ -68,7 +68,9 @@ export default async function JatuhTempoSatuMingguPage({
     <div className="mx-auto my-6 max-w-7xl">
       <div className="container mx-auto xl:px-0">
         <div className="flex flex-col">
-          <h1 className="my-4 text-center text-2xl font-bold">Jatuh Tempo</h1>
+          <h1 className="my-4 text-center text-2xl font-bold">
+            Jatuh Tempo Rentang Satu Minggu
+          </h1>
         </div>
         <div className="flex flex-col">
           <div className="flex justify-end gap-4"></div>

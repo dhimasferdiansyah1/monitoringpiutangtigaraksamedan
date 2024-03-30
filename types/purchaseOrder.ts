@@ -1,9 +1,6 @@
 import { z } from "zod";
 
-const numericPurchaseOrderRequiredString = z
-  .string()
-  .min(1, "Required")
-  .regex(/^\d+$/, "Harus berupa angka");
+const numericPurchaseOrderRequiredString = z.string().min(3, "Required");
 
 export const TambahPurchaseOrderSchema = z.object({
   customer_id: z

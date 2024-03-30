@@ -46,6 +46,7 @@ import Pagination from "@/components/(dashboard)/Pagination";
 import { differenceInDays, parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { Metadata } from "next";
+
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -90,6 +91,7 @@ export default async function DashboardPage({
 
   const now = new Date(); // Mendapatkan waktu saat ini
   const oneHoursAgo = new Date(now.getTime() - 1 * 60 * 60 * 1000); // Menghitung waktu 1 jam yang lalu
+
   return (
     <div className="mx-auto my-6 max-w-7xl">
       <div className="container mx-auto xl:px-0">
@@ -152,7 +154,8 @@ export default async function DashboardPage({
                             <div className="flex items-center justify-center">
                               {new Date(po.createdAt.toISOString()) >=
                                 oneHoursAgo && (
-                                <p className="bg-green-500 text-white rounded-full px-2 py-1 text-xs">
+                                <p className="text-zinc-400 rounded-full text-xs">
+                                  ...
                                   {formatTimeDistanceToNow(
                                     po.createdAt.toISOString()
                                   )}

@@ -135,7 +135,7 @@ export default function FormTambahPurchaseOrder() {
                 <FormLabel>Nomor Purchase Order</FormLabel>
                 <FormControl>
                   <Input
-                    type="number"
+                    type="text"
                     placeholder="Nomor Purchase Order..."
                     {...field}
                   />

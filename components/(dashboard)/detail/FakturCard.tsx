@@ -69,7 +69,9 @@ export default async function FakturCard({
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
-            {formatRupiah(faktur.faktur?.nilai) || (
+            {faktur.faktur?.nilai ? (
+              formatRupiah(faktur.faktur?.nilai)
+            ) : (
               <span className="text-destructive dark:text-red-400">
                 Tidak memiliki
               </span>
