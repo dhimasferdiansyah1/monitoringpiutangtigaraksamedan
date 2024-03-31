@@ -6,10 +6,12 @@ import { redirect } from "next/navigation";
 
 const ITEM_PER_PAGE = 6;
 
-export async function getCustomerPurchaseOrderUniqe(id: string) {
+export async function getCustomerPurchaseOrderUniqe(
+  purchaseOrderCustomerId: string
+) {
   const purchaseOrder = await prisma.customer.findUnique({
     where: {
-      id: id,
+      id: purchaseOrderCustomerId,
     },
     include: {
       purchase_order: true,

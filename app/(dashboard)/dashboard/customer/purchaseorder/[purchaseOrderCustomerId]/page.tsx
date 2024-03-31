@@ -4,6 +4,27 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import CustomerPurchaseOrderList from "./CustomerPurchaseOrderList";
+import {
+  getCustomerPurchaseOrderById,
+  getCustomerPurchaseOrderUniqe,
+} from "@/actions/actionCustomerPurchaseOrder";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { purchaseOrderCustomerId: string };
+}) {
+  const id = params.purchaseOrderCustomerId;
+  const detail = await getCustomerPurchaseOrderUniqe(id);
+
+  if (!detail) {
+    return { notFound: true };
+  }
+
+  return {
+    title: `${detail.customer_name ?? "Tambah"} | Semua Purchase Order`,
+  };
+}
 
 export default async function page({
   params,

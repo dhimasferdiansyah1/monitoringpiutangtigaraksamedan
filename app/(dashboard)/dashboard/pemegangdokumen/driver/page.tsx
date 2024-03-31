@@ -6,6 +6,11 @@ import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
 import PemegangDokumen from "@/components/(dashboard)/PemegangDokumen";
 import Pagination from "@/components/(dashboard)/Pagination";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Pemegang Dokumen | Driver",
+};
 
 export default async function page({
   searchParams,

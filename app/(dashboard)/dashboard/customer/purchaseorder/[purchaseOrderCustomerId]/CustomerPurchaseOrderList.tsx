@@ -55,9 +55,6 @@ export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export const metadata: Metadata = {
-  title: "Dashboard",
-};
 
 export default async function CustomerPurchaseOrderList({
   searchParams,
@@ -145,23 +142,6 @@ export default async function CustomerPurchaseOrderList({
                             {po.customer.customer_name}
                           </span>
                         </h1>
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <Link
-                                href={`/dashboard/customer/purchaseorder/${po.customer.id}`}
-                              >
-                                <ArrowUpRightFromSquare className="h-5 w-5 text-blue-600" />
-                              </Link>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>
-                                Lihat semua purchase order yang dimiliki oleh
-                                customer ini
-                              </p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
 
                         <div className="hidden sm:flex items-center justify-center">
                           {new Date(po.createdAt.toISOString()) >=
