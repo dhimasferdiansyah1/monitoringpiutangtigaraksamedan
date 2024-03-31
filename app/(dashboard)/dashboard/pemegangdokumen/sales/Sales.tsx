@@ -58,19 +58,18 @@ export const metadata: Metadata = {
 };
 
 export default async function Sales({
-  data,
-  totalPages,
   searchParams,
 }: {
-  data?: any[]; // Replace with your actual data type
   totalPages?: number;
   searchParams?: {
     search?: string;
     page?: string;
   };
 }) {
-  const datas = data ?? [];
-  const totalPagess = totalPages ?? 0;
+  const query = searchParams?.search || "";
+  const currentPage = Number(searchParams?.page) || 1;
+  const data = await getPemegangDokumenSales(query, currentPage);
+  const totalPages = await getPemegangDokumenSalesPages(query);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set jam today to 00:00:00
@@ -80,7 +79,7 @@ export default async function Sales({
   tomorrow.setHours(0, 0, 0, 0); // Set jam tomorrow to 00:00:00
 
   // Calculate Jakarta date and time for each item in the data array:
-  const jakartaTglJtArray = datas.map((main) => {
+  const jakartaTglJtArray = data.map((main) => {
     const fakturTglJt = main.faktur?.tgl_jt ?? null;
 
     return utcToZonedTime(
@@ -97,9 +96,9 @@ export default async function Sales({
   const oneHoursAgo = new Date(now.getTime() - 1 * 60 * 60 * 1000); // Menghitung waktu 1 jam yang lalu
 
   return (
-    <>
-      {datas.length > 0 ? (
-        datas.map((po, index) => (
+     <div className="my-4 grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">
+      {data.length > 0 ? (
+        data.map((po, index) => (
           <Card
             key={po.id}
             className="flex flex-col p-4 duration-200 hover:shadow hover:border-zinc-300 dark:hover:border-zinc-600 hover:duration-200 dark:bg-zinc-900 dark:hover:shadow-zinc-800"
@@ -418,6 +417,9 @@ export default async function Sales({
           Tidak ada data monitoring yang tersedia
         </p>
       )}
-    </>
+      <div className="mt-4 flex justify-center">
+        <Pagination totalPages={totalPages} />
+      </div>
+    </div>
   );
 }
