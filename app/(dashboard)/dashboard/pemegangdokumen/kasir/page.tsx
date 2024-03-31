@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import AdminGudang from "./AdminGudang";
+import Kasir from "./Kasir";
 import SearchForm from "@/components/(dashboard)/SearchForm";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ export default async function page({
           <div className="flex justify-center">
             {" "}
             <h1 className="text-2xl font-bold text-center sm:text-nowrap mb-8">
-              Dokumen Yang Dipegang Oleh Admin Gudang
+              Dokumen Yang Dipegang Oleh Kasir
             </h1>
           </div>
         </div>
@@ -45,7 +45,7 @@ export default async function page({
             <PemegangDokumen />
           </div>
           <Suspense fallback={<div>Loading...</div>}>
-            <AdminGudang searchParams={searchParams || {}} />
+            <Kasir searchParams={searchParams || {}} />
           </Suspense>
         </div>
       </div>

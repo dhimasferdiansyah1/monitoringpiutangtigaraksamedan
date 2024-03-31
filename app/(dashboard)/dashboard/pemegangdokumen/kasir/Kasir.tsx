@@ -1,6 +1,6 @@
 import {
-  getPemegangDokumenAdminGudang,
-  getPemegangDokumenAdminGudangPages,
+  getPemegangDokumenKasir,
+  getPemegangDokumenKasirPages,
 } from "./action";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -57,15 +57,15 @@ export const metadata: Metadata = {
   title: "Dashboard",
 };
 
-export default async function AdminGudang({
+export default async function Kasir({
   searchParams,
 }: {
   searchParams: { search?: string; page?: string };
 }) {
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const data = await getPemegangDokumenAdminGudang(query, currentPage);
-  const totalPages = await getPemegangDokumenAdminGudangPages(query);
+  const data = await getPemegangDokumenKasir(query, currentPage);
+  const totalPages = await getPemegangDokumenKasirPages(query);
 
   const filterMenurutStatusSerahDokumen = data.filter((main) => {
     // Mendapatkan status serah dokumen terbaru
@@ -76,11 +76,8 @@ export default async function AdminGudang({
     // Filter berdasarkan nilai yang diinginkan
     return (
       terbaru.status_serah?.includes(
-        "Admin sales menyerahkan dokumen ke admin gudang"
-      ) ||
-      terbaru.status_serah?.includes(
-        "Driver menyerahkan dokumen ke admin gudang"
-      )
+        "Kolektor menyerahkan transfer ke kasir"
+      ) || terbaru.status_serah?.includes("Kasir melakukan penyetoran ke bank")
     );
   });
 

@@ -1,6 +1,6 @@
 import {
-  getPemegangDokumenAdminGudang,
-  getPemegangDokumenAdminGudangPages,
+  getPemegangDokumenKolektor,
+  getPemegangDokumenKolektorPages,
 } from "./action";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -57,15 +57,15 @@ export const metadata: Metadata = {
   title: "Dashboard",
 };
 
-export default async function AdminGudang({
+export default async function Driver({
   searchParams,
 }: {
   searchParams: { search?: string; page?: string };
 }) {
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const data = await getPemegangDokumenAdminGudang(query, currentPage);
-  const totalPages = await getPemegangDokumenAdminGudangPages(query);
+  const data = await getPemegangDokumenKolektor(query, currentPage);
+  const totalPages = await getPemegangDokumenKolektorPages(query);
 
   const filterMenurutStatusSerahDokumen = data.filter((main) => {
     // Mendapatkan status serah dokumen terbaru
@@ -76,11 +76,34 @@ export default async function AdminGudang({
     // Filter berdasarkan nilai yang diinginkan
     return (
       terbaru.status_serah?.includes(
-        "Admin sales menyerahkan dokumen ke admin gudang"
+        "Admin inkaso menyerahkan dokumen ke kolektor untuk proses tukar faktur"
       ) ||
       terbaru.status_serah?.includes(
-        "Driver menyerahkan dokumen ke admin gudang"
-      )
+        "Kolektor melakukan tukar faktur ke toko"
+      ) ||
+      terbaru.status_serah?.includes(
+        "Kolektor sampai di toko untuk proses tukar faktur"
+      ) ||
+      terbaru.status_serah?.includes(
+        "Kolektor selesai melakukan tukar faktur"
+      ) ||
+      terbaru.status_serah?.includes(
+        "Admin inkaso menyerahkan dokumen ke kolektor dalam proses penagihan ke toko"
+      ) ||
+      terbaru.status_serah?.includes(
+        "Kolektor melakukan penagihan piutang ke toko"
+      ) ||
+      terbaru.status_serah?.includes(
+        "Kolektor sampai di toko untuk proses penagihan piutang"
+      ) ||
+      terbaru.status_serah?.includes(
+        "Kolektor selesai melakukan penagihan piutang"
+      ) ||
+      terbaru.status_serah?.includes(
+        "Kolektor menyerahkan dokumen ke admin inkaso setelah selesai penagihan"
+      ) ||
+      terbaru.status_serah?.includes("Kolektor menyerahkan giro ke kasir") ||
+      terbaru.status_serah?.includes("Kolektor menyerahkan tunai ke kasir")
     );
   });
 

@@ -22,7 +22,7 @@ export default async function page({
           <div className="flex justify-center">
             {" "}
             <h1 className="text-2xl font-bold text-center sm:text-nowrap mb-8">
-              Dokumen Yang Dipegang Oleh Driver
+              Dokumen Yang Dipegang Oleh Admin Inkaso
             </h1>
           </div>
         </div>

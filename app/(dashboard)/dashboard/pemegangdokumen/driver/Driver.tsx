@@ -112,7 +112,9 @@ export default async function Driver({
 
   return (
     <div className="flex flex-col">
-      <p className="text-sm text-muted-foreground">Total : {data.length}</p>
+      <p className="text-sm text-muted-foreground">
+        Total : {filterMenurutStatusSerahDokumen.length}
+      </p>
       <div className="my-4 grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">
         {filterMenurutStatusSerahDokumen.length > 0 ? (
           filterMenurutStatusSerahDokumen.map((po, index) => (
