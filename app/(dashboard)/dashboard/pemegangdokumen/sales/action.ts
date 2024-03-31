@@ -19,7 +19,7 @@ export async function getPemegangDokumenSales(
     },
     where: {
       statusserahdokumen: {
-        some: {
+        every: {
           status_serah: {
             contains: "Sales menerima purchase order dari toko",
           },
