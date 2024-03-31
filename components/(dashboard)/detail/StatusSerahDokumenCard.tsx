@@ -22,7 +22,7 @@ export default async function StatusSerahDokumenCard({
     return <p>Tidak ada status serah dokumen</p>;
   }
   return (
-    <Card className="flex h-full w-full flex-col gap-2 overflow-auto text-wrap p-4 shadow-none dark:bg-zinc-900">
+    <Card className="flex h-full w-[500px] sm:w-full flex-col gap-2 overflow-auto text-wrap p-4 shadow-none dark:bg-zinc-900">
       {statusserahdokumen.statusserahdokumen?.map((status) => (
         <div key={statusserahdokumen.id} className="flex w-full items-center">
           <div
@@ -32,7 +32,7 @@ export default async function StatusSerahDokumenCard({
             <div className="flex justify-between">
               <div className="flex gap-2 font-bold">
                 <p>{status.user}</p>
-                <p className="hidden font-normal lg:flex">{status.role}</p>
+                <p className="font-normal">{status.role}</p>
               </div>
               <p className="text-muted-foreground">
                 {formatDateAndTimeIsoFetch(status.createdAt.toISOString())}

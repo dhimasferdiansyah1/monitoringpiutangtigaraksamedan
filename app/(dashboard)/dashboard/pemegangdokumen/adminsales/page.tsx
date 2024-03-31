@@ -1,7 +1,7 @@
 import {
-  getMainMonitoring,
-  getMainMonitoringPages,
-} from "@/actions/actionMainMonitoring";
+  getPemegangDokumenAdminSales,
+  getPemegangDokumenAdminSalesPages,
+} from "./action";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
   title: "Dashboard",
 };
 
-export default async function DashboardPage({
+export default async function AdminSalesPage({
   searchParams,
 }: {
   searchParams?: {
@@ -67,8 +67,8 @@ export default async function DashboardPage({
 }) {
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const data = await getMainMonitoring(query, currentPage);
-  const totalPages = await getMainMonitoringPages(query);
+  const data = await getPemegangDokumenAdminSales(query, currentPage);
+  const totalPages = await getPemegangDokumenAdminSalesPages(query);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set jam today to 00:00:00
@@ -101,7 +101,7 @@ export default async function DashboardPage({
           <div className="flex justify-center">
             {" "}
             <h1 className="text-2xl font-bold text-nowrap mb-8">
-              Main Monitoring
+              Dokumen Yang Dipegang Oleh Admin Sales
             </h1>
           </div>
         </div>
@@ -474,4 +474,4 @@ export default async function DashboardPage({
       </div>
     </div>
   );
-};
+}

@@ -341,7 +341,9 @@ export default async function DetailPage({
                   <CheckSquare className="h-5 w-5" />
                   Status Serah Dokumen
                 </div>
-                <StatusSerahDokumenCard params={detail} />
+                <div className="overflow-x-auto">
+                  <StatusSerahDokumenCard params={detail} />
+                </div>
               </div>
               <div className="flex w-full flex-col gap-4 lg:basis-2/6">
                 <div className="flex flex-col items-start gap-2 lg:basis-1/6">
