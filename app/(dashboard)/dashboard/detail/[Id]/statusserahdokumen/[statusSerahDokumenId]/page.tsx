@@ -26,13 +26,6 @@ export default async function statusSerahDokumenDetail({
 }: {
   params: { statusSerahDokumenId: string };
 }) {
-  const id = params.statusSerahDokumenId;
-  const statusSerah = await getStatusSerahDokumenUniqe(id);
-
-  if (!statusSerah) {
-    notFound();
-  }
-
   return (
     <div className="mx-auto max-w-7xl">
       <div className="container mx-auto">
@@ -42,7 +35,7 @@ export default async function statusSerahDokumenDetail({
               <Skeleton className="my-8 h-[400px] w-[200px] lg:h-[600px] lg:w-[500px]" />
             }
           >
-            <TambahStatusSerahDokumen statusSerahDokumenId={statusSerah} />
+            <TambahStatusSerahDokumen params={params} />
           </Suspense>
         </div>
       </div>
