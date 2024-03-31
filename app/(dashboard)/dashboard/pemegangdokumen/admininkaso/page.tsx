@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import MainMonitoringList from "@/components/(dashboard)/MainMonitoringList";
+import Inkaso from "./Inkaso";
 import SearchForm from "@/components/(dashboard)/SearchForm";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -21,8 +21,8 @@ export default async function page({
         <div className="flex flex-col">
           <div className="flex justify-center">
             {" "}
-            <h1 className="text-2xl font-bold text-nowrap mb-8">
-              Main Monitoring
+            <h1 className="text-2xl font-bold text-center sm:text-nowrap mb-8">
+              Dokumen Yang Dipegang Oleh Driver
             </h1>
           </div>
         </div>
@@ -45,7 +45,7 @@ export default async function page({
             <PemegangDokumen />
           </div>
           <Suspense fallback={<div>Loading...</div>}>
-            <MainMonitoringList searchParams={searchParams || {}} />
+            <Inkaso searchParams={searchParams || {}} />
           </Suspense>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import {
-  getPemegangDokumenSales,
-  getPemegangDokumenSalesPages,
+  getPemegangDokumenInkaso,
+  getPemegangDokumenInkasoPages,
 } from "./action";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -57,15 +57,38 @@ export const metadata: Metadata = {
   title: "Dashboard",
 };
 
-export default async function Sales({
+export default async function Driver({
   searchParams,
 }: {
   searchParams: { search?: string; page?: string };
 }) {
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const data = await getPemegangDokumenSales(query, currentPage);
-  const totalPages = await getPemegangDokumenSalesPages(query);
+  const data = await getPemegangDokumenInkaso(query, currentPage);
+  const totalPages = await getPemegangDokumenInkasoPages(query);
+
+  const filterMenurutStatusSerahDokumen = data.filter((main) => {
+    // Mendapatkan status serah dokumen terbaru
+    const terbaru = main.statusserahdokumen.reduce((prev, curr) => {
+      return curr.createdAt > prev.createdAt ? curr : prev;
+    }, main.statusserahdokumen[0]);
+
+    // Filter berdasarkan nilai yang diinginkan
+    return (
+      terbaru.status_serah?.includes(
+        "Admin sales menyerahkan dokumen ke admin inkaso"
+      ) ||
+      terbaru.status_serah?.includes(
+        "Kolektor menyerahkan dokumen ke admin inkaso"
+      ) ||
+      terbaru.status_serah?.includes(
+        "Kasir menyerahkan bukti penyetoran ke admin inkaso"
+      ) ||
+      terbaru.status_serah?.includes(
+        "Kasir menyerahkan bukti penyetoran ke admin inkaso"
+      )
+    );
+  });
 
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set jam today to 00:00:00
@@ -95,8 +118,8 @@ export default async function Sales({
     <div className="flex flex-col">
       <p className="text-sm text-muted-foreground">Total : {data.length}</p>
       <div className="my-4 grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">
-        {data.length > 0 ? (
-          data.map((po, index) => (
+        {filterMenurutStatusSerahDokumen.length > 0 ? (
+          filterMenurutStatusSerahDokumen.map((po, index) => (
             <Card
               key={po.id}
               className="flex flex-col p-4 duration-200 hover:shadow hover:border-zinc-300 dark:hover:border-zinc-600 hover:duration-200 dark:bg-zinc-900 dark:hover:shadow-zinc-800"

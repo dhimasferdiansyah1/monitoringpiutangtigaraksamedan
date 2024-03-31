@@ -6,11 +6,12 @@ import { redirect } from "next/navigation";
 
 const ITEM_PER_PAGE = 6;
 
-export async function getPemegangDokumenAdminSales(
+export async function getPemegangDokumenInkaso(
   query: string,
   currentPage: number
 ) {
   const offset = (currentPage - 1) * ITEM_PER_PAGE;
+
   const mainMonitoring = await prisma.purchaseOrder.findMany({
     skip: offset,
     take: ITEM_PER_PAGE,
@@ -47,12 +48,22 @@ export async function getPemegangDokumenAdminSales(
           OR: [
             {
               status_serah: {
-                contains: "Sales menyerahkan dokumen ke admin sales",
+                contains: "Admin sales menyerahkan dokumen ke admin inkaso",
               },
             },
             {
               status_serah: {
-                contains: "Admin gudang menyerahkan dokumen ke admin sales",
+                contains: "Kolektor menyerahkan dokumen ke admin inkaso",
+              },
+            },
+            {
+              status_serah: {
+                contains: "Kasir menyerahkan bukti penyetoran ke admin inkaso",
+              },
+            },
+            {
+              status_serah: {
+                contains: "Admin inkaso melakukan pelunasan piutang",
               },
             },
           ],
@@ -77,7 +88,7 @@ export async function getPemegangDokumenAdminSales(
   return mainMonitoring;
 }
 
-export async function getPemegangDokumenAdminSalesPages(query: string) {
+export async function getPemegangDokumenInkasoPages(query: string) {
   const response = await prisma.purchaseOrder.count({
     where: {
       OR: [
