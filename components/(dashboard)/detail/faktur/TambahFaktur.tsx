@@ -74,9 +74,6 @@ export default function TambahFaktur({ fakturId }: { fakturId: Faktur }) {
     return formattedValue;
   }
 
-  function removePeriod(value: string) {
-    return value.replace(/\./g, "");
-  }
 
   const [showP, setShowP] = useState(true);
   const hideP = () => {
@@ -101,8 +98,8 @@ export default function TambahFaktur({ fakturId }: { fakturId: Faktur }) {
     const id = fakturId.id;
     Object.entries(values).forEach(([key, value]) => {
       if (value) {
-        const valueWithoutPeriod = removePeriod(String(value));
-        formData.append(key, valueWithoutPeriod);
+
+        formData.append(key, value.toString());
       }
     });
 

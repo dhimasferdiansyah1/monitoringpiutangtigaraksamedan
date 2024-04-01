@@ -99,7 +99,7 @@ export default async function MainMonitoringList({
           data.map((po, index) => (
             <Card
               key={po.id}
-              className="flex flex-col p-4 duration-200 hover:shadow hover:border-zinc-300 dark:hover:border-zinc-600 hover:duration-200 dark:bg-zinc-900 dark:hover:shadow-zinc-800"
+              className="flex flex-col p-4 duration-200 hover:shadow hover:border-zinc-300 dark:hover:border-zinc-600 hover:duration-200 dark:hover:shadow-zinc-800"
             >
               <div className="flex-col">
                 <div className="flex flex-col gap-1">

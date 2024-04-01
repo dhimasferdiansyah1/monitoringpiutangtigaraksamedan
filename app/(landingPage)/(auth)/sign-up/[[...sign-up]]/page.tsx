@@ -19,7 +19,7 @@ export default async function Page() {
       <div className="flex flex-col gap-2 items-center justify-center">
         <p className=" text-muted-foreground">
           <SignUp />
-          Akses terbatas, hanya bisa dilakukan oleh pemilik website!
+          {/* Akses terbatas, hanya bisa dilakukan oleh pemilik website! */}
         </p>
         <Link href="/">
           <Button variant="default">Kembali</Button>

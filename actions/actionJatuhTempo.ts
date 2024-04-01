@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 
 const ITEM_PER_PAGE = 6;
 
-export async function getJatuhTempo(currentPage: number) {
+export async function getJatuhTempo(currentPage: number, query: string) {
   const offset = (currentPage - 1) * ITEM_PER_PAGE;
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set time to 00:00:00 for accurate filtering
@@ -11,21 +11,34 @@ export async function getJatuhTempo(currentPage: number) {
     skip: offset,
     take: ITEM_PER_PAGE,
     where: {
+      faktur: {
+        tgl_jt: today,
+      },
       OR: [
-        // Use OR to find purchaseOrders with at least one matching faktur.tgl_jt
         {
-          faktur: {
-            NOT: {
-              // Exclude purchaseOrders without a faktur
-              no_fk: null,
-            },
-            tgl_jt: {
-              lte: today, // Filter for due dates on or before today
+          no_po: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          delivery_note: {
+            no_dn: {
+              contains: query,
+              mode: "insensitive",
             },
           },
         },
         {
-          faktur: null, // Include purchaseOrders without a faktur (optional)
+          faktur: {
+            tgl_jt: {
+              lte: today, // Filter for due dates on or before today
+            },
+            no_fk: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
         },
       ],
     },
@@ -50,14 +63,13 @@ export async function getJatuhTempo(currentPage: number) {
   return jatuhTempo;
 }
 
-export async function getJatuhTempoPages(currentPage: number) {
+export async function getJatuhTempoPages(query: string) {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set time for consistency
 
   const response = await prisma.purchaseOrder.count({
     where: {
       OR: [
-        // Use OR to find purchaseOrders with at least one matching faktur.tgl_jt
         {
           faktur: {
             NOT: {
@@ -69,6 +81,21 @@ export async function getJatuhTempoPages(currentPage: number) {
             },
           },
         },
+        {
+          no_po: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          delivery_note: {
+            no_dn: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
+
         {
           faktur: null, // Include purchaseOrders without a faktur (optional)
         },
@@ -83,10 +110,9 @@ export async function getJatuhTempoPages(currentPage: number) {
   return totalPages;
 }
 
-
 //getJatuhTempo Besok
 
-export async function getJatuhTempoBesok(currentPage: number) {
+export async function getJatuhTempoBesok(currentPage: number, query: string) {
   const offset = (currentPage - 1) * ITEM_PER_PAGE;
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set time to 00:00:00 for accurate filtering
@@ -106,8 +132,21 @@ export async function getJatuhTempoBesok(currentPage: number) {
               no_fk: null, // Exclude purchaseOrders without a faktur
             },
             tgl_jt: {
-              gt: today,  // Filter for due dates after today
+              gt: today, // Filter for due dates after today
               lte: tomorrow, // Filter for due dates on or before tomorrow
+            },
+          },
+
+          no_po: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          delivery_note: {
+            no_dn: {
+              contains: query,
+              mode: "insensitive",
             },
           },
         },
@@ -136,7 +175,6 @@ export async function getJatuhTempoBesok(currentPage: number) {
 
   return jatuhTempoBesok;
 }
-
 
 export async function getJatuhTempoBesokPages(currentPage: number) {
   const today = new Date();
@@ -171,10 +209,12 @@ export async function getJatuhTempoBesokPages(currentPage: number) {
   return totalPages;
 }
 
-
 // jatuh tempo seminggu
 
-export async function getJatuhTempoSatuMinggu(currentPage: number) {
+export async function getJatuhTempoSatuMinggu(
+  currentPage: number,
+  query: string
+) {
   const offset = (currentPage - 1) * ITEM_PER_PAGE;
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set time to 00:00:00 for accurate filtering
@@ -200,6 +240,18 @@ export async function getJatuhTempoSatuMinggu(currentPage: number) {
             tgl_jt: {
               gt: today, // Filter for due dates after today
               lte: oneWeekFromToday, // Filter for due dates on or before one week from today
+            },
+          },
+          no_po: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          delivery_note: {
+            no_dn: {
+              contains: query,
+              mode: "insensitive",
             },
           },
         },

@@ -105,7 +105,7 @@ export default async function FakturCard({
                       {faktur?.faktur?.foto1_fk ? (
                         <>
                           <Image
-                            src={faktur?.faktur?.foto1_fk}
+                            src={faktur.faktur.foto1_fk}
                             alt={`Foto faktur ${faktur?.faktur?.foto1_fk}`}
                             width={512}
                             height={512}
