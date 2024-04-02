@@ -53,7 +53,7 @@ export default async function Semua({
 }) {
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const JatuhTempoSemua = await getJatuhTempoSemua(currentPage);
+  const JatuhTempoSemua = await getJatuhTempoSemua(currentPage, query);
   const totalPages = await getJatuhTempoSemuaPages(currentPage);
 
   const today = new Date();

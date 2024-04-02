@@ -21,6 +21,7 @@ export default async function JatuhTempoSemuaPage({
 }: {
   searchParams?: {
     page?: string;
+    search?: string;
   };
 }) {
   return (

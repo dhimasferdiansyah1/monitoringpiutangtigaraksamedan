@@ -321,7 +321,7 @@ export async function getJatuhTempoSatuMingguPages(currentPage: number) {
 
 //jatuh tempo semua
 
-export async function getJatuhTempoSemua(currentPage: number) {
+export async function getJatuhTempoSemua(currentPage: number, query: string) {
   const offset = (currentPage - 1) * ITEM_PER_PAGE;
 
   const jatuhTempoSemua = await prisma.purchaseOrder.findMany({
@@ -333,6 +333,22 @@ export async function getJatuhTempoSemua(currentPage: number) {
           not: null,
         },
       },
+      OR: [
+        {
+          no_po: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          delivery_note: {
+            no_dn: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
+      ],
     },
     orderBy: {
       createdAt: "desc",

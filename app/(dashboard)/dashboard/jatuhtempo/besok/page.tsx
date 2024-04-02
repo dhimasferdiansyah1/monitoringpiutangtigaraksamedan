@@ -15,6 +15,7 @@ export default async function JatuhTempoBesokPage({
 }: {
   searchParams?: {
     page?: string;
+    search?: string;
   };
 }) {
   return (
