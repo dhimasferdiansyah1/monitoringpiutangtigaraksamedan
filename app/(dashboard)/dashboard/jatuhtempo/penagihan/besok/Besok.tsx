@@ -56,7 +56,7 @@ export default async function Besok({
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
   const jatuhTempoBesok = await getJatuhTempoBesok(currentPage, query);
-  const totalPages = await getJatuhTempoBesokPages(currentPage);
+  const totalPages = await getJatuhTempoBesokPages(query);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set jam today to 00:00:00

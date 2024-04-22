@@ -98,9 +98,13 @@ export async function getJatuhTempoPages(query: string) {
             },
           },
         },
-
         {
-          faktur: null, // Include purchaseOrders without a faktur (optional)
+          faktur: {
+            no_fk: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
         },
       ],
     },
@@ -128,18 +132,17 @@ export async function getJatuhTempoBesok(currentPage: number, query: string) {
     skip: offset,
     take: ITEM_PER_PAGE,
     where: {
+      faktur: {
+        NOT: {
+          no_fk: null, // Exclude purchaseOrders without a faktur
+        },
+        tgl_jt: {
+          gt: today, // Filter for due dates after today
+          lte: tomorrow, // Filter for due dates on or before tomorrow
+        },
+      },
       OR: [
         {
-          faktur: {
-            NOT: {
-              no_fk: null, // Exclude purchaseOrders without a faktur
-            },
-            tgl_jt: {
-              gt: today, // Filter for due dates after today
-              lte: tomorrow, // Filter for due dates on or before tomorrow
-            },
-          },
-
           no_po: {
             contains: query,
             mode: "insensitive",
@@ -148,6 +151,14 @@ export async function getJatuhTempoBesok(currentPage: number, query: string) {
         {
           delivery_note: {
             no_dn: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
+        {
+          faktur: {
+            no_fk: {
               contains: query,
               mode: "insensitive",
             },
@@ -179,7 +190,7 @@ export async function getJatuhTempoBesok(currentPage: number, query: string) {
   return jatuhTempoBesok;
 }
 
-export async function getJatuhTempoBesokPages(currentPage: number) {
+export async function getJatuhTempoBesokPages(query: string) {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set time to 00:00:00 for accurate filtering
 
@@ -189,22 +200,42 @@ export async function getJatuhTempoBesokPages(currentPage: number) {
 
   const response = await prisma.purchaseOrder.count({
     where: {
+      faktur: {
+        NOT: {
+          no_fk: null, // Exclude purchaseOrders without a faktur
+        },
+        tgl_jt: {
+          gt: today, // Filter for due dates after today
+          lte: tomorrow, // Filter for due dates on or before tomorrow
+        },
+      },
       OR: [
         {
-          faktur: {
-            NOT: {
-              no_fk: null, // Exclude purchaseOrders without a faktur
-            },
-            tgl_jt: {
-              gt: today, // Filter for due dates after today
-              lte: tomorrow, // Filter for due dates on or before tomorrow
+          no_po: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          delivery_note: {
+            no_dn: {
+              contains: query,
+              mode: "insensitive",
             },
           },
         },
         {
-          faktur: null, // Include purchaseOrders without a faktur (optional)
+          faktur: {
+            no_fk: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
         },
       ],
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
 
@@ -234,17 +265,18 @@ export async function getJatuhTempoSatuMinggu(
     skip: offset,
     take: ITEM_PER_PAGE,
     where: {
+      faktur: {
+        NOT: {
+          no_fk: null, // Exclude purchaseOrders without a faktur
+        },
+        tgl_jt: {
+          gt: today, // Filter for due dates after today
+          lte: oneWeekFromToday, // Filter for due dates on or before one week from today
+        },
+      },
+
       OR: [
         {
-          faktur: {
-            NOT: {
-              no_fk: null, // Exclude purchaseOrders without a faktur
-            },
-            tgl_jt: {
-              gt: today, // Filter for due dates after today
-              lte: oneWeekFromToday, // Filter for due dates on or before one week from today
-            },
-          },
           no_po: {
             contains: query,
             mode: "insensitive",
@@ -253,6 +285,14 @@ export async function getJatuhTempoSatuMinggu(
         {
           delivery_note: {
             no_dn: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
+        {
+          faktur: {
+            no_fk: {
               contains: query,
               mode: "insensitive",
             },
@@ -284,8 +324,7 @@ export async function getJatuhTempoSatuMinggu(
   return jatuhTempoSatuMinggu;
 }
 
-
-export async function getJatuhTempoSatuMingguPages(currentPage: number) {
+export async function getJatuhTempoSatuMingguPages(query: string) {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set time to 00:00:00 for accurate filtering
 
@@ -299,22 +338,42 @@ export async function getJatuhTempoSatuMingguPages(currentPage: number) {
 
   const response = await prisma.purchaseOrder.count({
     where: {
+      faktur: {
+        NOT: {
+          no_fk: null, // Exclude purchaseOrders without a faktur
+        },
+        tgl_jt: {
+          gt: today, // Filter for due dates after today
+          lte: oneWeekFromToday, // Filter for due dates on or before one week from today
+        },
+      },
       OR: [
         {
-          faktur: {
-            NOT: {
-              no_fk: null, // Exclude purchaseOrders without a faktur
-            },
-            tgl_jt: {
-              gt: today, // Filter for due dates after today
-              lte: oneWeekFromToday, // Filter for due dates on or before one week from today
+          no_po: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          delivery_note: {
+            no_dn: {
+              contains: query,
+              mode: "insensitive",
             },
           },
         },
         {
-          faktur: null, // Include purchaseOrders without a faktur (optional)
+          faktur: {
+            no_fk: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
         },
       ],
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
 
@@ -351,6 +410,14 @@ export async function getJatuhTempoSemua(currentPage: number, query: string) {
             },
           },
         },
+        {
+          faktur: {
+            no_fk: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
       ],
     },
     orderBy: {
@@ -374,14 +441,41 @@ export async function getJatuhTempoSemua(currentPage: number, query: string) {
   return jatuhTempoSemua;
 }
 
-export async function getJatuhTempoSemuaPages(currentPage: number) {
+export async function getJatuhTempoSemuaPages(query: string) {
   const response = await prisma.purchaseOrder.count({
     where: {
       faktur: {
         tgl_jt: {
-         not: null,
+          not: null,
         },
       },
+      OR: [
+        {
+          no_po: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          delivery_note: {
+            no_dn: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
+        {
+          faktur: {
+            no_fk: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
+      ],
+    },
+    orderBy: {
+      createdAt: "desc",
     },
   });
 

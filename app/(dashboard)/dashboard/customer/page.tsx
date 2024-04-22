@@ -9,12 +9,20 @@ import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
 import { Metadata } from "next";
+import SearchForm from "@/components/(dashboard)/SearchForm";
 
 export const metadata: Metadata = {
   title: "Data Customer",
 };
 
-export default function CustomerPage() {
+export default function CustomerPage({
+  searchParams,
+}: {
+  searchParams?: {
+    page?: string;
+    search?: string;
+  };
+}) {
   return (
     <div className="mx-auto max-w-7xl my-6">
       <div className="container mx-auto px-0">
@@ -26,16 +34,26 @@ export default function CustomerPage() {
                   Data Customer
                 </h1>
               </div>
-              <Link href="/dashboard/customer/tambahcustomer">
-                <Button variant="secondary" className="flex gap-2">
-                  <Plus className="h-5 w-5" />
-                  Tambah Customer
-                </Button>
-              </Link>
+              <div className="flex gap-4 w-full">
+                <div className="hidden lg:flex gap-2 lg:gap-4 items-center w-full">
+                  <p className="hidden sm:flex font-bold text-lg">Search</p>
+                  <SearchForm placeholder="Cari nama customer..." />
+                </div>
+                <Link href="/dashboard/customer/tambahcustomer">
+                  <Button variant="secondary" className="flex gap-2">
+                    <Plus className="h-5 w-5" />
+                    Tambah Customer
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            <div className="flex lg:hidden mt-4 gap-2 lg:gap-4 items-center w-full">
+              <p className="hidden sm:flex font-bold text-lg">Search</p>
+              <SearchForm placeholder="Cari nama customer..." />
             </div>
             <div className="flex flex-col gap-2">
               <Suspense fallback={<SkeletonCustomer />}>
-                <CustomerList />
+                <CustomerList searchParams={searchParams} />
               </Suspense>
             </div>
           </Card>

@@ -76,6 +76,14 @@ export async function getMainMonitoringPages(query: string) {
             },
           },
         },
+        {
+          faktur: {
+            no_fk: {
+              contains: query,
+              mode: "insensitive",
+            },
+          },
+        },
       ],
     },
   });

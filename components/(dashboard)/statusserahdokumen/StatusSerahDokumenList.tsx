@@ -56,18 +56,15 @@ export default async function StatusSerahDokumenList() {
   const sixHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000); // Menghitung waktu 1 jam yang lalu
 
   return (
-    <Table className="mx-auto mt-4 w-[512px] rounded-md lg:w-full">
+    <Table className="mx-auto mt-4 w-[1400px] rounded-md lg:w-full">
       <TableCaption>List data serah dokumen</TableCaption>
       <TableHeader>
         <TableRow>
           <TableHead className="px-4 py-2">No.</TableHead>
           <TableHead className="px-4 py-2">Customer</TableHead>
           <TableHead className="px-4 py-2">Kode Customer</TableHead>
+          <TableHead className="px-4 py-2">No. PO</TableHead>
           <TableHead className="px-4 py-2">No. Faktur</TableHead>
-          <TableHead className="px-4 py-2">Tgl Faktur</TableHead>
-          <TableHead className="px-4 py-2">Tgl Jatuh tempo</TableHead>
-          <TableHead className="px-4 py-2">Jatuh tempo</TableHead>
-          <TableHead className="px-4 py-2">Nilai</TableHead>
           <TableHead className="px-4 py-2">
             {" "}
             <div className="flex items-center gap-2">
@@ -75,6 +72,7 @@ export default async function StatusSerahDokumenList() {
               <p>Status</p>
             </div>
           </TableHead>
+          <TableHead className="px-4 py-2">Waktu</TableHead>
           <TableHead className="px-4 py-2">Aksi</TableHead>
         </TableRow>
       </TableHeader>
@@ -99,101 +97,27 @@ export default async function StatusSerahDokumenList() {
                   aria-label="alamat customer"
                   className="px-4 py-2 sm:table-cell"
                 >
+                  {item.no_po ?? "-"}
+                </TableCell>
+                <TableCell
+                  aria-label="alamat customer"
+                  className="px-4 py-2 sm:table-cell"
+                >
                   {item.faktur?.no_fk ?? "-"}
                 </TableCell>
-                <TableCell className="px-4 py-2">
-                  {item.faktur?.tgl_fk
-                    ? formatDateIsoFetch(item.faktur?.tgl_fk?.toISOString())
-                    : "-"}
-                </TableCell>
-                <TableCell className="px-4 py-2">
-                  {item.faktur?.tgl_fk
-                    ? formatDateIsoFetch(item.faktur?.tgl_jt?.toISOString())
-                    : "-"}
-                </TableCell>
-                <TableCell className="px-4 py-2">
-                  <div className="relative flex items-center justify-center gap-2 text-sm font-thin text-muted-foreground">
-                    <span className="relative flex h-3 w-3">
-                      <span
-                        className={`animate-ping absolute items-center justify-center inline-flex h-full w-full rounded-full ${
-                          item.faktur?.tgl_jt === null
-                            ? "bg-gray-400"
-                            : differenceInDays(
-                                jakartaTglJtArray[index],
-                                today
-                              ) >= 2
-                            ? "bg-green-400"
-                            : differenceInDays(
-                                jakartaTglJtArray[index],
-                                today
-                              ) === 1
-                            ? "bg-yellow-400"
-                            : differenceInDays(
-                                jakartaTglJtArray[index],
-                                today
-                              ) === 0
-                            ? "bg-red-400"
-                            : "bg-red-600"
-                        } opacity-75`}
-                      />
-                      <span
-                        className={`relative inline-flex items-center justify-center rounded-full h-3 w-3 ${
-                          item.faktur?.tgl_jt === null
-                            ? "bg-gray-500"
-                            : differenceInDays(
-                                jakartaTglJtArray[index],
-                                today
-                              ) >= 2
-                            ? "bg-green-500"
-                            : differenceInDays(
-                                jakartaTglJtArray[index],
-                                today
-                              ) === 1
-                            ? "bg-yellow-500"
-                            : differenceInDays(
-                                jakartaTglJtArray[index],
-                                today
-                              ) === 0
-                            ? "bg-red-500"
-                            : "bg-red-700"
-                        }`}
-                      />
-                    </span>
-                    {item.faktur?.tgl_jt === undefined ||
-                    item.faktur?.tgl_jt === null ? (
-                      "Belum ada tanggal jatuh tempo"
-                    ) : (
-                      <div>
-                        {differenceInDays(jakartaTglJtArray[index], today) === 0
-                          ? // Hari ini
-                            "Sudah jatuh tempo"
-                          : differenceInDays(
-                              jakartaTglJtArray[index],
-                              today
-                            ) === 1
-                          ? // Besok
-                            "Besok jatuh tempo"
-                          : differenceInDays(jakartaTglJtArray[index], today) >
-                            0
-                          ? // Jatuh tempo X hari lagi
-                            `${differenceInDays(
-                              jakartaTglJtArray[index],
-                              today
-                            )} hari lagi jatuh tempo`
-                          : // Jatuh tempo telah lewat X hari
-                            `Jatuh tempo telah lewat ${Math.abs(
-                              differenceInDays(jakartaTglJtArray[index], today)
-                            )} hari`}
-                      </div>
-                    )}
-                  </div>
-                </TableCell>
-                <TableCell className="px-4 py-2">
-                  {item.faktur?.nilai ? item.faktur?.nilai ?? "" : "-"}
-                </TableCell>
+
                 <TableCell className="px-4 py-2">
                   {item.statusserahdokumen[0]?.status_serah ?? "-"}
                 </TableCell>
+                <TableCell className="px-4 py-2">
+                  <div className=" flex flex-col md:flex-row gap-2 text-sm font-thin text-muted-foreground">
+                    {formatDateDistanceToNow(
+                      item.statusserahdokumen[0]?.createdAt.toISOString()
+                    )}{" "}
+                    yang lalu
+                  </div>
+                </TableCell>
+
                 <TableCell className="px-4 py-2">
                   <Link href={`/dashboard/detail/${item.id}`}>
                     <Button variant="secondary">

@@ -30,7 +30,7 @@ export default async function page({
           <div className="flex flex-col md:flex-row justify-between gap-4 items-center">
             <div className="flex gap-2 lg:gap-4 items-center w-full">
               <p className="hidden sm:flex font-bold text-lg">Search</p>
-              <SearchForm />
+              <SearchForm placeholder="Cari No. Purchase Order/ Delivery Note/ Faktur..." />
             </div>
             <div className="flex justify-end w-full md:w-fit">
               <Link href="/dashboard/tambahpurchaseorder">

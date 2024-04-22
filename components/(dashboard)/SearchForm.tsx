@@ -5,7 +5,11 @@ import { Search } from "lucide-react";
 import { useDebouncedCallback } from "use-debounce";
 import { Input } from "../ui/input";
 
-export default function SearchForm() {
+interface SearchFormProps {
+  placeholder: string;
+}
+
+export default function SearchForm({ placeholder }: SearchFormProps) {
   const handleSearch = useDebouncedCallback((value: string) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", "1");
@@ -26,7 +30,7 @@ export default function SearchForm() {
       <Input
         type="text"
         className="w-full rounded-md border p-2 pl-10 duration-200 hover:border-zinc-300 hover:shadow dark:hover:border-zinc-600 hover:duration-200 dark:bg-zinc-900 dark:hover:shadow-zinc-800"
-        placeholder="Cari No. Purchase Order/ Delivery Note/ Faktur..."
+        placeholder={placeholder}
         onChange={(e) => handleSearch(e.target.value)}
         defaultValue={searchParams.get("search")?.toString()}
       />

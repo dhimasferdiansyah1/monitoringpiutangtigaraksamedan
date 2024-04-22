@@ -5,29 +5,68 @@ import { tambahCustomerSchema } from "@/types/customer";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function getCustomerList() {
-  try {
-    const customer = await prisma.customer.findMany({
-      where: {
-        id: {
-          not: undefined,
-        },
-      },
-      orderBy: {
-        id: "asc",
-      },
-      include: {
-        purchase_order: {
-          select: {
-            _count: true,
+const ITEM_PER_PAGE = 20;
+
+export async function getCustomerList(currentPage: number, query: string) {
+  const offset = (currentPage - 1) * ITEM_PER_PAGE;
+
+  const customer = await prisma.customer.findMany({
+    skip: offset,
+    take: ITEM_PER_PAGE,
+    where: {
+      OR: [
+        {
+          customer_name: {
+            contains: query,
+            mode: "insensitive",
           },
         },
+        {
+          account: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+    orderBy: {
+      id: "asc",
+    },
+    include: {
+      purchase_order: {
+        select: {
+          _count: true,
+        },
       },
-    });
-    return customer;
-  } catch (error) {
-    console.error(error);
-  }
+    },
+  });
+  return customer;
+}
+
+export async function getCustomerListPages(query: string) {
+  const response = await prisma.customer.count({
+    where: {
+      OR: [
+        {
+          customer_name: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+        {
+          account: {
+            contains: query,
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+    orderBy: {
+      id: "asc",
+    },
+  });
+  const totalPages = Math.ceil(Number(response) / ITEM_PER_PAGE);
+  return totalPages;
 }
 
 export async function deleteCustomerList(id: string) {

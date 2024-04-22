@@ -54,7 +54,7 @@ export default async function Semua({
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
   const JatuhTempoSemua = await getJatuhTempoSemua(currentPage, query);
-  const totalPages = await getJatuhTempoSemuaPages(currentPage);
+  const totalPages = await getJatuhTempoSemuaPages(query);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set jam today to 00:00:00

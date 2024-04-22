@@ -59,7 +59,7 @@ export default async function SatuMinggu({
     currentPage,
     query
   );
-  const totalPages = await getJatuhTempoSatuMingguPages(currentPage);
+  const totalPages = await getJatuhTempoSatuMingguPages(query);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set jam today to 00:00:00
