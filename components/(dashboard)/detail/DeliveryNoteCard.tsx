@@ -39,9 +39,7 @@ export default async function DeliveryNoteCard({
       </div>
       <hr className="my-1.5" />
       <div className="flex gap-2">
-        <p className="min-w-24 max-w-24 text-balance">
-          Foto sebelum delivery 1
-        </p>
+        <p className="min-w-24 max-w-24 text-balance">Foto sebelum delivery</p>
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">

@@ -1,16 +1,16 @@
-import SearchForm from "@/components/(dashboard)/SearchForm";
 import { Suspense } from "react";
-import SatuMinggu from "./SatuMinggu";
+import HariIni from "./HariIni";
+import SearchForm from "@/components/(dashboard)/SearchForm";
 import { Metadata } from "next";
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: "Jatuh Tempo Satu Minggu",
+  title: "Jatuh Tempo Tukar Faktur Hari ini/Lewat",
 };
 
-export default async function JatuhTempoSatuMingguPage({
+export default async function JatuhTempoPage({
   searchParams,
 }: {
   searchParams?: {
@@ -23,7 +23,7 @@ export default async function JatuhTempoSatuMingguPage({
       <div className="container mx-auto xl:px-0">
         <div className="flex flex-col">
           <h1 className="my-4 text-center text-2xl font-bold">
-            Jatuh Tempo Rentang Hari Ini / Lewat
+            Jatuh Tempo Tukar Faktur Rentang Hari Ini / Lewat
           </h1>
           <div className="flex ju</div>stify-end"></div>
         </div>
@@ -33,7 +33,7 @@ export default async function JatuhTempoSatuMingguPage({
             <SearchForm />
           </div>
           <Suspense fallback={<p>Loading...</p>}>
-            <SatuMinggu searchParams={searchParams} />
+            <HariIni searchParams={searchParams} />
           </Suspense>
         </div>
       </div>

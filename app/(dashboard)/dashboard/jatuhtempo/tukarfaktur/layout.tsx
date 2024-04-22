@@ -13,26 +13,16 @@ const metadata: Metadata = {
   description: "PT. Tigaraksa Satria, Tbk Cabang Medan",
 };
 
-const jatuhTempoRoutes = [
+const jatuhTempoTukarFakturRoutes = [
+  { href: "/dashboard/jatuhtempo/tukarfaktur", label: "Hari ini/lewat" },
+  { href: "/dashboard/jatuhtempo/tukarfaktur/besok", label: "besok" },
   {
-    href: "/dashboard/jatuhtempo/tukarfaktur",
-    label: "Tukar faktur",
-    active: [
-      "/dashboard/jatuhtempo/tukarfaktur",
-      "/dashboard/jatuhtempo/tukarfaktur/besok",
-      "/dashboard/jatuhtempo/tukarfaktur/satuminggu",
-      "/dashboard/jatuhtempo/tukarfaktur/semua",
-    ],
+    href: "/dashboard/jatuhtempo/tukarfaktur/satuminggu",
+    label: "Satu minggu",
   },
   {
-    href: "/dashboard/jatuhtempo/penagihan",
-    label: "Penagihan",
-    active: [
-      "/dashboard/jatuhtempo/penagihan",
-      "/dashboard/jatuhtempo/penagihan/besok",
-      "/dashboard/jatuhtempo/penagihan/satuminggu",
-      "/dashboard/jatuhtempo/penagihan/semua",
-    ],
+    href: "/dashboard/jatuhtempo/tukarfaktur/semua",
+    label: "Semua",
   },
 ];
 
@@ -47,18 +37,17 @@ export default function DashboardLayout({
       <div className="max-w-7xl w-full mx-auto">
         <div className="flex w-full justify-center">
           <div className="lg:flex-row flex justify-center mt-4 flex-wrap max-w-fit gap-1 ">
-            {jatuhTempoRoutes.map((route) => (
+            {jatuhTempoTukarFakturRoutes.map((route) => (
               <Link
                 key={route.href}
                 href={route.href}
                 className={`transition-colors px-3 py-2 pr-10 border hover:duration-300 duration-300 rounded-md ${
-                  Array.isArray(route.active) && route.active.includes(pathname)
+                  pathname === route.href
                     ? "bg-zinc-100 text-black dark:text-white dark:bg-zinc-800"
                     : " text-muted-foreground hover:bg-zinc-50 dark:hover:bg-zinc-900 "
                 }`}
               >
-                {Array.isArray(route.active) &&
-                route.active.includes(pathname) ? (
+                {pathname === route.href ? (
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-green-400/75 mr-2"></span>
                 ) : (
                   <span className="relative inline-flex rounded-full h-3 w-3 bg-zinc-200 mr-2"></span>

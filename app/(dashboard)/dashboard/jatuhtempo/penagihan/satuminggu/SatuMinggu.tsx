@@ -4,6 +4,8 @@ import {
   ArrowUpRightFromSquare,
   ChevronRight,
   Info,
+  PlusCircle,
+  SquarePen,
   Store,
   Trash2,
 } from "lucide-react";
@@ -35,15 +37,15 @@ import Pagination from "@/components/(dashboard)/Pagination";
 import { differenceInDays, parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import {
-  getJatuhTempoSemua,
-  getJatuhTempoSemuaPages,
-} from "@/actions/actionJatuhTempo";
+  getJatuhTempoSatuMinggu,
+  getJatuhTempoSatuMingguPages,
+} from "@/actions/actionJatuhTempoPenagihan";
 import { Suspense } from "react";
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default async function Semua({
+export default async function SatuMinggu({
   searchParams,
 }: {
   searchParams?: {
@@ -53,8 +55,11 @@ export default async function Semua({
 }) {
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const JatuhTempoSemua = await getJatuhTempoSemua(currentPage, query);
-  const totalPages = await getJatuhTempoSemuaPages(currentPage);
+  const JatuhTempoSatuMinggu = await getJatuhTempoSatuMinggu(
+    currentPage,
+    query
+  );
+  const totalPages = await getJatuhTempoSatuMingguPages(currentPage);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set jam today to 00:00:00
@@ -64,7 +69,7 @@ export default async function Semua({
   tomorrow.setHours(0, 0, 0, 0); // Set jam tomorrow to 00:00:00
 
   // Calculate Jakarta date and time for each item in the data array:
-  const jakartaTglJtArray = JatuhTempoSemua.map((main) => {
+  const jakartaTglJtArray = JatuhTempoSatuMinggu.map((main) => {
     const fakturTglJt = main.faktur?.tgl_jt ?? null;
 
     return utcToZonedTime(
@@ -78,15 +83,16 @@ export default async function Semua({
 
   const now = new Date(); // Mendapatkan waktu saat ini
   const sixHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000); // Menghitung waktu 1 jam yang lalu
+
   return (
     <div className="flex flex-col">
       <p className="text-sm text-muted-foreground">
-        Total : {JatuhTempoSemua.length}
+        Total : {JatuhTempoSatuMinggu.length}
       </p>
       <div className="flex justify-end gap-4"></div>
       <div className="my-4 grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">
-        {JatuhTempoSemua.length > 0 ? (
-          JatuhTempoSemua.map((po, index) => (
+        {JatuhTempoSatuMinggu.length > 0 ? (
+          JatuhTempoSatuMinggu.map((po, index) => (
             <Suspense fallback={<div>Loading...</div>} key={po.id}>
               <Card className="flex flex-col p-4 duration-200 hover:shadow hover:border-zinc-300 dark:hover:border-zinc-600 hover:duration-200 dark:bg-zinc-900 dark:hover:shadow-zinc-800">
                 <div className="flex-col">
@@ -225,11 +231,11 @@ export default async function Semua({
                       </div>
 
                       <div className="flex gap-2">
-                        <p className="w-24">Tanggal JT</p>
+                        <p className="w-24">Tanggal JT Penagihan</p>
                         <span>:</span>
                         <div>
                           {formatDateIsoFetch(
-                            po.faktur?.tgl_jt?.toISOString() ?? ""
+                            po.tandaterimatagihan?.tgl_jt?.toISOString() ?? ""
                           ) || (
                             <p className="text-destructive dark:text-red-400">
                               Tidak ada
@@ -306,19 +312,19 @@ export default async function Semua({
                       </span>
                       {po.faktur?.tgl_jt === undefined ||
                       po.faktur?.tgl_jt === null ? (
-                        "Belum ada tanggal jatuh tempo"
+                        "Belum ada tanggal jatuh tempo penagihan"
                       ) : (
                         <div>
                           {differenceInDays(jakartaTglJtArray[index], today) ===
                           0
                             ? // Hari ini
-                              "Sudah jatuh tempo"
+                              "Sudah jatuh tempo penagihan"
                             : differenceInDays(
                                 jakartaTglJtArray[index],
                                 today
                               ) === 1
                             ? // Besok
-                              "Besok jatuh tempo"
+                              "Besok jatuh tempo penagihan"
                             : differenceInDays(
                                 jakartaTglJtArray[index],
                                 today
@@ -327,9 +333,9 @@ export default async function Semua({
                               `${differenceInDays(
                                 jakartaTglJtArray[index],
                                 today
-                              )} hari lagi jatuh tempo`
+                              )} hari lagi jatuh tempo penagihan`
                             : // Jatuh tempo telah lewat X hari
-                              `Jatuh tempo telah lewat ${Math.abs(
+                              `Jatuh tempo penagihan telah lewat ${Math.abs(
                                 differenceInDays(
                                   jakartaTglJtArray[index],
                                   today

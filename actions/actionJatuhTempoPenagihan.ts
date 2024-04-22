@@ -4,6 +4,7 @@ const ITEM_PER_PAGE = 6;
 
 export async function getJatuhTempo(currentPage: number, query: string) {
   const offset = (currentPage - 1) * ITEM_PER_PAGE;
+  //filter date_jt is the same as today or has already passed
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set time to 00:00:00 for accurate filtering
 
@@ -11,8 +12,11 @@ export async function getJatuhTempo(currentPage: number, query: string) {
     skip: offset,
     take: ITEM_PER_PAGE,
     where: {
-      faktur: {
-        tgl_jt: today,
+      tandaterimatagihan: {
+        tgl_jt: {
+          //filter date_jt is the same as today or has already passed
+          lte: today,
+        },
       },
       OR: [
         {
@@ -30,11 +34,12 @@ export async function getJatuhTempo(currentPage: number, query: string) {
           },
         },
         {
-          faktur: {
+          tandaterimatagihan: {
             tgl_jt: {
-              lte: today, // Filter for due dates on or before today
+              //filter date_jt is the same as today or has already passed
+              lte: today,
             },
-            no_fk: {
+            no_penagihan: {
               contains: query,
               mode: "insensitive",
             },
@@ -69,18 +74,16 @@ export async function getJatuhTempoPages(query: string) {
 
   const response = await prisma.purchaseOrder.count({
     where: {
-      OR: [
-        {
-          faktur: {
-            NOT: {
-              // Exclude purchaseOrders without a faktur
-              no_fk: null,
-            },
-            tgl_jt: {
-              lte: today, // Filter for due dates on or before today
-            },
-          },
+      tandaterimatagihan: {
+        NOT: {
+          // Exclude purchaseOrders without a tandaterimatagihan
+          no_penagihan: null,
         },
+        tgl_jt: {
+          lte: today, // Filter for due dates on or before today
+        },
+      },
+      OR: [
         {
           no_po: {
             contains: query,
@@ -97,7 +100,7 @@ export async function getJatuhTempoPages(query: string) {
         },
 
         {
-          faktur: null, // Include purchaseOrders without a faktur (optional)
+          tandaterimatagihan: null, // Include purchaseOrders without a faktur (optional)
         },
       ],
     },
@@ -127,9 +130,9 @@ export async function getJatuhTempoBesok(currentPage: number, query: string) {
     where: {
       OR: [
         {
-          faktur: {
+          tandaterimatagihan: {
             NOT: {
-              no_fk: null, // Exclude purchaseOrders without a faktur
+              no_penagihan: null, // Exclude purchaseOrders without a faktur
             },
             tgl_jt: {
               gt: today, // Filter for due dates after today
@@ -151,7 +154,7 @@ export async function getJatuhTempoBesok(currentPage: number, query: string) {
           },
         },
         {
-          faktur: null, // Include purchaseOrders without a faktur (optional)
+          tandaterimatagihan: null, // Include purchaseOrders without a faktur (optional)
         },
       ],
     },
@@ -188,9 +191,9 @@ export async function getJatuhTempoBesokPages(currentPage: number) {
     where: {
       OR: [
         {
-          faktur: {
+          tandaterimatagihan: {
             NOT: {
-              no_fk: null, // Exclude purchaseOrders without a faktur
+              no_penagihan: null, // Exclude purchaseOrders without a faktur
             },
             tgl_jt: {
               gt: today, // Filter for due dates after today
@@ -199,7 +202,7 @@ export async function getJatuhTempoBesokPages(currentPage: number) {
           },
         },
         {
-          faktur: null, // Include purchaseOrders without a faktur (optional)
+          tandaterimatagihan: null, // Include purchaseOrders without a faktur (optional)
         },
       ],
     },
@@ -233,9 +236,9 @@ export async function getJatuhTempoSatuMinggu(
     where: {
       OR: [
         {
-          faktur: {
+          tandaterimatagihan: {
             NOT: {
-              no_fk: null, // Exclude purchaseOrders without a faktur
+              no_penagihan: null, // Exclude purchaseOrders without a faktur
             },
             tgl_jt: {
               gt: today, // Filter for due dates after today
@@ -256,7 +259,7 @@ export async function getJatuhTempoSatuMinggu(
           },
         },
         {
-          faktur: null, // Include purchaseOrders without a faktur (optional)
+          tandaterimatagihan: null, // Include purchaseOrders without a faktur (optional)
         },
       ],
     },
@@ -281,7 +284,6 @@ export async function getJatuhTempoSatuMinggu(
   return jatuhTempoSatuMinggu;
 }
 
-
 export async function getJatuhTempoSatuMingguPages(currentPage: number) {
   const today = new Date();
   today.setHours(0, 0, 0, 0); // Set time to 00:00:00 for accurate filtering
@@ -298,9 +300,9 @@ export async function getJatuhTempoSatuMingguPages(currentPage: number) {
     where: {
       OR: [
         {
-          faktur: {
+          tandaterimatagihan: {
             NOT: {
-              no_fk: null, // Exclude purchaseOrders without a faktur
+              no_penagihan: null, // Exclude purchaseOrders without a faktur
             },
             tgl_jt: {
               gt: today, // Filter for due dates after today
@@ -309,7 +311,7 @@ export async function getJatuhTempoSatuMingguPages(currentPage: number) {
           },
         },
         {
-          faktur: null, // Include purchaseOrders without a faktur (optional)
+          tandaterimatagihan: null, // Include purchaseOrders without a faktur (optional)
         },
       ],
     },
@@ -328,7 +330,7 @@ export async function getJatuhTempoSemua(currentPage: number, query: string) {
     skip: offset,
     take: ITEM_PER_PAGE,
     where: {
-      faktur: {
+      tandaterimatagihan: {
         tgl_jt: {
           not: null,
         },
@@ -374,9 +376,9 @@ export async function getJatuhTempoSemua(currentPage: number, query: string) {
 export async function getJatuhTempoSemuaPages(currentPage: number) {
   const response = await prisma.purchaseOrder.count({
     where: {
-      faktur: {
+      tandaterimatagihan: {
         tgl_jt: {
-         not: null,
+          not: null,
         },
       },
     },
@@ -385,5 +387,3 @@ export async function getJatuhTempoSemuaPages(currentPage: number) {
   const totalPages = Math.ceil(Number(response) / ITEM_PER_PAGE);
   return totalPages;
 }
-
-

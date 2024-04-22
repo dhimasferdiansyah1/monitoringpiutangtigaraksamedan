@@ -36,7 +36,10 @@ import Link from "next/link";
 import Pagination from "@/components/(dashboard)/Pagination";
 import { differenceInDays, parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
-import { getJatuhTempo, getJatuhTempoPages } from "@/actions/actionJatuhTempo";
+import {
+  getJatuhTempo,
+  getJatuhTempoPages,
+} from "@/actions/actionJatuhTempoTukarFaktur";
 import { Suspense } from "react";
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
@@ -225,7 +228,7 @@ export default async function HariIni({
                       </div>
 
                       <div className="flex gap-2">
-                        <p className="w-24">Tanggal JT</p>
+                        <p className="w-24">Tanggal JT Faktur</p>
                         <span>:</span>
                         <div>
                           {formatDateIsoFetch(
@@ -306,19 +309,19 @@ export default async function HariIni({
                       </span>
                       {po.faktur?.tgl_jt === undefined ||
                       po.faktur?.tgl_jt === null ? (
-                        "Belum ada tanggal jatuh tempo"
+                        "Belum ada tanggal jatuh tempo tukar faktur"
                       ) : (
                         <div>
                           {differenceInDays(jakartaTglJtArray[index], today) ===
                           0
                             ? // Hari ini
-                              "Sudah jatuh tempo"
+                              "Sudah jatuh tempo tukar faktur"
                             : differenceInDays(
                                 jakartaTglJtArray[index],
                                 today
                               ) === 1
                             ? // Besok
-                              "Besok jatuh tempo"
+                              "Besok jatuh tempo tukar faktur"
                             : differenceInDays(
                                 jakartaTglJtArray[index],
                                 today
@@ -327,9 +330,9 @@ export default async function HariIni({
                               `${differenceInDays(
                                 jakartaTglJtArray[index],
                                 today
-                              )} hari lagi jatuh tempo`
+                              )} hari lagi jatuh tempo tukar faktur`
                             : // Jatuh tempo telah lewat X hari
-                              `Jatuh tempo telah lewat ${Math.abs(
+                              `Jatuh tempo tukar faktur telah lewat ${Math.abs(
                                 differenceInDays(
                                   jakartaTglJtArray[index],
                                   today

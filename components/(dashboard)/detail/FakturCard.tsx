@@ -51,7 +51,9 @@ export default async function FakturCard({
       </div>
       <hr className="my-1.5" />
       <div className="flex gap-2">
-        <p className="min-w-24 max-w-24 text-balance">Tgl. jatuh tempo</p>
+        <p className="min-w-24 max-w-24 text-balance">
+          Tgl. jatuh tempo tukar faktur
+        </p>
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
@@ -81,7 +83,9 @@ export default async function FakturCard({
       </div>
       <hr className="my-1.5" />
       <div className="flex gap-2">
-        <p className="min-w-24 max-w-24 text-balance">Foto faktur 1</p>
+        <p className="min-w-24 max-w-24 text-balance">
+          Foto faktur sebelum tukar faktur
+        </p>
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
@@ -99,7 +103,7 @@ export default async function FakturCard({
                 <DialogContent>
                   <DialogHeader>
                     <DialogTitle className="mb-4">
-                      Foto faktur {faktur?.faktur?.foto1_fk}
+                      Foto faktur {faktur?.faktur?.no_fk}
                     </DialogTitle>
                     <DialogDescription>
                       {faktur?.faktur?.foto1_fk ? (
@@ -136,7 +140,9 @@ export default async function FakturCard({
       </div>
       <hr className="my-1.5" />
       <div className="flex gap-2">
-        <p className="min-w-24 max-w-24 text-balance">Foto faktur 2</p>
+        <p className="min-w-24 max-w-24 text-balance">
+          Foto faktur setelah tukar faktur
+        </p>
         <span>:</span>
         <div>
           <div className=" break-all text-muted-foreground">
@@ -153,7 +159,7 @@ export default async function FakturCard({
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle className="mb-4">
-                    Foto faktur {faktur?.faktur?.foto2_fk}
+                    Foto faktur {faktur?.faktur?.no_fk}
                   </DialogTitle>
                   <DialogDescription>
                     {faktur?.faktur?.foto2_fk ? (

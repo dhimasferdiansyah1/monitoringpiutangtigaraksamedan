@@ -20,7 +20,10 @@ import {
 } from "@/lib/utils";
 import { differenceInDays, parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
-import { getJatuhTempo, getJatuhTempoPages } from "@/actions/actionJatuhTempo";
+import {
+  getJatuhTempo,
+  getJatuhTempoPages,
+} from "@/actions/actionJatuhTempoTukarFaktur";
 import { Button } from "@/components/ui/button";
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";

@@ -35,13 +35,37 @@ const NavbarDashboard = () => {
 
   const mainRoutes = [
     { href: "/", label: "Landingpage" },
-    { href: "/dashboard", label: "Dashboard" },
+    {
+      href: "/dashboard",
+      label: "Dashboard",
+      active: [
+        "/dashboard",
+        "/dashboard/pemegangdokumen/sales",
+        "/dashboard/pemegangdokumen/adminsales",
+        "/dashboard/pemegangdokumen/admingudang",
+        "/dashboard/pemegangdokumen/driver",
+        "/dashboard/pemegangdokumen/admininkaso",
+        "/dashboard/pemegangdokumen/kasir",
+        "/dashboard/pemegangdokumen/kolektor",
+        "/dashboard/jatuhtempo",
+        "/dashboard/jatuhtempo/penagihan",
+        "/dashboard/jatuhtempo/penagihan/besok",
+        "/dashboard/jatuhtempo/penagihan/satuminggu",
+        "/dashboard/jatuhtempo/penagihan/semua",
+
+        "/dashboard/jatuhtempo/tukarfaktur",
+        "/dashboard/jatuhtempo/tukarfaktur/besok",
+        "/dashboard/jatuhtempo/tukarfaktur/satuminggu",
+        "/dashboard/jatuhtempo/tukarfaktur/semua",
+      ],
+    },
   ];
 
   const extraRoutes = [
     {
       href: "/dashboard/pilihrole",
       label: "Pilih Role",
+      active: "/dashboard/pilihrole",
     },
     {
       href: "/dashboard/karyawan",
@@ -57,6 +81,16 @@ const NavbarDashboard = () => {
     },
     {
       href: "/dashboard",
+      active: [
+        "/dashboard",
+        "/dashboard/pemegangdokumen/sales",
+        "/dashboard/pemegangdokumen/adminsales",
+        "/dashboard/pemegangdokumen/admingudang",
+        "/dashboard/pemegangdokumen/driver",
+        "/dashboard/pemegangdokumen/admininkaso",
+        "/dashboard/pemegangdokumen/kasir",
+        "/dashboard/pemegangdokumen/kolektor",
+      ],
       icon: <ActivitySquare className="h-4 w-4" />,
       label: "Main monitoring",
     },
@@ -72,6 +106,19 @@ const NavbarDashboard = () => {
       href: "/dashboard/jatuhtempo",
       icon: <AlertTriangle className="h-4 w-4" />,
       label: "Jatuh tempo",
+      active: [
+        "/dashboard/jatuhtempo",
+
+        "/dashboard/jatuhtempo/penagihan",
+        "/dashboard/jatuhtempo/penagihan/besok",
+        "/dashboard/jatuhtempo/penagihan/satuminggu",
+        "/dashboard/jatuhtempo/penagihan/semua",
+
+        "/dashboard/jatuhtempo/tukarfaktur",
+        "/dashboard/jatuhtempo/tukarfaktur/besok",
+        "/dashboard/jatuhtempo/tukarfaktur/satuminggu",
+        "/dashboard/jatuhtempo/tukarfaktur/semua",
+      ],
     },
     {
       href: "/dashboard/piutangselesai",
@@ -147,7 +194,8 @@ const NavbarDashboard = () => {
                     key={route.href}
                     href={route.href}
                     className={`text-sm transition-colors hover:text-primary ${
-                      pathname === route.href
+                      Array.isArray(route.active) &&
+                      route.active.includes(pathname)
                         ? " font-medium text-black dark:text-white"
                         : " font-medium text-muted-foreground"
                     }`}
@@ -319,7 +367,7 @@ const NavbarDashboard = () => {
               key={route.href}
               href={route.href}
               className={`flex items-center gap-1 text-sm transition-colors hover:text-primary ${
-                pathname === route.href
+                Array.isArray(route.active) && route.active.includes(pathname)
                   ? " font-medium text-black dark:text-white"
                   : "font-medium text-muted-foreground"
               }`}
@@ -336,7 +384,7 @@ const NavbarDashboard = () => {
               key={route.href}
               href={route.href}
               className={`flex items-center gap-1 text-sm transition-colors hover:text-primary ${
-                pathname === route.href
+                Array.isArray(route.active) && route.active.includes(pathname)
                   ? " font-medium text-black dark:text-white"
                   : "font-medium text-muted-foreground"
               }`}

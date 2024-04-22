@@ -272,17 +272,35 @@ export default async function Kasir({
                     </div>
 
                     <div className="flex gap-2">
-                      <p className="w-24">Tanggal JT</p>
-                      <span>:</span>
-                      <div>
-                        {formatDateIsoFetch(
-                          po.faktur?.tgl_jt?.toISOString() ?? ""
-                        ) || (
-                          <p className="text-destructive dark:text-red-400">
-                            Tidak ada
-                          </p>
-                        )}
-                      </div>
+                      {po.tandaterimatagihan?.tgl_jt === null ? (
+                        <>
+                          <p className="w-24">Tanggal JT Faktur</p>
+                          <span>:</span>
+                          <div>
+                            {formatDateIsoFetch(
+                              po.faktur?.tgl_jt?.toISOString() ?? ""
+                            ) || (
+                              <p className="text-destructive dark:text-red-400">
+                                Tidak ada
+                              </p>
+                            )}
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <p className="w-24">Tanggal JT Penagihan</p>
+                          <span>:</span>
+                          <div>
+                            {formatDateIsoFetch(
+                              po.tandaterimatagihan?.tgl_jt?.toISOString() ?? ""
+                            ) || (
+                              <p className="text-destructive dark:text-red-400">
+                                Tidak ada
+                              </p>
+                            )}
+                          </div>
+                        </>
+                      )}
                     </div>
                     <div className="flex gap-2">
                       <p className="w-24">Nilai</p>
@@ -323,81 +341,171 @@ export default async function Kasir({
                 </div>
 
                 <div className="mt-4 flex lg:flex-row flex-col lg:justify-between lg:items-center gap-4">
-                  <div className="relative flex items-center justify-Start gap-2 text-sm font-thin text-muted-foreground">
-                    <span className="relative flex h-3 w-3">
-                      <span
-                        className={`animate-ping absolute items-center justify-center inline-flex h-full w-full rounded-full ${
-                          po.faktur?.tgl_jt === null
-                            ? "bg-gray-400"
-                            : differenceInDays(
-                                jakartaTglJtArray[index],
-                                today
-                              ) >= 2
-                            ? "bg-green-400"
+                  {po.tandaterimatagihan?.tgl_jt === null ? (
+                    <div className="relative flex items-center justify-Start gap-2 text-sm font-thin text-muted-foreground">
+                      <span className="relative flex h-3 w-3">
+                        <span
+                          className={`animate-ping absolute items-center justify-center inline-flex h-full w-full rounded-full ${
+                            po.faktur?.tgl_jt === null
+                              ? "bg-gray-400"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) >= 2
+                              ? "bg-green-400"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) === 1
+                              ? "bg-yellow-400"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) === 0
+                              ? "bg-red-400"
+                              : "bg-red-600"
+                          } opacity-75`}
+                        />
+                        <span
+                          className={`relative inline-flex items-center justify-center rounded-full h-3 w-3 ${
+                            po.faktur?.tgl_jt === null
+                              ? "bg-gray-500"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) >= 2
+                              ? "bg-green-500"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) === 1
+                              ? "bg-yellow-500"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) === 0
+                              ? "bg-red-500"
+                              : "bg-red-700"
+                          }`}
+                        />
+                      </span>
+                      {po.faktur?.tgl_jt === undefined ||
+                      po.faktur?.tgl_jt === null ? (
+                        "Belum ada tanggal jatuh tempo tukar faktur"
+                      ) : (
+                        <div>
+                          {differenceInDays(jakartaTglJtArray[index], today) ===
+                          0
+                            ? // Hari ini
+                              "Sudah jatuh tempo tukar faktur"
                             : differenceInDays(
                                 jakartaTglJtArray[index],
                                 today
                               ) === 1
-                            ? "bg-yellow-400"
+                            ? // Besok
+                              "Besok jatuh tempo tukar faktur"
                             : differenceInDays(
                                 jakartaTglJtArray[index],
                                 today
-                              ) === 0
-                            ? "bg-red-400"
-                            : "bg-red-600"
-                        } opacity-75`}
-                      />
-                      <span
-                        className={`relative inline-flex items-center justify-center rounded-full h-3 w-3 ${
-                          po.faktur?.tgl_jt === null
-                            ? "bg-gray-500"
-                            : differenceInDays(
+                              ) > 0
+                            ? // Jatuh tempo X hari lagi
+                              `${differenceInDays(
                                 jakartaTglJtArray[index],
                                 today
-                              ) >= 2
-                            ? "bg-green-500"
+                              )} hari lagi jatuh tempo tukar faktur`
+                            : // Jatuh tempo telah lewat X hari
+                              `Jatuh tempo tukar faktur telah lewat ${Math.abs(
+                                differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                )
+                              )} hari`}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="relative flex items-center justify-Start gap-2 text-sm font-thin text-muted-foreground">
+                      <span className="relative flex h-3 w-3">
+                        <span
+                          className={`animate-ping absolute items-center justify-center inline-flex h-full w-full rounded-full ${
+                            po.tandaterimatagihan?.tgl_jt === null
+                              ? "bg-gray-400"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) >= 2
+                              ? "bg-green-400"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) === 1
+                              ? "bg-yellow-400"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) === 0
+                              ? "bg-red-400"
+                              : "bg-red-600"
+                          } opacity-75`}
+                        />
+                        <span
+                          className={`relative inline-flex items-center justify-center rounded-full h-3 w-3 ${
+                            po.tandaterimatagihan?.tgl_jt === null
+                              ? "bg-gray-500"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) >= 2
+                              ? "bg-green-500"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) === 1
+                              ? "bg-yellow-500"
+                              : differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                ) === 0
+                              ? "bg-red-500"
+                              : "bg-red-700"
+                          }`}
+                        />
+                      </span>
+                      {po.tandaterimatagihan?.tgl_jt === undefined ||
+                      po.tandaterimatagihan?.tgl_jt === null ? (
+                        "Belum ada tanggal jatuh tempo penagihan"
+                      ) : (
+                        <div>
+                          {differenceInDays(jakartaTglJtArray[index], today) ===
+                          0
+                            ? // Hari ini
+                              "Sudah jatuh tempo penagihan"
                             : differenceInDays(
                                 jakartaTglJtArray[index],
                                 today
                               ) === 1
-                            ? "bg-yellow-500"
+                            ? // Besok
+                              "Besok jatuh tempo penagihan"
                             : differenceInDays(
                                 jakartaTglJtArray[index],
                                 today
-                              ) === 0
-                            ? "bg-red-500"
-                            : "bg-red-700"
-                        }`}
-                      />
-                    </span>
-                    {po.faktur?.tgl_jt === undefined ||
-                    po.faktur?.tgl_jt === null ? (
-                      "Belum ada tanggal jatuh tempo"
-                    ) : (
-                      <div>
-                        {differenceInDays(jakartaTglJtArray[index], today) === 0
-                          ? // Hari ini
-                            "Sudah jatuh tempo"
-                          : differenceInDays(
-                              jakartaTglJtArray[index],
-                              today
-                            ) === 1
-                          ? // Besok
-                            "Besok jatuh tempo"
-                          : differenceInDays(jakartaTglJtArray[index], today) >
-                            0
-                          ? // Jatuh tempo X hari lagi
-                            `${differenceInDays(
-                              jakartaTglJtArray[index],
-                              today
-                            )} hari lagi jatuh tempo`
-                          : // Jatuh tempo telah lewat X hari
-                            `Jatuh tempo telah lewat ${Math.abs(
-                              differenceInDays(jakartaTglJtArray[index], today)
-                            )} hari`}
-                      </div>
-                    )}
-                  </div>
+                              ) > 0
+                            ? // Jatuh tempo X hari lagi
+                              `${differenceInDays(
+                                jakartaTglJtArray[index],
+                                today
+                              )} hari lagi jatuh tempo penagihan`
+                            : // Jatuh tempo telah lewat X hari
+                              `Jatuh tempo penagihan telah lewat ${Math.abs(
+                                differenceInDays(
+                                  jakartaTglJtArray[index],
+                                  today
+                                )
+                              )} hari`}
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <div className="flex items-center justify-end gap-4">
                     <AlertDialog>
                       <AlertDialogTrigger name="delete" aria-label="delete">
