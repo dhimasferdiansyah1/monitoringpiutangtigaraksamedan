@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: "Jatuh Tempo Hari ini/Lewat",
+  title: "Jatuh Tempo",
 };
 
 export default async function JatuhTempoPage({

@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata: Metadata = {
-  title: "Jatuh Tempo Tukar Faktur Satu Minggu",
+  title: "Jatuh Tempo Penagihan Satu Minggu",
 };
 
 export default async function JatuhTempoSatuMingguPage({
@@ -23,7 +23,7 @@ export default async function JatuhTempoSatuMingguPage({
       <div className="container mx-auto xl:px-0">
         <div className="flex flex-col">
           <h1 className="my-4 text-center text-2xl font-bold">
-            Jatuh Tempo Penagihan Rentang Hari Ini / Lewat
+            Jatuh Tempo Penagihan Rentang Satu Minggu
           </h1>
           <div className="flex ju</div>stify-end"></div>
         </div>

@@ -29,7 +29,7 @@ export default async function JatuhTempoSemuaPage({
       <div className="container mx-auto xl:px-0">
         <div className="flex flex-col">
           <h1 className="my-4 text-center text-2xl font-bold">
-            Jatuh Tempo Tukar Faktur Rentang Hari Ini / Lewat
+            Jatuh Tempo Tukar Faktur Rentang Semua
           </h1>
           <div className="flex ju</div>stify-end"></div>
         </div>

@@ -23,7 +23,7 @@ export default async function JatuhTempoBesokPage({
       <div className="container mx-auto xl:px-0">
         <div className="flex flex-col">
           <h1 className="my-4 text-center text-2xl font-bold">
-            Jatuh Tempo Rentang Hari Ini / Lewat
+            Jatuh Tempo Rentang Besok
           </h1>
           <div className="flex ju</div>stify-end"></div>
         </div>
