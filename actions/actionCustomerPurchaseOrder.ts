@@ -23,15 +23,24 @@ export async function getCustomerPurchaseOrderUniqe(
 export async function getCustomerPurchaseOrderById(
   query: string,
   currentPage: number,
-  id: string
+  id: string,
+  status_po?: string
 ) {
   const take = ITEM_PER_PAGE;
   const skip = (currentPage - 1) * take; // Calculate skip based on current page
   const today = new Date().toISOString().slice(0, 10); // Get today's date
-
+  const offset = (currentPage - 1) * ITEM_PER_PAGE;
+  const whereClause = {
+    OR: [
+      // ... (existing query conditions)
+    ],
+    // Add status_po filter if provided
+    ...(status_po && { status_po }),
+  };
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     where: {
       customer_id: id,
+      AND: whereClause || "",
       OR: [
         {
           no_po: {

@@ -44,6 +44,7 @@ export async function createDeliveryNoteDetail(
       ...values,
     },
   });
+
   revalidatePath(`/dashboard/detail/${purchaseOrderId?.purchase_order.id}`);
   redirect(`/dashboard/detail/${purchaseOrderId?.purchase_order.id}`);
 }

@@ -50,23 +50,30 @@ import { differenceInDays, parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { Metadata } from "next";
 import PemegangDokumen from "@/components/(dashboard)/PemegangDokumen";
+import RefreshButton from "@/components/ui/refresh-button";
+import FilterStatusPo from "@/components/(dashboard)/FilterStatusPo";
 
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-
 export default async function CustomerPurchaseOrderList({
   searchParams,
   params,
 }: {
-  searchParams: { search?: string; page?: string };
+  searchParams: { search?: string; page?: string; status_po?: string };
   params: { purchaseOrderCustomerId: string };
 }) {
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
   const id = params.purchaseOrderCustomerId;
-  const data = await getCustomerPurchaseOrderById(query, currentPage, id);
+  const status_po = searchParams.status_po;
+  const data = await getCustomerPurchaseOrderById(
+    query,
+    currentPage,
+    id,
+    status_po
+  );
   const totalPages = await getCustomerPurchaseOrderByIdPages(query);
   const customer = await getCustomerPurchaseOrderUniqe(id);
   const jatuhTempoCount = await getJatuhTempoCount(id);
@@ -123,7 +130,12 @@ export default async function CustomerPurchaseOrderList({
           </p>
         )}
       </div>
-      <p className="text-sm text-muted-foreground">Total : {data.length}</p>
+      <div className="flex gap-4 items-center">
+        {/* refresh button */}
+        <RefreshButton />
+        <FilterStatusPo initialStatus={status_po} />
+        <p className="text-sm text-muted-foreground">Total : {data.length}</p>
+      </div>
       <div className="my-4 grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">
         {data.length > 0 ? (
           data.map((po, index) => (
@@ -212,11 +224,19 @@ export default async function CustomerPurchaseOrderList({
                     </div>
 
                     <span
-                      className={`flex w-fit items-center rounded-full p-[2px] px-[10px] text-sm lg:w-auto ${
-                        po.status_po === "Berjalan"
-                          ? "bg-yellow-300/80 text-yellow-950 hover:bg-yellow-200 dark:bg-yellow-300/30 dark:text-yellow-100"
+                      className={`flex w-fit items-center justify-center rounded-full p-[2px] px-[10px] text-sm lg:w-auto hover:bg-opacity-80 dark:hover:brightness-105 ${
+                        po.status_po === "Baru"
+                          ? "bg-blue-100 text-blue-900 dark:bg-blue-300 dark:text-blue-50"
+                          : po.status_po === "Pengantaran"
+                          ? "bg-blue-300 text-blue-900 dark:bg-blue-500 dark:text-blue-100"
+                          : po.status_po === "Tukar faktur"
+                          ? "bg-yellow-300 text-yellow-900 dark:bg-yellow-500 dark:text-yellow-100"
+                          : po.status_po === "Penagihan"
+                          ? "bg-red-300 text-red-900 dark:bg-red-500 dark:text-red-100"
+                          : po.status_po === "Pelunasan"
+                          ? "bg-violet-300 text-violet-900 dark:bg-violet-500 dark:text-violet-100"
                           : po.status_po === "Selesai"
-                          ? "bg-green-300 text-white hover:bg-green-200"
+                          ? "bg-green-300 text-white dark:bg-green-500"
                           : ""
                       }`}
                     >

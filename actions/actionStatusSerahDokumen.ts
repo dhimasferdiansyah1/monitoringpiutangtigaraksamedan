@@ -39,6 +39,28 @@ export async function createStatusSerahDokumenDetail(
   const values = Object.fromEntries(formData.entries());
   const { status_serah } = statusSerahDokumenSchema.parse(values);
 
+  const hasOnDelivery = status_serah === "Driver melakukan pengantaran barang";
+  const hasSelesaiDelivery =
+    status_serah === "Driver selesai melakukan pengantaran barang";
+  const hasSelesaiFaktur =
+    status_serah === "Kolektor selesai melakukan tukar faktur";
+  const hasSelesaiNagih =
+    status_serah === "Kolektor selesai melakukan penagihan piutang";
+
+  let status_po: string;
+
+  if (hasSelesaiNagih) {
+    status_po = "Pelunasan";
+  } else if (hasSelesaiFaktur) {
+    status_po = "Penagihan";
+  } else if (hasSelesaiDelivery) {
+    status_po = "Tukar faktur";
+  } else if (hasOnDelivery) {
+    status_po = "Pengantaran";
+  } else {
+    status_po = "Baru";
+  }
+
   await prisma.purchaseOrder.update({
     where: {
       id: id,
@@ -51,8 +73,10 @@ export async function createStatusSerahDokumenDetail(
           role: userInfo?.role,
         },
       },
+      status_po: status_po,
     },
   });
+
   revalidatePath(`/dashboard/detail/${purchaseOrderId?.id}`);
   redirect(`/dashboard/detail/${purchaseOrderId?.id}`);
 }

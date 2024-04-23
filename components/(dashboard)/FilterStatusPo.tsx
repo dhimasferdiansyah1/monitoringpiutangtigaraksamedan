@@ -49,7 +49,6 @@ const FilterStatusPo: React.FC<FilterDropdownProps> = ({ initialStatus }) => {
       <option value="Penagihan">Penagihan</option>
       <option value="Pelunasan">Pelunasan</option>
       <option value="Selesai">Selesai</option>
-      {/* ... other status options */}
     </select>
   );
 };

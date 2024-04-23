@@ -212,19 +212,19 @@ export default async function MainMonitoringList({
                       </Popover>
                     </div>
                     <span
-                      className={`flex w-fit items-center justify-center rounded-full p-[2px] px-[10px] text-sm lg:w-auto ${
+                      className={`flex w-fit items-center justify-center rounded-full p-[2px] px-[10px] text-sm lg:w-auto hover:bg-opacity-80 dark:hover:brightness-105 ${
                         po.status_po === "Baru"
-                          ? "bg-blue-100 text-blue-900 dark:bg-blue-300 dark:text-blue-50 hover:bg-opacity-80"
+                          ? "bg-blue-100 text-blue-900 dark:bg-blue-300 dark:text-blue-50"
                           : po.status_po === "Pengantaran"
-                          ? "bg-blue-300 text-blue-900 dark:bg-blue-500 dark:text-blue-100 hover:bg-opacity-80"
+                          ? "bg-blue-300 text-blue-900 dark:bg-blue-500 dark:text-blue-100"
                           : po.status_po === "Tukar faktur"
-                          ? "bg-yellow-300 text-yellow-900 dark:bg-yellow-500 dark:text-yellow-100 hover:bg-opacity-80"
+                          ? "bg-yellow-300 text-yellow-900 dark:bg-yellow-500 dark:text-yellow-100"
                           : po.status_po === "Penagihan"
-                          ? "bg-red-300 text-red-900 dark:bg-red-500 dark:text-red-100 hover:bg-opacity-80"
+                          ? "bg-red-300 text-red-900 dark:bg-red-500 dark:text-red-100"
                           : po.status_po === "Pelunasan"
-                          ? "bg-violet-300 text-violet-900 dark:bg-violet-500 dark:text-violet-100 hover:bg-opacity-80"
+                          ? "bg-violet-300 text-violet-900 dark:bg-violet-500 dark:text-violet-100"
                           : po.status_po === "Selesai"
-                          ? "bg-green-300 text-white dark:bg-green-500 hover:bg-opacity-80"
+                          ? "bg-green-300 text-white dark:bg-green-500"
                           : ""
                       }`}
                     >

@@ -198,10 +198,20 @@ export default async function DetailPage({
                     <ShoppingCart className="h-5 w-5" />
                     PurchaseOrder
                     <div
-                      className={`mx-4 flex w-fit items-center rounded-full p-[2px] px-[10px] text-sm lg:w-auto ${
-                        detail?.status_po === "Berjalan"
-                          ? "bg-yellow-300/80 text-yellow-950 hover:bg-yellow-200 dark:bg-yellow-300/30 dark:text-yellow-100"
-                          : "bg-green-300 text-white hover:bg-green-200"
+                      className={`mx-4 flex w-fit items-center rounded-full p-[2px] px-[10px] text-sm lg:w-auto hover:bg-opacity-80 dark:hover:brightness-105 ${
+                        detail.status_po === "Baru"
+                          ? "bg-blue-100 text-blue-900 dark:bg-blue-300 dark:text-blue-50"
+                          : detail.status_po === "Pengantaran"
+                          ? "bg-blue-300 text-blue-900 dark:bg-blue-500 dark:text-blue-100"
+                          : detail.status_po === "Tukar faktur"
+                          ? "bg-yellow-300 text-yellow-900 dark:bg-yellow-500 dark:text-yellow-100"
+                          : detail.status_po === "Penagihan"
+                          ? "bg-red-300 text-red-900 dark:bg-red-500 dark:text-red-100"
+                          : detail.status_po === "Pelunasan"
+                          ? "bg-violet-300 text-violet-900 dark:bg-violet-500 dark:text-violet-100"
+                          : detail.status_po === "Selesai"
+                          ? "bg-green-300 text-white dark:bg-green-500"
+                          : ""
                       }`}
                     >
                       {detail?.status_po}

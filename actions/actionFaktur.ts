@@ -59,6 +59,7 @@ export async function createFakturDetail(formData: FormData, fakturId: string) {
       foto2_fk,
     },
   });
+
   revalidatePath(`/dashboard/detail/${purchaseOrderId?.purchase_order.id}`);
   redirect(`/dashboard/detail/${purchaseOrderId?.purchase_order.id}`);
 }

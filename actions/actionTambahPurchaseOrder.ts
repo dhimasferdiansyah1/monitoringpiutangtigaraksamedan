@@ -26,6 +26,7 @@ export async function createPurchaseOrder(formData: FormData) {
    nomorPurchaseOrderWithoutPeriods + "-" + "ssd" + uuidModifiedShort();
   const { userId } = auth();
   const user = await currentUser();
+  const hasFoto2Dn = formData.has("foto2_dn");
 
   const userInfo = await prisma.userInfo.findUnique({
     where: {
@@ -41,7 +42,7 @@ export async function createPurchaseOrder(formData: FormData) {
         no_po,
         tgl_po,
         foto_po,
-        status_po,
+        status_po: "Baru", // Conditional update
 
         delivery_note: {
           create: {
