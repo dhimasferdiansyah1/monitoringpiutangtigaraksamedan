@@ -40,7 +40,7 @@ const FilterStatusPo: React.FC<FilterDropdownProps> = ({ initialStatus }) => {
     <select
       value={selectedStatus}
       onChange={handleChange}
-      className="p-2 border rounded-md max-w-56 my-4"
+      className="p-2 border rounded-md max-w-56 my-4 cursor-pointer"
     >
       <option value="">Semua Status</option>
       <option value="Baru">Baru</option>

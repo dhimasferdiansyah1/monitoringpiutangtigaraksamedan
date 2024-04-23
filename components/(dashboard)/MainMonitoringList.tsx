@@ -66,17 +66,13 @@ export default async function MainMonitoringList({
     search?: string;
     page?: string;
     status_po?: string;
-    refreshKey?: string;
   };
 }) {
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
   const status_po = searchParams.status_po;
-  const shouldRefresh = typeof searchParams.refreshKey !== "undefined";
 
-  const data = shouldRefresh
-    ? await getMainMonitoring(query, currentPage, status_po)
-    : await getMainMonitoring(query, currentPage, status_po);
+  const data = await getMainMonitoring(query, currentPage, status_po);
 
   const totalPages = await getMainMonitoringPages(query);
 
