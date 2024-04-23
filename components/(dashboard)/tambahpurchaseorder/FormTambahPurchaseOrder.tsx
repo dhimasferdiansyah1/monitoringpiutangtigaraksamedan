@@ -46,7 +46,7 @@ export default function FormTambahPurchaseOrder() {
       no_po: "",
       tgl_po: new Date(),
       foto_po: "",
-      status_po: "Berjalan",
+      status_po: "Baru",
       status_serah: "Sales menerima purchase order dari toko",
     },
   });

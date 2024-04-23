@@ -6,8 +6,20 @@ import { redirect } from "next/navigation";
 
 const ITEM_PER_PAGE = 6;
 
-export async function getMainMonitoring(query: string, currentPage: number) {
+export async function getMainMonitoring(
+  query: string,
+  currentPage: number,
+  status_po?: string
+) {
   const offset = (currentPage - 1) * ITEM_PER_PAGE;
+  const whereClause = {
+    OR: [
+      // ... (existing query conditions)
+    ],
+    // Add status_po filter if provided
+    ...(status_po && { status_po }),
+  };
+
   const mainMonitoring = await prisma.purchaseOrder.findMany({
     skip: offset,
     take: ITEM_PER_PAGE,
@@ -15,6 +27,7 @@ export async function getMainMonitoring(query: string, currentPage: number) {
       createdAt: "desc",
     },
     where: {
+      AND: whereClause || "",
       OR: [
         {
           no_po: {

@@ -48,6 +48,8 @@ import { differenceInDays, parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { Metadata } from "next";
 import PemegangDokumen from "@/components/(dashboard)/PemegangDokumen";
+import FilterStatusPo from "./FilterStatusPo";
+import RefreshButton from "../ui/refresh-button";
 
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
@@ -60,11 +62,22 @@ export const metadata: Metadata = {
 export default async function MainMonitoringList({
   searchParams,
 }: {
-  searchParams: { search?: string; page?: string };
+  searchParams: {
+    search?: string;
+    page?: string;
+    status_po?: string;
+    refreshKey?: string;
+  };
 }) {
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
-  const data = await getMainMonitoring(query, currentPage);
+  const status_po = searchParams.status_po;
+  const shouldRefresh = typeof searchParams.refreshKey !== "undefined";
+
+  const data = shouldRefresh
+    ? await getMainMonitoring(query, currentPage, status_po)
+    : await getMainMonitoring(query, currentPage, status_po);
+
   const totalPages = await getMainMonitoringPages(query);
 
   const today = new Date();
@@ -93,13 +106,18 @@ export default async function MainMonitoringList({
 
   return (
     <div className="flex flex-col">
-      <p className="text-sm text-muted-foreground">Total : {data.length}</p>
-      <div className="my-4 grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">
+      <div className="flex gap-4 items-center">
+        {/* refresh button */}
+        <RefreshButton />
+        <FilterStatusPo initialStatus={status_po} />
+        <p className="text-sm text-muted-foreground">Total : {data.length}</p>
+      </div>
+      <div className="mt-2 mb-4 grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">
         {data.length > 0 ? (
           data.map((po, index) => (
             <Card
               key={po.id}
-              className="flex flex-col p-4 duration-200 hover:shadow hover:border-zinc-300 dark:hover:border-zinc-600 hover:duration-200 dark:hover:shadow-zinc-800"
+              className="flex flex-col p-4 duration-200 hover:shadow hover:border-zinc-300 dark:hover:border-zinc-600 hover:duration-200 dark:bg-zinc-900 dark:hover:shadow-zinc-800"
             >
               <div className="flex-col">
                 <div className="flex flex-col gap-1">
@@ -197,13 +215,20 @@ export default async function MainMonitoringList({
                         </PopoverContent>
                       </Popover>
                     </div>
-
                     <span
-                      className={`flex w-fit items-center rounded-full p-[2px] px-[10px] text-sm lg:w-auto ${
-                        po.status_po === "Berjalan"
-                          ? "bg-yellow-300/80 text-yellow-950 hover:bg-yellow-200 dark:bg-yellow-300/30 dark:text-yellow-100"
+                      className={`flex w-fit items-center justify-center rounded-full p-[2px] px-[10px] text-sm lg:w-auto ${
+                        po.status_po === "Baru"
+                          ? "bg-blue-100 text-blue-900 dark:bg-blue-300 dark:text-blue-50 hover:bg-opacity-80"
+                          : po.status_po === "Pengantaran"
+                          ? "bg-blue-300 text-blue-900 dark:bg-blue-500 dark:text-blue-100 hover:bg-opacity-80"
+                          : po.status_po === "Tukar faktur"
+                          ? "bg-yellow-300 text-yellow-900 dark:bg-yellow-500 dark:text-yellow-100 hover:bg-opacity-80"
+                          : po.status_po === "Penagihan"
+                          ? "bg-red-300 text-red-900 dark:bg-red-500 dark:text-red-100 hover:bg-opacity-80"
+                          : po.status_po === "Pelunasan"
+                          ? "bg-violet-300 text-violet-900 dark:bg-violet-500 dark:text-violet-100 hover:bg-opacity-80"
                           : po.status_po === "Selesai"
-                          ? "bg-green-300 text-white hover:bg-green-200"
+                          ? "bg-green-300 text-white dark:bg-green-500 hover:bg-opacity-80"
                           : ""
                       }`}
                     >
