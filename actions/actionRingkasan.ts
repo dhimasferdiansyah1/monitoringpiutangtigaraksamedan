@@ -184,6 +184,18 @@ export async function getTotalSelesaiPurchaseOrder() {
 }
 
 //ringkasan jatuh tempo tukar faktur
+export async function getTotalSemuaJatuhTempoTukarFaktur() {
+  const today = new Date();
+  const totalJatuhTempo = await prisma.faktur.count({
+    where: {
+      tgl_jt: {
+        lte: today,
+      },
+    },
+  });
+  return totalJatuhTempo;
+}
+
 export async function getTotalJatuhTempoTukarFakturHariIni() {
   const today = new Date();
   const totalToday = await prisma.faktur.count({
@@ -213,6 +225,59 @@ export async function getTotalJatuhTempoTukarFakturSatuMinggu() {
   nextWeek.setDate(today.getDate() + 7);
 
   const totalNextWeek = await prisma.faktur.count({
+    where: {
+      tgl_jt: {
+        gte: today,
+        lte: nextWeek,
+      },
+    },
+  });
+
+  return totalNextWeek;
+}
+
+//ringkasan jatuh tempo tukar faktur
+export async function getTotalSemuaJatuhTempoPenagihan() {
+  const today = new Date();
+  const totalJatuhTempo = await prisma.faktur.count({
+    where: {
+      tgl_jt: {
+        lte: today,
+      },
+    },
+  });
+  return totalJatuhTempo;
+}
+
+export async function getTotalJatuhTempoPenagihanHariIni() {
+  const today = new Date();
+  const totalToday = await prisma.tandaTerimaTagihan.count({
+    where: {
+      tgl_jt: today,
+    },
+  });
+  return totalToday;
+}
+
+export async function getTotalJatuhTempoPenagihanBesok() {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const totalTomorrow = await prisma.tandaTerimaTagihan.count({
+    where: {
+      tgl_jt: tomorrow,
+    },
+  });
+
+  return totalTomorrow;
+}
+
+export async function getTotalJatuhTempoPenagihanSatuMinggu() {
+  const today = new Date();
+  const nextWeek = new Date(today);
+  nextWeek.setDate(today.getDate() + 7);
+
+  const totalNextWeek = await prisma.tandaTerimaTagihan.count({
     where: {
       tgl_jt: {
         gte: today,

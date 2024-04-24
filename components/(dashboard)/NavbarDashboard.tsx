@@ -61,6 +61,7 @@ const NavbarDashboard = () => {
         "/dashboard/jatuhtempo/tukarfaktur/besok",
         "/dashboard/jatuhtempo/tukarfaktur/satuminggu",
         "/dashboard/jatuhtempo/tukarfaktur/semua",
+        "/dashboard/ringkasan",
       ],
     },
   ];

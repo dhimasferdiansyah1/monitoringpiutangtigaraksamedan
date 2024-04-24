@@ -79,7 +79,7 @@ export default async function Besok({
   });
 
   const now = new Date(); // Mendapatkan waktu saat ini
-  const sixHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000); // Menghitung waktu 1 jam yang lalu
+  const oneHoursAgo = new Date(now.getTime() - 2 * 60 * 60 * 1000); // Menghitung waktu 1 jam yang lalu
 
   return (
     <div className="flex flex-col">
@@ -120,11 +120,11 @@ export default async function Besok({
                               </TooltipContent>
                             </Tooltip>
                           </TooltipProvider>
-                          <div className="flex items-center justify-center">
+                          <div className="hidden sm:flex items-center justify-center">
                             {new Date(po.createdAt.toISOString()) >=
-                              sixHoursAgo && (
-                              <p className="bg-green-500 text-white rounded-full px-2 py-1 text-xs">
-                                New!
+                              oneHoursAgo && (
+                              <p className="text-zinc-400 rounded-full text-xs">
+                                Baru
                               </p>
                             )}
                           </div>
