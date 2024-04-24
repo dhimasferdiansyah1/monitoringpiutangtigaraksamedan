@@ -12,9 +12,7 @@ export const TambahPurchaseOrderSchema = z.object({
     required_error: "Tanggal purchase order tidak boleh kosong",
   }),
   foto_po: z.string().optional(),
-  status_po: z.string().refine((value) => {
-    return value === "Berjalan" || value === "Selesai";
-  }, "Status harus berupa Berjalan atau Selesai"),
+  status_po: z.string(),
   status_serah: z.string(),
 });
 

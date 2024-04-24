@@ -42,7 +42,7 @@ export async function createPurchaseOrder(formData: FormData) {
         no_po,
         tgl_po,
         foto_po,
-        status_po: "Baru", // Conditional update
+        status_po,
 
         delivery_note: {
           create: {

@@ -4,28 +4,28 @@ import prisma from "@/lib/prisma";
 
 const ITEM_PER_PAGE = 6;
 
-export async function getRingkasan() {
-  const ringkasan = await prisma.purchaseOrder.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-    include: {
-      customer: true,
-      delivery_note: true,
-      faktur: true,
-      faktur_pajak: true,
-      tandaterimatagihan: true,
-      statusserahdokumen: {
-        take: 1,
-        orderBy: {
-          createdAt: "desc",
-        },
-      },
-    },
-  });
+// export async function getRingkasan() {
+//   const ringkasan = await prisma.purchaseOrder.findMany({
+//     orderBy: {
+//       createdAt: "desc",
+//     },
+//     include: {
+//       customer: true,
+//       delivery_note: true,
+//       faktur: true,
+//       faktur_pajak: true,
+//       tandaterimatagihan: true,
+//       statusserahdokumen: {
+//         take: 1,
+//         orderBy: {
+//           createdAt: "desc",
+//         },
+//       },
+//     },
+//   });
 
-  return ringkasan;
-}
+//   return ringkasan;
+// }
 
 //ringkasan pendapatan
 export async function getRingkasanPendapatan() {
@@ -287,4 +287,34 @@ export async function getTotalJatuhTempoPenagihanSatuMinggu() {
   });
 
   return totalNextWeek;
+}
+
+//ringkasan chart
+export async function getDailyPurchaseOrderCounts() {
+  const purchaseOrders = await prisma.purchaseOrder.findMany({
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+
+  // Mengelompokkan berdasarkan tanggal dengan tipe data yang ditentukan
+  const dailyCounts: { [date: string]: number } = {};
+  for (const po of purchaseOrders) {
+    const date = new Date(po.createdAt);
+    const formattedDate = `${date.getDate()}/${
+      date.getMonth() + 1
+    }/${date.getFullYear()}`;
+    if (!dailyCounts[formattedDate]) {
+      dailyCounts[formattedDate] = 0;
+    }
+    dailyCounts[formattedDate]++;
+  }
+
+  // Format data untuk Recharts
+  const formattedData = Object.entries(dailyCounts).map(([date, jumlah]) => ({
+    date,
+    jumlah,
+  }));
+
+  return formattedData;
 }

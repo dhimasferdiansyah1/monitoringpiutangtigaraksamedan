@@ -10,7 +10,7 @@ import {
 import React from "react";
 import {
   getPurchaseOrderSummary,
-  getRingkasan,
+  // getRingkasan,
   getRingkasanPendapatan,
   getTotalCustomer,
   getTotalActivePurchaseOrder,
@@ -23,10 +23,13 @@ import {
   getTotalJatuhTempoPenagihanHariIni,
   getTotalJatuhTempoPenagihanBesok,
   getTotalJatuhTempoPenagihanSatuMinggu,
+  getDailyPurchaseOrderCounts,
 } from "@/actions/actionRingkasan";
+import ChartUtama from "@/components/(dashboard)/ringkasan/ChartUtama";
+import { PrismaClient } from "@prisma/client";
 
 export default async function page() {
-  const ringkasan = await getRingkasan();
+  // const ringkasan = await getRingkasan();
   const {
     currentMonthRevenue,
     lastMonthRevenue,
@@ -53,6 +56,7 @@ export default async function page() {
   const totalOneWeekBeforePenagihan =
     await getTotalJatuhTempoPenagihanSatuMinggu();
 
+  const getDailyPurchaseOrderData = await getDailyPurchaseOrderCounts();
   return (
     <div className="mx-auto my-6 max-w-7xl">
       <div className="container mx-auto xl:px-0">
@@ -61,6 +65,7 @@ export default async function page() {
             {" "}
             <h1 className="text-2xl font-bold text-nowrap mb-8">Ringkasan</h1>
           </div>
+          <ChartUtama data={getDailyPurchaseOrderData} />
         </div>
         <div className="flex flex-col">
           <p className="text-lg mb-2">Utama</p>
@@ -97,7 +102,7 @@ export default async function page() {
             </Card>
             <Card className="w-full flex flex-col p-4 gap-2 dark:bg-zinc-900">
               <div className="flex justify-between items-center">
-                <p className="font-medium">Total Penjualan</p>
+                <p className="font-medium">Total Purchase Order</p>
                 <ShoppingCart className="w-5 h-5 ml-2" />
               </div>
               <div className="font-bold text-2xl">{totalOrders}</div>
@@ -122,6 +127,9 @@ export default async function page() {
             </Card>
           </div>
 
+          <div className="flex gap-4 mt-12 border-t p-4">
+            <p className="text-lg">Pilih bulan :</p>
+          </div>
           <div className="flex flex-col gap-2 mt-6">
             <p className="text-lg">Purchase Order</p>
             <div className="grid grid-cols-1 justify-start gap-2 lg:grid-cols-3 w-full">

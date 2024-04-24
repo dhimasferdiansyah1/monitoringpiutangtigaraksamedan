@@ -136,6 +136,7 @@ const NavbarDashboard = () => {
       href: "/dashboard/piutangselesai",
       icon: <BadgeCheck className="h-4 w-4" />,
       label: "Piutang selesai",
+      active: ["/dashboard/piutangselesai"],
     },
   ];
 
