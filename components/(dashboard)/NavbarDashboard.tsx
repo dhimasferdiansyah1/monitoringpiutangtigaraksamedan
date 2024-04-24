@@ -13,6 +13,8 @@ import {
   AlertTriangle,
   BadgeCheck,
   HelpCircle,
+  GanttChartIcon,
+  FileClock,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -40,6 +42,8 @@ const NavbarDashboard = () => {
       label: "Dashboard",
       active: [
         "/dashboard",
+        "/dashboard/customer",
+        "/dashboard/customer/tambahcustomer",
         "/dashboard/pemegangdokumen/sales",
         "/dashboard/pemegangdokumen/adminsales",
         "/dashboard/pemegangdokumen/admingudang",
@@ -75,9 +79,16 @@ const NavbarDashboard = () => {
 
   const secondaryRoutes = [
     {
+      href: "/dashboard/ringkasan",
+      icon: <GanttChartIcon className="h-4 w-4" />,
+      label: "Ringkasan",
+      active: ["/dashboard/ringkasan"],
+    },
+    {
       href: "/dashboard/customer",
       icon: <Store className="h-4 w-4" />,
       label: "Customer",
+      active: ["/dashboard/customer", "/dashboard/customer/tambahcustomer"],
     },
     {
       href: "/dashboard",
@@ -96,7 +107,7 @@ const NavbarDashboard = () => {
     },
     {
       href: "/dashboard/statusserahdokumen",
-      icon: <BarChartHorizontal className="h-4 w-4" />,
+      icon: <FileClock className="h-4 w-4" />,
       label: "Status Serah",
     },
   ];
