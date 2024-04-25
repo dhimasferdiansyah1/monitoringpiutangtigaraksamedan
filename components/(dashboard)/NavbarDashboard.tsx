@@ -15,6 +15,7 @@ import {
   HelpCircle,
   GanttChartIcon,
   FileClock,
+  FlagTriangleRight,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -36,7 +37,7 @@ const NavbarDashboard = () => {
   });
 
   const mainRoutes = [
-    { href: "/", label: "Landingpage" },
+    { href: "/", label: "Landingpage", active: ["/landingpage/about"] },
     {
       href: "/dashboard",
       label: "Dashboard",
@@ -62,6 +63,7 @@ const NavbarDashboard = () => {
         "/dashboard/jatuhtempo/tukarfaktur/satuminggu",
         "/dashboard/jatuhtempo/tukarfaktur/semua",
         "/dashboard/ringkasan",
+        "/dashboard/statusserahdokumen",
       ],
     },
   ];
@@ -73,18 +75,12 @@ const NavbarDashboard = () => {
       active: "/dashboard/pilihrole",
     },
     {
-      href: "/dashboard/karyawan",
-      label: "Karyawan",
+      href: "/dashboard/user",
+      label: "User",
     },
   ];
 
   const secondaryRoutes = [
-    {
-      href: "/dashboard/ringkasan",
-      icon: <GanttChartIcon className="h-4 w-4" />,
-      label: "Ringkasan",
-      active: ["/dashboard/ringkasan"],
-    },
     {
       href: "/dashboard/customer",
       icon: <Store className="h-4 w-4" />,
@@ -110,6 +106,7 @@ const NavbarDashboard = () => {
       href: "/dashboard/statusserahdokumen",
       icon: <FileClock className="h-4 w-4" />,
       label: "Status Serah",
+      active: ["/dashboard/statusserahdokumen"],
     },
   ];
 
@@ -137,6 +134,21 @@ const NavbarDashboard = () => {
       icon: <BadgeCheck className="h-4 w-4" />,
       label: "Piutang selesai",
       active: ["/dashboard/piutangselesai"],
+    },
+  ];
+
+  const finalRoutes = [
+    {
+      href: "/dashboard/ringkasan",
+      icon: <GanttChartIcon className="h-4 w-4" />,
+      label: "Ringkasan",
+      active: ["/dashboard/ringkasan"],
+    },
+    {
+      href: "/dashboard/laporan",
+      icon: <FlagTriangleRight className="h-4 w-4" />,
+      label: "Laporan",
+      active: ["/dashboard/laporan"],
     },
   ];
 
@@ -374,6 +386,23 @@ const NavbarDashboard = () => {
       </AnimatePresence>
 
       <div className="hidden items-center justify-center gap-8 border-b p-5 lg:flex">
+        <div className="hidden items-center gap-10 lg:flex">
+          {finalRoutes.map((route) => (
+            <Link
+              key={route.href}
+              href={route.href}
+              className={`flex items-center gap-1 text-sm transition-colors hover:text-primary ${
+                Array.isArray(route.active) && route.active.includes(pathname)
+                  ? " font-medium text-black dark:text-white"
+                  : "font-medium text-muted-foreground"
+              }`}
+            >
+              {route.icon}
+              {route.label}
+            </Link>
+          ))}
+        </div>
+        <div className="h-5 border"></div>
         <div className="hidden items-center gap-10 lg:flex">
           {secondaryRoutes.map((route) => (
             <Link

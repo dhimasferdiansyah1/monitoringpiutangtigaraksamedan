@@ -1,36 +1,20 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 
 const ITEM_PER_PAGE = 6;
 
-export async function getMainMonitoring(
-  query: string,
-  currentPage: number,
-  status_po?: string
-) {
+export async function getPiutangSelesai(query: string, currentPage: number) {
   const offset = (currentPage - 1) * ITEM_PER_PAGE;
-  const whereClause = {
-    OR: [
-      // ... (existing query conditions)
-    ],
-    // Add status_po filter if provided
-    ...(status_po && { status_po }),
-  };
 
-  const mainMonitoring = await prisma.purchaseOrder.findMany({
+  const piutangSelesai = await prisma.purchaseOrder.findMany({
     skip: offset,
     take: ITEM_PER_PAGE,
     orderBy: {
       createdAt: "desc",
     },
     where: {
-      status_po: {
-        not: "Selesai",
-      },
-      AND: whereClause || "",
+      status_po: "Selesai",
       OR: [
         {
           no_po: {
@@ -71,10 +55,10 @@ export async function getMainMonitoring(
     },
   });
 
-  return mainMonitoring;
+  return piutangSelesai;
 }
 
-export async function getMainMonitoringPages(query: string) {
+export async function getPiutangSelesaiPages(query: string) {
   const response = await prisma.purchaseOrder.count({
     where: {
       OR: [
@@ -105,18 +89,4 @@ export async function getMainMonitoringPages(query: string) {
   });
   const totalPages = Math.ceil(Number(response) / ITEM_PER_PAGE);
   return totalPages;
-}
-
-export async function deleteMainMonitoring(id: string) {
-  try {
-    await prisma.purchaseOrder.delete({
-      where: {
-        id: id,
-      },
-    });
-    revalidatePath("/dashboard");
-    redirect("/dashboard");
-  } catch (error) {
-    console.log(error);
-  }
 }

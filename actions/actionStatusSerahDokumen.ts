@@ -46,20 +46,24 @@ export async function createStatusSerahDokumenDetail(
     status_serah === "Kolektor selesai melakukan tukar faktur";
   const hasSelesaiNagih =
     status_serah === "Kolektor selesai melakukan penagihan piutang";
+    const hasSelesaiPelunasan =
+      status_serah === "Admin inkaso melakukan pelunasan piutang";
 
-  let status_po: string;
+    let status_po: string;
 
-  if (hasSelesaiNagih) {
-    status_po = "Pelunasan";
-  } else if (hasSelesaiFaktur) {
-    status_po = "Penagihan";
-  } else if (hasSelesaiDelivery) {
-    status_po = "Tukar faktur";
-  } else if (hasOnDelivery) {
-    status_po = "Pengantaran";
-  } else {
-    status_po = "Baru";
-  }
+    if (hasSelesaiPelunasan) {
+      status_po = "Selesai";
+    } else if (hasSelesaiNagih) {
+      status_po = "Pelunasan";
+    } else if (hasSelesaiFaktur) {
+      status_po = "Penagihan";
+    } else if (hasSelesaiDelivery) {
+      status_po = "Tukar faktur";
+    } else if (hasOnDelivery) {
+      status_po = "Pengantaran";
+    } else {
+      status_po = "Baru";
+    }
 
   await prisma.purchaseOrder.update({
     where: {

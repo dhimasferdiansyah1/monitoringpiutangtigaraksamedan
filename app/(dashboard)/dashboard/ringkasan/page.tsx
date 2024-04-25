@@ -66,7 +66,7 @@ export default async function page() {
             {" "}
             <h1 className="text-2xl font-bold text-nowrap mb-8">Ringkasan</h1>
           </div>
-          <div className="flex gap-4">
+          <div className="flex gap-4 justify-center">
             <div className="flex-col flex items-center justify-center">
               <p>Purchase Order & Customer</p>
               <ChartPurchaseOrder data={getDailyPurchaseOrderData} />
@@ -140,7 +140,7 @@ export default async function page() {
             <p className="text-lg">Pilih bulan :</p>
           </div>
           <div className="flex flex-col gap-2 mt-6">
-            <p className="text-lg">Purchase Order</p>
+            <p className="font-bold">Purchase Order</p>
             <div className="grid grid-cols-1 justify-start gap-2 lg:grid-cols-3 w-full">
               <Card className="w-full flex flex-col p-4 gap-2 dark:bg-zinc-900">
                 <div className="flex justify-between items-center">
@@ -164,7 +164,7 @@ export default async function page() {
           </div>
 
           <div className="flex flex-col gap-2 mt-6">
-            <p className="text-lg">Jatuh Tempo Tukar Faktur</p>
+            <p className="font-bold">Jatuh Tempo Tukar Faktur</p>
             <div className="grid grid-cols-1 justify-start gap-2 lg:grid-cols-4 w-full">
               <Card className="w-full flex flex-col p-4 gap-2 dark:bg-zinc-900">
                 <div className="flex justify-between items-center">
@@ -208,7 +208,7 @@ export default async function page() {
           </div>
 
           <div className="flex flex-col gap-2 mt-6">
-            <p className="text-lg">Jatuh Tempo Penagihan</p>
+            <p className="font-bold">Jatuh Tempo Penagihan</p>
             <div className="grid grid-cols-1 justify-start gap-2 lg:grid-cols-4 w-full">
               <Card className="w-full flex flex-col p-4 gap-2 dark:bg-zinc-900">
                 <div className="flex justify-between items-center">

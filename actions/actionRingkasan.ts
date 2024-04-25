@@ -99,7 +99,7 @@ function calculatePercentageIncrease(
     return 0;
   }
   const increase = ((currentValue - previousValue) / previousValue) * 100;
-  return Math.round(increase * 100) / 100; // Round to 2 decimal places accurately
+  return Math.round(increase * 100) / 100; // Bulatkan hingga 2 tempat desimal secara akurat
 }
 
 export async function getTotalCustomer() {
@@ -119,7 +119,7 @@ export async function getPurchaseOrderSummary() {
 
   const currentMonthOrders = await getMonthlyPurchaseOrders(currentMonth);
   const lastMonthOrders = await getMonthlyPurchaseOrders(lastMonth);
-  const totalOrders = await getTotalPurchaseOrder(); // Reuse existing function
+  const totalOrders = await getTotalPurchaseOrder();
 
   const orderIncrease = currentMonthOrders - lastMonthOrders;
 
@@ -291,7 +291,6 @@ export async function getTotalJatuhTempoPenagihanSatuMinggu() {
 
 //ringkasan chart
 export async function getMonthlyData() {
-  // Mengambil data dari database
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     orderBy: {
       createdAt: "asc",
@@ -330,19 +329,19 @@ export async function getMonthlyData() {
   }
 
   for (const faktur of fakturs) {
-    // Menggunakan tabel 'faktur'
+    // Menggunakan tabel faktur
     const date = new Date(faktur.createdAt);
     const monthYear = `${date.getMonth() + 1}/${date.getFullYear()}`;
     if (!monthlyData[monthYear]) {
       monthlyData[monthYear] = { purchaseOrder: 0, customer: 0, pendapatan: 0 };
     }
-    monthlyData[monthYear].pendapatan += parseFloat(faktur.nilai ?? "0"); // Asumsikan 'nilai' adalah string
+    monthlyData[monthYear].pendapatan += parseFloat(faktur.nilai ?? "0");
   }
 
   // Format data untuk Recharts
   const formattedData = Object.entries(monthlyData).map(([month, data]) => ({
     month,
-    ...data, // Expand data: purchaseOrder, customer, pendapatan
+    ...data,
   }));
 
   return formattedData;
