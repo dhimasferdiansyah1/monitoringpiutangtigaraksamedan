@@ -290,30 +290,59 @@ export async function getTotalJatuhTempoPenagihanSatuMinggu() {
 }
 
 //ringkasan chart
-export async function getDailyPurchaseOrderCounts() {
+export async function getMonthlyData() {
+  // Mengambil data dari database
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     orderBy: {
       createdAt: "asc",
     },
   });
+  const customers = await prisma.customer.findMany({
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
+  const fakturs = await prisma.faktur.findMany({
+    // Menggunakan tabel 'faktur'
+    orderBy: {
+      createdAt: "asc",
+    },
+  });
 
-  // Mengelompokkan berdasarkan tanggal dengan tipe data yang ditentukan
-  const dailyCounts: { [date: string]: number } = {};
+  // Mengelompokkan data berdasarkan bulan
+  const monthlyData: { [month: string]: any } = {};
   for (const po of purchaseOrders) {
     const date = new Date(po.createdAt);
-    const formattedDate = `${date.getDate()}/${
-      date.getMonth() + 1
-    }/${date.getFullYear()}`;
-    if (!dailyCounts[formattedDate]) {
-      dailyCounts[formattedDate] = 0;
+    const monthYear = `${date.getMonth() + 1}/${date.getFullYear()}`;
+    if (!monthlyData[monthYear]) {
+      monthlyData[monthYear] = { purchaseOrder: 0, customer: 0, pendapatan: 0 };
     }
-    dailyCounts[formattedDate]++;
+    monthlyData[monthYear].purchaseOrder++;
+  }
+
+  for (const customer of customers) {
+    const date = new Date(customer.createdAt);
+    const monthYear = `${date.getMonth() + 1}/${date.getFullYear()}`;
+    if (!monthlyData[monthYear]) {
+      monthlyData[monthYear] = { purchaseOrder: 0, customer: 0, pendapatan: 0 };
+    }
+    monthlyData[monthYear].customer++;
+  }
+
+  for (const faktur of fakturs) {
+    // Menggunakan tabel 'faktur'
+    const date = new Date(faktur.createdAt);
+    const monthYear = `${date.getMonth() + 1}/${date.getFullYear()}`;
+    if (!monthlyData[monthYear]) {
+      monthlyData[monthYear] = { purchaseOrder: 0, customer: 0, pendapatan: 0 };
+    }
+    monthlyData[monthYear].pendapatan += parseFloat(faktur.nilai ?? "0"); // Asumsikan 'nilai' adalah string
   }
 
   // Format data untuk Recharts
-  const formattedData = Object.entries(dailyCounts).map(([date, jumlah]) => ({
-    date,
-    jumlah,
+  const formattedData = Object.entries(monthlyData).map(([month, data]) => ({
+    month,
+    ...data, // Expand data: purchaseOrder, customer, pendapatan
   }));
 
   return formattedData;

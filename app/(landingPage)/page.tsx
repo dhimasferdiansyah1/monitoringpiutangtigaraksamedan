@@ -18,7 +18,7 @@ export default async function LandingPage() {
             className="h-auto w-auto"
           />
           <span className="rounded-md border border-yellow-300 bg-yellow-200 px-2 py-1 text-sm text-yellow-900 opacity-50">
-            Versi Beta
+            On Development
           </span>
           <div className=" text-center text-2xl font-extrabold sm:w-2/4 lg:text-5xl">
             <h1>Selamat Datang di Monitoring Piutang</h1>

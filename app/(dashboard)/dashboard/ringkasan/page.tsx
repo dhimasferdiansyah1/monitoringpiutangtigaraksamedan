@@ -23,10 +23,11 @@ import {
   getTotalJatuhTempoPenagihanHariIni,
   getTotalJatuhTempoPenagihanBesok,
   getTotalJatuhTempoPenagihanSatuMinggu,
-  getDailyPurchaseOrderCounts,
+  getMonthlyData,
 } from "@/actions/actionRingkasan";
-import ChartUtama from "@/components/(dashboard)/ringkasan/ChartUtama";
 import { PrismaClient } from "@prisma/client";
+import ChartPurchaseOrder from "@/components/(dashboard)/ringkasan/ChartPurchaseOrder";
+import ChartPendapatan from "@/components/(dashboard)/ringkasan/ChartPendapatan";
 
 export default async function page() {
   // const ringkasan = await getRingkasan();
@@ -56,7 +57,7 @@ export default async function page() {
   const totalOneWeekBeforePenagihan =
     await getTotalJatuhTempoPenagihanSatuMinggu();
 
-  const getDailyPurchaseOrderData = await getDailyPurchaseOrderCounts();
+  const getDailyPurchaseOrderData = await getMonthlyData();
   return (
     <div className="mx-auto my-6 max-w-7xl">
       <div className="container mx-auto xl:px-0">
@@ -65,10 +66,18 @@ export default async function page() {
             {" "}
             <h1 className="text-2xl font-bold text-nowrap mb-8">Ringkasan</h1>
           </div>
-          <ChartUtama data={getDailyPurchaseOrderData} />
+          <div className="flex gap-4">
+            <div className="flex-col flex items-center justify-center">
+              <p>Purchase Order & Customer</p>
+              <ChartPurchaseOrder data={getDailyPurchaseOrderData} />
+            </div>
+            <div className="flex-col flex items-center justify-center">
+              <p>Pendapatan</p>
+              <ChartPendapatan data={getDailyPurchaseOrderData} />
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col">
-          <p className="text-lg mb-2">Utama</p>
+        <div className="flex flex-col mt-2">
           <div className="grid grid-cols-1 justify-start gap-2 lg:grid-cols-3">
             <Card className="w-full flex flex-col p-4 gap-2  dark:bg-zinc-900">
               <div className="flex justify-between items-center">

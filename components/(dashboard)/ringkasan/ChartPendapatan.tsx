@@ -11,7 +11,7 @@ import {
   Legend,
 } from "recharts";
 
-export default function ChartUtama({ data }: any) {
+export default function ChartPendapatan({ data }: any) {
   return (
     <LineChart
       width={500}
@@ -20,13 +20,26 @@ export default function ChartUtama({ data }: any) {
       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
     >
       <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="date" />
-      <YAxis />
+      <XAxis dataKey="month" />
+      <YAxis
+        domain={[
+          0,
+          Math.max(
+            ...data.map(
+              (item: {
+                purchaseOrder: number;
+                customer: number;
+                pendapatan: number;
+              }) => Math.max(item.purchaseOrder, item.customer)
+            )
+          ),
+        ]}
+      />
       <Tooltip />
       <Legend />
       <Line
         type="monotone"
-        dataKey="jumlah"
+        dataKey="pendapatan"
         stroke="#8884d8"
         activeDot={{ r: 8 }}
       />
