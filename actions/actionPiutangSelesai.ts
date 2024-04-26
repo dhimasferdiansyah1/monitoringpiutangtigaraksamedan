@@ -4,9 +4,20 @@ import prisma from "@/lib/prisma";
 
 const ITEM_PER_PAGE = 6;
 
-export async function getPiutangSelesai(query: string, currentPage: number) {
+export async function getPiutangSelesai(
+  query: string,
+  currentPage: number,
+  startDate?: any,
+  endDate?: any
+) {
   const offset = (currentPage - 1) * ITEM_PER_PAGE;
-
+  // const whereClause = {
+  //   status_po: "Selesai",
+  //   AND: [
+  //     ...(startDate ? [{ updatedAt: { gte: startDate } }] : []),
+  //     ...(endDate ? [{ updatedAt: { lte: endDate } }] : []),
+  //   ],
+  // };
   const piutangSelesai = await prisma.purchaseOrder.findMany({
     skip: offset,
     take: ITEM_PER_PAGE,
@@ -15,6 +26,14 @@ export async function getPiutangSelesai(query: string, currentPage: number) {
     },
     where: {
       status_po: "Selesai",
+      statusserahdokumen: {
+        some: {
+          AND: [
+            ...(startDate ? [{ updatedAt: { gte: startDate } }] : []),
+            ...(endDate ? [{ updatedAt: { lte: endDate } }] : []),
+          ],
+        },
+      },
       OR: [
         {
           no_po: {

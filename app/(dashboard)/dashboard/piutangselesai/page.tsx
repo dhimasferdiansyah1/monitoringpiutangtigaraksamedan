@@ -4,7 +4,6 @@ import SearchForm from "@/components/(dashboard)/SearchForm";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
-import PemegangDokumen from "@/components/(dashboard)/PemegangDokumen";
 
 export default async function page({
   searchParams,
@@ -12,6 +11,8 @@ export default async function page({
   searchParams?: {
     search?: string;
     page?: string;
+    startDate?: string; // Add startDate
+    endDate?: string; // Add endDate
   };
 }) {
   return (
@@ -40,12 +41,12 @@ export default async function page({
               </Link>
             </div>
           </div>
-          <div className="flex w-full justify-center">
-            <PemegangDokumen />
-          </div>
+          <div className="flex w-full justify-center"></div>{" "}
+          {/* Wrap with the provider */}
           <Suspense fallback={<div>Loading...</div>}>
             <PiutangSelesaiList searchParams={searchParams || {}} />
           </Suspense>
+          {/* Wrap with the provider */}
         </div>
       </div>
     </div>

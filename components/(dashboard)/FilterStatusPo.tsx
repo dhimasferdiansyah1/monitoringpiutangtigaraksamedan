@@ -1,4 +1,4 @@
-// FilterDropdown.tsx (client component)
+// (client component)
 "use client";
 
 import { useState } from "react";
@@ -48,7 +48,6 @@ const FilterStatusPo: React.FC<FilterDropdownProps> = ({ initialStatus }) => {
       <option value="Tukar faktur">Tukar faktur</option>
       <option value="Penagihan">Penagihan</option>
       <option value="Pelunasan">Pelunasan</option>
-      <option value="Selesai">Selesai</option>
     </select>
   );
 };

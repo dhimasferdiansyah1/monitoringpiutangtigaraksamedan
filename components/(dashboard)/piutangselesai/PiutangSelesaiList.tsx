@@ -44,6 +44,9 @@ import { differenceInDays, parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { Metadata } from "next";
 import RefreshButton from "@/components/ui/refresh-button";
+import { DateRangeFilter } from "./DateRangeFilter";
+import { useSearchParams } from "next/navigation";
+import React from "react";
 
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
@@ -59,13 +62,28 @@ export default async function PiutangSelesaiList({
   searchParams: {
     search?: string;
     page?: string;
+    startDate?: string; // Receive startDate
+    endDate?: string; // Receive endDate
   };
 }) {
   const query = searchParams?.search || "";
   const currentPage = Number(searchParams?.page) || 1;
 
-  const data = await getPiutangSelesai(query, currentPage);
+  const startDateUTC = searchParams?.startDate
+    ? new Date(searchParams.startDate)
+    : undefined; // Parse date string
+  const endDateUTC = searchParams?.endDate
+    ? new Date(searchParams.endDate)
+    : undefined; // Parse date string
 
+  const startDate = startDateUTC
+    ? zonedTimeToUtc(startDateUTC, "Asia/Jakarta")
+    : undefined;
+  const endDate = endDateUTC
+    ? zonedTimeToUtc(endDateUTC, "Asia/Jakarta")
+    : undefined;
+
+  const data = await getPiutangSelesai(query, currentPage, startDate, endDate);
   const totalPages = await getPiutangSelesaiPages(query);
 
   const today = new Date();
@@ -95,6 +113,9 @@ export default async function PiutangSelesaiList({
   return (
     <div className="flex flex-col">
       <div className="flex gap-4 items-center">
+        <div className="flex pt-4 pb-4 pr-4">
+          <DateRangeFilter />
+        </div>
         {/* refresh button */}
         <RefreshButton />
         <p className="text-sm text-muted-foreground">Total : {data.length}</p>
