@@ -28,6 +28,7 @@ import {
 import { PrismaClient } from "@prisma/client";
 import ChartPurchaseOrder from "@/components/(dashboard)/ringkasan/ChartPurchaseOrder";
 import ChartPendapatan from "@/components/(dashboard)/ringkasan/ChartPendapatan";
+import ChartCustomer from "@/components/(dashboard)/ringkasan/ChartCustomer";
 
 export default async function page() {
   // const ringkasan = await getRingkasan();
@@ -68,12 +69,16 @@ export default async function page() {
           </div>
           <div className="flex gap-4 justify-center">
             <div className="flex-col flex items-center justify-center">
-              <p>Purchase Order & Customer</p>
-              <ChartPurchaseOrder data={getDailyPurchaseOrderData} />
+              <p>Total Nilai Penjualan</p>
+              <ChartPendapatan data={getDailyPurchaseOrderData} />
             </div>
             <div className="flex-col flex items-center justify-center">
-              <p>Pendapatan</p>
-              <ChartPendapatan data={getDailyPurchaseOrderData} />
+              <p>Total Customer</p>
+              <ChartCustomer data={getDailyPurchaseOrderData} />
+            </div>
+            <div className="flex-col flex items-center justify-center">
+              <p>Purchase Order</p>
+              <ChartPurchaseOrder data={getDailyPurchaseOrderData} />
             </div>
           </div>
         </div>
@@ -81,7 +86,7 @@ export default async function page() {
           <div className="grid grid-cols-1 justify-start gap-2 lg:grid-cols-3">
             <Card className="w-full flex flex-col p-4 gap-2  dark:bg-zinc-900">
               <div className="flex justify-between items-center">
-                <p className="font-medium">Total Pendapatan</p>
+                <p className="font-medium">Total Nilai Penjualan</p>
                 <Wallet className="w-5 h-5 ml-2" />
               </div>
               <div className="font-bold text-2xl">Rp. {allMonthsRevenue}</div>
@@ -136,8 +141,8 @@ export default async function page() {
             </Card>
           </div>
 
-          <div className="flex gap-4 mt-12 border-t p-4">
-            <p className="text-lg">Pilih bulan :</p>
+          <div className="flex gap-4 mt-10 border-t p-4">
+            {/* <p className="text-lg">Pilih bulan :</p> */}
           </div>
           <div className="flex flex-col gap-2 mt-6">
             <p className="font-bold">Purchase Order</p>

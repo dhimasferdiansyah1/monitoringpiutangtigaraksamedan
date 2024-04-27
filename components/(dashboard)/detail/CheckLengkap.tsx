@@ -169,6 +169,35 @@ export default async function CheckLengkap({
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
+
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger className="cursor-default">
+            {detail?.buktipelunasan?.no_bp &&
+            detail.buktipelunasan.createdAt &&
+            detail.buktipelunasan.foto_bp ? (
+              <div className="px-3 py-1 bg-muted border rounded-md text-sm flex items-center gap-2">
+                Bukti Pelunasan ✅
+              </div>
+            ) : (
+              <div className="px-3 py-1 bg-muted border rounded-md text-sm flex items-center gap-2">
+                Bukti Pelunasan ❌
+              </div>
+            )}
+          </TooltipTrigger>
+          <TooltipContent>
+            {detail?.buktipelunasan?.no_bp &&
+            detail.buktipelunasan.createdAt &&
+            detail.buktipelunasan.foto_bp ? (
+              <div className="text-sm flex items-center gap-2">Lengkap ✅</div>
+            ) : (
+              <div className="text-sm flex items-center gap-2">
+                Belum Lengkap ❌
+              </div>
+            )}
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </>
   );
 }

@@ -105,12 +105,20 @@ export async function deleteStatusSerahDokumen(id: string) {
   }
 }
 
-export async function getStatusSerahDokumenList() {
+export async function getStatusSerahDokumenList(
+  startDate?: any,
+  endDate?: any
+) {
   try {
     const status = await prisma.purchaseOrder.findMany({
       where: {
         statusserahdokumen: {
-          some: {},
+          some: {
+            AND: [
+              ...(startDate ? [{ updatedAt: { gte: startDate } }] : []),
+              ...(endDate ? [{ updatedAt: { lte: endDate } }] : []),
+            ],
+          },
         },
       },
       orderBy: {

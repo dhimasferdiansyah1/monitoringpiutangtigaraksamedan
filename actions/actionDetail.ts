@@ -12,6 +12,7 @@ export async function getAllDetail(Id: string) {
       faktur_pajak: true,
       tandaterimatagihan: true,
       statusserahdokumen: true,
+      buktipelunasan: true,
     },
   });
   return detail;

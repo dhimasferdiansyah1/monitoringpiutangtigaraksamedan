@@ -13,12 +13,37 @@ import { Card } from "@/components/ui/card";
 import SkeletonCustomer from "@/components/ui/skeleton-customer";
 import { Suspense } from "react";
 import { Metadata } from "next";
+import ExportStatusSerahDokumen from "@/components/(dashboard)/statusserahdokumen/ExportStatusSerahDokumen";
+import { getStatusSerahDokumenList } from "@/actions/actionStatusSerahDokumen";
+import { DateRangeFilter } from "@/components/(dashboard)/piutangselesai/DateRangeFilter";
+import { zonedTimeToUtc } from "date-fns-tz";
 
 export const metadata: Metadata = {
   title: "Status Serah Dokumen",
 };
 
-export default function StatusSerahDokumenPage() {
+export default async function StatusSerahDokumenPage({
+  searchParams,
+}: {
+  searchParams: {
+    startDate?: string; // Receive startDate
+    endDate?: string; // Receive endDate
+  };
+}) {
+  const startDateUTC = searchParams?.startDate
+    ? new Date(searchParams.startDate)
+    : undefined; // Parse date string
+  const endDateUTC = searchParams?.endDate
+    ? new Date(searchParams.endDate)
+    : undefined; // Parse date string
+
+  const startDate = startDateUTC
+    ? zonedTimeToUtc(startDateUTC, "Asia/Jakarta")
+    : undefined;
+  const endDate = endDateUTC
+    ? zonedTimeToUtc(endDateUTC, "Asia/Jakarta")
+    : undefined;
+  const statusList = await getStatusSerahDokumenList(startDate, endDate);
   return (
     <div className="mx-auto max-w-7xl my-6">
       <div className="container mx-auto px-0">
@@ -30,10 +55,11 @@ export default function StatusSerahDokumenPage() {
                   Status Serah Dokumen
                 </h1>
               </div>
+              <ExportStatusSerahDokumen statusSerahDokumenList={statusList} />
             </div>
             <div className="flex flex-col gap-2">
               <Suspense fallback={<SkeletonCustomer />}>
-                <StatusSerahDokumenList />
+                <StatusSerahDokumenList searchParams={searchParams} />
               </Suspense>
             </div>
           </Card>

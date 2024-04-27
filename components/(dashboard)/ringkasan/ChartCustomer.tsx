@@ -11,7 +11,7 @@ import {
   Legend,
 } from "recharts";
 
-export default function ChartPurchaseOrder({ data }: any) {
+export default function ChartCustomer({ data }: any) {
   return (
     <LineChart
       width={400}
@@ -39,8 +39,8 @@ export default function ChartPurchaseOrder({ data }: any) {
       <Legend />
       <Line
         type="monotone"
-        dataKey="purchaseOrder"
-        stroke="#8884d8"
+        dataKey="customer"
+        stroke="#82ca9d"
         activeDot={{ r: 8 }}
       />
     </LineChart>

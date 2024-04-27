@@ -43,6 +43,7 @@ model PurchaseOrder {
   faktur_pajak       FakturPajak?
   tandaterimatagihan TandaTerimaTagihan?
   statusserahdokumen StatusSerahDokumen[]
+  buktipelunasan     BuktiPelunasan?
 
   customer    Customer @relation(fields: [customer_id], references: [id], onDelete: Cascade)
   customer_id String
@@ -139,4 +140,17 @@ model UserInfo {
   updatedAt DateTime @updatedAt @db.Timestamptz
 
   @@map("user_info")
+}
+
+model BuktiPelunasan {
+  id        String   @id @default(uuid())
+  no_bp     String?
+  foto_bp   String?
+  createdAt DateTime @default(now()) @db.Timestamptz
+  updatedAt DateTime @updatedAt @db.Timestamptz
+
+  purchase_order PurchaseOrder @relation(fields: [po_id], references: [id], onDelete: Cascade)
+  po_id          String        @unique
+
+  @@map("bukti_pelunasan")
 }

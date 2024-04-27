@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import { Card } from "@/components/ui/card";
 import {
   ArrowUpRightFromSquare,
+  BookCheck,
   CheckSquare,
   Clock,
   NotebookPen,
@@ -60,6 +61,7 @@ import { differenceInDays, parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import CheckLengkap from "../../../../../components/(dashboard)/detail/CheckLengkap";
 import { Suspense } from "react";
+import BuktiPelunasanCard from "@/components/(dashboard)/detail/BuktiPelunasanCard";
 
 export async function generateMetadata({ params }: { params: { Id: string } }) {
   const id = params.Id;
@@ -319,6 +321,32 @@ export default async function DetailPage({
                     <Button variant="secondary">
                       {detail?.tandaterimatagihan?.no_penagihan?.length ??
                       0 > 0 ? (
+                        <p className="flex gap-2">
+                          Edit{" "}
+                          <Pencil className="hover:text-primary-400 h-4 w-4 cursor-pointer text-primary" />
+                        </p>
+                      ) : (
+                        <p className="flex gap-2">
+                          <Plus className="hover:text-primary-400 h-4 w-4 cursor-pointer text-primary" />
+                          Tambah
+                        </p>
+                      )}
+                    </Button>
+                  </Link>
+                </div>
+                <hr className="my-1.5" />
+
+                <div className="flex flex-col items-start gap-2 lg:basis-1/6">
+                  <div className="flex items-center gap-2 px-2 font-bold">
+                    <BookCheck className="h-5 w-5" />
+                    Tanda Bukti Pelunasan
+                  </div>
+                  <BuktiPelunasanCard params={detail} />
+                  <Link
+                    href={`/dashboard/detail/${detail.id}/buktipelunasan/${detail.buktipelunasan?.id}`}
+                  >
+                    <Button variant="secondary">
+                      {detail?.buktipelunasan?.no_bp?.length ?? 0 > 0 ? (
                         <p className="flex gap-2">
                           Edit{" "}
                           <Pencil className="hover:text-primary-400 h-4 w-4 cursor-pointer text-primary" />

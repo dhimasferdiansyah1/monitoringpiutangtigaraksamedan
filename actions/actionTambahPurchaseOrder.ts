@@ -24,63 +24,72 @@ export async function createPurchaseOrder(formData: FormData) {
    nomorPurchaseOrderWithoutPeriods + "-" + "ttt" + uuidModifiedShort();
  const idStatusSerahDokumenFormat =
    nomorPurchaseOrderWithoutPeriods + "-" + "ssd" + uuidModifiedShort();
-  const { userId } = auth();
-  const user = await currentUser();
-  const hasFoto2Dn = formData.has("foto2_dn");
+    const idBuktiPelunasanFormat =
+      nomorPurchaseOrderWithoutPeriods + "-" + "bp" + uuidModifiedShort();
 
-  const userInfo = await prisma.userInfo.findUnique({
-    where: {
-      clerkId: userId || undefined,
-    },
-  });
+    const { userId } = auth();
+    const user = await currentUser();
+    const hasFoto2Dn = formData.has("foto2_dn");
 
-  try {
-    await prisma.purchaseOrder.create({
-      data: {
-        id: idFormat,
-        customer_id,
-        no_po,
-        tgl_po,
-        foto_po,
-        status_po,
-
-        delivery_note: {
-          create: {
-            id: idDeliveryNoteFormat,
-          },
-        },
-
-        faktur: {
-          create: {
-            id: idFakturFormat,
-          },
-        },
-
-        faktur_pajak: {
-          create: {
-            id: idFakturPajakFormat,
-          },
-        },
-
-        tandaterimatagihan: {
-          create: {
-            id: idTandaTerimaTagihanFormat,
-          },
-        },
-
-        statusserahdokumen: {
-          create: {
-            id: idStatusSerahDokumenFormat,
-            status_serah: status_serah,
-            user: user?.username,
-            role: userInfo?.role,
-          },
-        },
+    const userInfo = await prisma.userInfo.findUnique({
+      where: {
+        clerkId: userId || undefined,
       },
     });
-  } catch (error) {
-    console.log(error);
-  }
+
+    try {
+      await prisma.purchaseOrder.create({
+        data: {
+          id: idFormat,
+          customer_id,
+          no_po,
+          tgl_po,
+          foto_po,
+          status_po,
+
+          delivery_note: {
+            create: {
+              id: idDeliveryNoteFormat,
+            },
+          },
+
+          faktur: {
+            create: {
+              id: idFakturFormat,
+            },
+          },
+
+          faktur_pajak: {
+            create: {
+              id: idFakturPajakFormat,
+            },
+          },
+
+          tandaterimatagihan: {
+            create: {
+              id: idTandaTerimaTagihanFormat,
+            },
+          },
+
+          statusserahdokumen: {
+            create: {
+              id: idStatusSerahDokumenFormat,
+              status_serah: status_serah,
+              user: user?.username,
+              role: userInfo?.role,
+            },
+          },
+
+          buktipelunasan: {
+            create: {
+              id: idBuktiPelunasanFormat,
+            },
+          },
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   revalidatePath("/dashboard");
   redirect("/dashboard");
 }
