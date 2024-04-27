@@ -267,7 +267,7 @@ const NavbarDashboard = () => {
       {/* Mobile */}
       <AnimatePresence>
         {isOpen && (
-          <div className="overflow-y-scroll">
+          <div>
             <motion.div
               className="fixed left-0 top-0 z-50 h-full w-full border-r bg-white transition-all dark:bg-black sm:w-80 lg:hidden"
               initial={{ x: "-100%" }} // Adjust initial position for full-width menu
@@ -316,6 +316,22 @@ const NavbarDashboard = () => {
                     className="ml-6 max-h-0 space-y-2 overflow-hidden transition duration-200"
                     style={{ maxHeight: isOpen ? "500px" : 0 }}
                   >
+                    <div className="flex gap-4">
+                      {extraRoutes.map((route) => (
+                        <Link
+                          key={route.href}
+                          href={route.href}
+                          className={`dark:text-white" flex cursor-pointer items-center border gap-2 rounded-md px-4 py-2 text-base font-medium text-muted-foreground hover:bg-gray-100 hover:text-black ${
+                            pathname === route.href
+                              ? "font-bold text-black"
+                              : "text-muted-foreground"
+                          }`}
+                        >
+                          {route.label}
+                          {/* {route.icon} */}
+                        </Link>
+                      ))}
+                    </div>
                     {mainRoutes.map((route) => (
                       <Link
                         key={route.href}
@@ -349,6 +365,18 @@ const NavbarDashboard = () => {
                     className="ml-14 max-h-0 space-y-2 overflow-hidden transition duration-200"
                     style={{ maxHeight: isOpen ? "500px" : 0 }}
                   >
+                    {finalRoutes.map((route) => (
+                      <Link
+                        onClick={() => setIsOpen(false)}
+                        key={route.href}
+                        href={route.href}
+                        className="flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 text-base font-medium text-muted-foreground hover:bg-gray-100 hover:text-black "
+                      >
+                        {route.icon}
+                        {route.label}
+                      </Link>
+                    ))}
+                    <div className="border-t"></div>
                     {secondaryRoutes.map((route) => (
                       <Link
                         onClick={() => setIsOpen(false)}
@@ -356,9 +384,11 @@ const NavbarDashboard = () => {
                         href={route.href}
                         className="flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 text-base font-medium text-muted-foreground hover:bg-gray-100 hover:text-black "
                       >
+                        {route.icon}
                         {route.label}
                       </Link>
                     ))}
+                    <div className="border-t"></div>
                     {thirdRoutes.map((route) => (
                       <Link
                         onClick={() => setIsOpen(false)}
@@ -366,6 +396,7 @@ const NavbarDashboard = () => {
                         href={route.href}
                         className="flex cursor-pointer items-center gap-2 rounded-md px-4 py-2 text-base font-medium text-muted-foreground hover:bg-gray-100 hover:text-black "
                       >
+                        {route.icon}
                         {route.label}
                       </Link>
                     ))}

@@ -18,6 +18,7 @@ export default function ChartCustomer({ data }: any) {
       height={300}
       data={data}
       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+      className="p-8 lg:p-0"
     >
       <CartesianGrid strokeDasharray="3 3" />
       <XAxis dataKey="month" />

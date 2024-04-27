@@ -58,27 +58,41 @@ export function DateRangeFilter() {
   };
 
   return (
-    <form onSubmit={handleFilter} className={cn("grid gap-2")}>
-      <div className="flex gap-2 items-center">
-        <input
-          type="date"
-          value={startDate ? format(startDate, "yyyy-MM-dd") : ""}
-          onChange={(e) => setStartDate(new Date(e.target.value))}
-          className="input border rounded-md p-2"
-        />
-        <span>-</span>
-        <input
-          type="date"
-          value={endDate ? format(endDate, "yyyy-MM-dd") : ""}
-          onChange={(e) => setEndDate(new Date(e.target.value))}
-          className="input border rounded-md p-2"
-        />
-        <Button type="submit" variant="secondary">
-          Filter
-        </Button>
-        <Button type="button" variant="secondary" onClick={handleReset}>
-          Reset
-        </Button>
+    <form onSubmit={handleFilter} className={cn("gap-2 flex")}>
+      <div className=" flex flex-col lg:flex-row gap-2 items-center">
+        <div className="flex gap-2 items-center">
+          <label htmlFor="start" className="lg:hidden">
+            Mulai
+          </label>
+          <input
+            id="start"
+            type="date"
+            value={startDate ? format(startDate, "yyyy-MM-dd") : ""}
+            onChange={(e) => setStartDate(new Date(e.target.value))}
+            className="input border rounded-md p-2"
+          />
+        </div>
+        <span className="hidden lg:flex">-</span>
+        <div className="flex gap-2 items-center">
+          <label htmlFor="end" className="lg:hidden">
+            Akhir
+          </label>
+          <input
+            id="end"
+            type="date"
+            value={endDate ? format(endDate, "yyyy-MM-dd") : ""}
+            onChange={(e) => setEndDate(new Date(e.target.value))}
+            className="input border rounded-md p-2"
+          />
+        </div>
+        <div className="flex gap-2">
+          <Button type="submit" variant="secondary">
+            Filter
+          </Button>
+          <Button type="button" variant="secondary" onClick={handleReset}>
+            Reset
+          </Button>
+        </div>
       </div>
     </form>
   );

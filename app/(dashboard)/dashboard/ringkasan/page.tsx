@@ -67,7 +67,7 @@ export default async function page() {
             {" "}
             <h1 className="text-2xl font-bold text-nowrap mb-8">Ringkasan</h1>
           </div>
-          <div className="flex gap-4 justify-center">
+          <div className="flex flex-col lg:flex-row gap-4 justify-center">
             <div className="flex-col flex items-center justify-center">
               <p>Total Nilai Penjualan</p>
               <ChartPendapatan data={getDailyPurchaseOrderData} />
