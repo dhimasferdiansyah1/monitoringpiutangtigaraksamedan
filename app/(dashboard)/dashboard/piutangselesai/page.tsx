@@ -4,6 +4,9 @@ import SearchForm from "@/components/(dashboard)/SearchForm";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { PlusCircle } from "lucide-react";
+import ExportPiutangSelesai from "@/components/(dashboard)/piutangselesai/ExportPiutangSelesai";
+import { getPiutangSelesai } from "@/actions/actionPiutangSelesai";
+import { zonedTimeToUtc } from "date-fns-tz";
 
 export default async function page({
   searchParams,
@@ -15,6 +18,24 @@ export default async function page({
     endDate?: string; // Add endDate
   };
 }) {
+  const query = searchParams?.search || "";
+  const currentPage = Number(searchParams?.page) || 1;
+
+  const startDateUTC = searchParams?.startDate
+    ? new Date(searchParams.startDate)
+    : undefined; // Parse date string
+  const endDateUTC = searchParams?.endDate
+    ? new Date(searchParams.endDate)
+    : undefined; // Parse date string
+
+  const startDate = startDateUTC
+    ? zonedTimeToUtc(startDateUTC, "Asia/Jakarta")
+    : undefined;
+  const endDate = endDateUTC
+    ? zonedTimeToUtc(endDateUTC, "Asia/Jakarta")
+    : undefined;
+
+  const data = await getPiutangSelesai(query, currentPage, startDate, endDate);
   return (
     <div className="mx-auto my-6 max-w-7xl">
       <div className="container mx-auto xl:px-0">
@@ -25,6 +46,7 @@ export default async function page({
               Piutang Selesai
             </h1>
           </div>
+          <ExportPiutangSelesai piutangSelesaiList={data} />
         </div>
         <div className="flex flex-col">
           <div className="flex flex-col md:flex-row justify-between gap-4 items-center">

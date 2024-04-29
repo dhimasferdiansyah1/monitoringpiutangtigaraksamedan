@@ -7,7 +7,7 @@ import { formatDateAndTimeIsoFetch } from "@/lib/utils";
 import { Printer } from "lucide-react";
 
 interface ExportProps {
-  statusSerahDokumenList: any; // Update with your actual data type
+  statusSerahDokumenList: any;
 }
 
 const ExportStatusSerahDokumen: React.FC<ExportProps> = ({
@@ -44,8 +44,8 @@ const ExportStatusSerahDokumen: React.FC<ExportProps> = ({
     });
 
     // Styling (optional)
-    const headerRow = worksheet.getRow(1); // Get the first row (header row)
-    headerRow.height = 28; // Set row height
+    const headerRow = worksheet.getRow(1);
+    headerRow.height = 28;
     headerRow.eachCell((cell) => {
       cell.fill = {
         type: "pattern",
@@ -56,7 +56,6 @@ const ExportStatusSerahDokumen: React.FC<ExportProps> = ({
         color: { argb: "FFFFFFFF" },
         bold: true,
       };
-      // Center align the text
       cell.alignment = { vertical: "middle", horizontal: "center" };
     });
 
@@ -65,8 +64,8 @@ const ExportStatusSerahDokumen: React.FC<ExportProps> = ({
     worksheet.getColumn(3).width = 17;
     worksheet.getColumn(4).width = 22;
     worksheet.getColumn(5).width = 10;
-    worksheet.getColumn(6).width = 66; // Adjust width for "Status" column (index starts from 1)
-    worksheet.getColumn(7).width = 18; // Adjust width for "Waktu" column
+    worksheet.getColumn(6).width = 66;
+    worksheet.getColumn(7).width = 18;
 
     worksheet.eachRow({ includeEmpty: true }, (row) => {
       row.eachCell({ includeEmpty: true }, (cell) => {
@@ -79,7 +78,7 @@ const ExportStatusSerahDokumen: React.FC<ExportProps> = ({
       });
     });
 
-    // ... add styling using worksheet methods ...
+    // ... add styling ...
 
     // Download the file
     const buffer = await workbook.xlsx.writeBuffer();

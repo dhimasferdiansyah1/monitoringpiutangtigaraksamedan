@@ -112,11 +112,10 @@ export default async function PiutangSelesaiList({
 
   return (
     <div className="flex flex-col">
-      <div className="flex gap-4 items-center">
+      <div className="flex gap-1 lg:gap-4 items-center">
         <div className="flex pt-4 pb-4 pr-4">
           <DateRangeFilter />
         </div>
-        {/* refresh button */}
         <RefreshButton />
         <p className="text-sm text-muted-foreground">Total : {data.length}</p>
       </div>
