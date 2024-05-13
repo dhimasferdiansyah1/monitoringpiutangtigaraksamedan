@@ -52,6 +52,7 @@ import { Metadata } from "next";
 import PemegangDokumen from "@/components/(dashboard)/PemegangDokumen";
 import RefreshButton from "@/components/ui/refresh-button";
 import FilterStatusPo from "@/components/(dashboard)/FilterStatusPo";
+import FilterStatusPoIncludeSelesai from "@/components/(dashboard)/FilterStatusPoIncludeSelesai";
 
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
@@ -133,7 +134,7 @@ export default async function CustomerPurchaseOrderList({
       <div className="flex gap-4 items-center">
         {/* refresh button */}
         <RefreshButton />
-        <FilterStatusPo initialStatus={status_po} />
+        <FilterStatusPoIncludeSelesai initialStatus={status_po} />
         <p className="text-sm text-muted-foreground">Total : {data.length}</p>
       </div>
       <div className="my-4 grid grid-cols-1 items-center justify-center gap-2 md:grid-cols-2 xl:grid-cols-3">

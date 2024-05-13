@@ -30,7 +30,7 @@ const NavbarDashboard = () => {
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = "auto";
     } else {
       document.body.style.overflow = "unset";
     }
@@ -175,6 +175,14 @@ const NavbarDashboard = () => {
     getUserInfo();
   }, []);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden"; // Prevent main content scrolling
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isOpen]); // Add isOpen as a dependency
+
   return (
     <>
       <nav className="sticky top-0 z-20  border-b bg-opacity-70 p-3 backdrop-blur-md lg:p-1">
@@ -292,7 +300,7 @@ const NavbarDashboard = () => {
                   className="h-8 w-8 cursor-pointer rounded-md border hover:scale-75 hover:duration-75"
                 />
               </div>
-              <nav>
+              <nav className="overflow-y-auto h-[550px]">
                 <ul className="flex flex-col gap-3 px-6">
                   {/* Other top-level links */}
                   <li className="flex flex-col gap-3">

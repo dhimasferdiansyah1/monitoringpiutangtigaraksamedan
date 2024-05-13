@@ -26,14 +26,10 @@ export async function getPiutangSelesai(
     },
     where: {
       status_po: "Selesai",
-      statusserahdokumen: {
-        some: {
-          AND: [
-            ...(startDate ? [{ updatedAt: { gte: startDate } }] : []),
-            ...(endDate ? [{ updatedAt: { lte: endDate } }] : []),
-          ],
-        },
-      },
+      AND: [
+        ...(startDate ? [{ updatedAt: { gte: startDate } }] : []),
+        ...(endDate ? [{ updatedAt: { lte: endDate } }] : []),
+      ],
       OR: [
         {
           no_po: {
