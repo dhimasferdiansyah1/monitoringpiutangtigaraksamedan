@@ -122,7 +122,7 @@ export default async function LaporanList({
           </TableBody>
         </Table>
       </div>
-      <div className="rounded-md border p-4">
+      <div>
         {/* Tabel untuk keseluruhan data */}
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white rounded-md border table-auto">
@@ -157,7 +157,11 @@ export default async function LaporanList({
                 <td className="w-1/14 py-3 px-4 border-b border-x">DAYS</td>
                 {monthlyData.map((data, index) => (
                   <td
-                    className="w-1/14 py-3 px-4 border-b border-x hover:bg-gray-100"
+                    className={`w-1/14 py-3 px-4 border-b border-x hover:bg-gray-100 ${
+                      data.DAYS >= 40
+                        ? "bg-red-300 hover:bg-red-400"
+                        : "bg-green-300 hover:bg-green-400"
+                    }`}
                     key={index}
                   >
                     {data.DAYS}
@@ -201,7 +205,11 @@ export default async function LaporanList({
                 <td className="w-1/14 py-3 px-4 border-b border-x">% OD</td>
                 {monthlyData.map((data, index) => (
                   <td
-                    className="w-1/14 py-3 px-4 border-b border-x hover:bg-gray-100"
+                    className={`w-1/14 py-3 px-4 border-b border-x hover:bg-gray-100 ${
+                      data.percentageOD >= 4
+                        ? "bg-red-300 hover:bg-red-400"
+                        : "bg-green-300 hover:bg-green-400"
+                    }`}
                     key={index}
                   >
                     {data.percentageOD}%
