@@ -9,20 +9,14 @@ interface LaporanListData {
   percentageOD: number;
 }
 
-export async function getLaporanList({
-  month,
+export async function getLaporanSemuaBulanList({
   year,
 }: {
-  month?: number;
   year: number;
 }): Promise<LaporanListData> {
   try {
-    const startDate = month
-      ? new Date(year, month - 1, 1) // Awal bulan yang dipilih
-      : new Date(year, 0, 1); // Awal tahun
-    const endDate = month
-      ? new Date(year, month, 1) // Awal bulan berikutnya
-      : new Date(year + 1, 0, 1); // Awal tahun berikutnya
+    const startDate = new Date(year, 0, 1); // Awal tahun
+    const endDate = new Date(year + 1, 0, 1); // Awal tahun berikutnya
 
     const status = await prisma.purchaseOrder.findMany({
       where: {
@@ -51,9 +45,9 @@ export async function getLaporanList({
       },
     });
 
-    const AR = await calculateAR(year, month);
-    const SALES = await calculateSales(year, month);
-    const OD = await calculateOD(year, month);
+    const AR = await calculateAR(year);
+    const SALES = await calculateSales(year);
+    const OD = await calculateOD(year);
     const percentageOD = AR > 0 ? Math.round((OD / AR) * 100) : 0;
 
     return { status, AR, SALES, OD, percentageOD };
@@ -63,24 +57,19 @@ export async function getLaporanList({
   }
 }
 
-async function calculateAR(year: number, month?: number): Promise<number> {
+// Fungsi untuk menghitung AR, Sales, dan OD untuk seluruh tahun
+async function calculateAR(year: number): Promise<number> {
   const lastYear = year - 1;
-  const startOfPeriod = month
-    ? new Date(lastYear, 11, 1) // Awal Desember tahun sebelumnya
-    : new Date(lastYear, 0, 1); // Awal tahun sebelumnya
-  const endOfPeriod = month
-    ? new Date(year, month - 1, 1) // Awal bulan yang dipilih pada tahun ini
-    : new Date(year, 0, 1); // Awal tahun ini
+  const startOfLastYear = new Date(`${lastYear}-12-01`);
+  const endOfLastYear = new Date(`${year}-01-01`);
 
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     where: {
-      status_po: {
-        not: "Selesai",
-      },
+      status_po: "Belum Selesai",
       faktur: {
         tgl_fk: {
-          gte: startOfPeriod,
-          lt: endOfPeriod,
+          gte: startOfLastYear,
+          lt: endOfLastYear,
         },
       },
     },
@@ -99,21 +88,17 @@ async function calculateAR(year: number, month?: number): Promise<number> {
   return totalAR;
 }
 
-async function calculateSales(year: number, month?: number): Promise<number> {
-  const startOfPeriod = month
-    ? new Date(year, month - 1, 1) // Awal bulan yang dipilih
-    : new Date(year, 0, 1); // Awal tahun
-  const endOfPeriod = month
-    ? new Date(year, month, 1) // Awal bulan berikutnya
-    : new Date(year + 1, 0, 1); // Awal tahun berikutnya
+async function calculateSales(year: number): Promise<number> {
+  const startOfYear = new Date(`${year}-01-01`);
+  const endOfYear = new Date(`${year + 1}-01-01`);
 
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     where: {
       status_po: "Selesai",
       faktur: {
         tgl_fk: {
-          gte: startOfPeriod,
-          lt: endOfPeriod,
+          gte: startOfYear,
+          lt: endOfYear,
         },
       },
     },
@@ -132,23 +117,17 @@ async function calculateSales(year: number, month?: number): Promise<number> {
   return totalSales;
 }
 
-async function calculateOD(year: number, month?: number): Promise<number> {
-  const startOfPeriod = month
-    ? new Date(year, month - 1, 1) // Awal bulan yang dipilih
-    : new Date(year, 0, 1); // Awal tahun
-  const endOfPeriod = month
-    ? new Date(year, month, 1) // Awal bulan berikutnya
-    : new Date(year + 1, 0, 1); // Awal tahun berikutnya
+async function calculateOD(year: number): Promise<number> {
+  const startOfYear = new Date(`${year}-01-01`);
+  const endOfYear = new Date(`${year + 1}-01-01`);
 
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     where: {
-      status_po: {
-        not: "Selesai",
-      },
+      status_po: "Belum Selesai",
       faktur: {
         tgl_fk: {
-          gte: startOfPeriod,
-          lt: endOfPeriod,
+          gte: startOfYear,
+          lt: endOfYear,
         },
       },
     },
