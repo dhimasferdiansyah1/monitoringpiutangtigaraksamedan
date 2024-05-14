@@ -102,7 +102,7 @@ export default async function LaporanList({
           <TableBody>
             <Suspense fallback={<Skeleton className="h-10 w-10" />}>
               <TableRow>
-                <TableCell className="px-4 py-2">Days</TableCell>
+                <TableCell className="px-4 py-2">{DAYS}</TableCell>
                 <TableCell className="px-4 py-2">{AR}</TableCell>
                 <TableCell className="px-4 py-2">{OD}</TableCell>
                 <TableCell className="px-4 py-2">{SALES}</TableCell>
@@ -213,3 +213,4 @@ export default async function LaporanList({
     </>
   );
 }
+

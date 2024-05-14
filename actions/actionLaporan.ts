@@ -1,6 +1,5 @@
 "use server";
 import prisma from "@/lib/prisma";
-import { parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 interface LaporanListData {
   status: any[];
@@ -24,12 +23,19 @@ export async function getLaporanList({
       : new Date(year, 0, 1);
     const endDate = month ? new Date(year, month, 1) : new Date(year + 1, 0, 1);
 
+    const startDateOfPeriod = startDate
+      ? zonedTimeToUtc(startDate, "Asia/Jakarta")
+      : undefined;
+    const endDateOfPeriod = endDate
+      ? zonedTimeToUtc(endDate, "Asia/Jakarta")
+      : undefined;
+
     const status = await prisma.purchaseOrder.findMany({
       where: {
         faktur: {
           tgl_fk: {
-            gte: startDate,
-            lt: endDate,
+            gte: startDateOfPeriod,
+            lt: endDateOfPeriod,
           },
         },
       },
@@ -84,6 +90,13 @@ async function calculateAR(year: number, month?: number): Promise<number> {
     ? new Date(year, month - 1, 1)
     : new Date(year, 0, 1);
 
+  const startDateOfPeriod = startOfPeriod
+    ? zonedTimeToUtc(startOfPeriod, "Asia/Jakarta")
+    : undefined;
+  const endDateOfPeriod = endOfPeriod
+    ? zonedTimeToUtc(endOfPeriod, "Asia/Jakarta")
+    : undefined;
+
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     where: {
       status_po: {
@@ -91,8 +104,8 @@ async function calculateAR(year: number, month?: number): Promise<number> {
       },
       faktur: {
         tgl_fk: {
-          gte: startOfPeriod,
-          lt: endOfPeriod,
+          gte: startDateOfPeriod,
+          lt: endDateOfPeriod,
         },
       },
     },
@@ -119,12 +132,19 @@ async function calculateSales(year: number, month?: number): Promise<number> {
     ? new Date(year, month, 1)
     : new Date(year + 1, 0, 1);
 
+  const startDateOfPeriod = startOfPeriod
+    ? zonedTimeToUtc(startOfPeriod, "Asia/Jakarta")
+    : undefined;
+  const endDateOfPeriod = endOfPeriod
+    ? zonedTimeToUtc(endOfPeriod, "Asia/Jakarta")
+    : undefined;
+
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     where: {
       faktur: {
         tgl_fk: {
-          gte: startOfPeriod,
-          lt: endOfPeriod,
+          gte: startDateOfPeriod,
+          lt: endDateOfPeriod,
         },
       },
     },
@@ -151,6 +171,13 @@ async function calculateOD(year: number, month?: number): Promise<number> {
     ? new Date(year, month, 1)
     : new Date(year + 1, 0, 1);
 
+  const startDateOfPeriod = startOfPeriod
+    ? zonedTimeToUtc(startOfPeriod, "Asia/Jakarta")
+    : undefined;
+  const endDateOfPeriod = endOfPeriod
+    ? zonedTimeToUtc(endOfPeriod, "Asia/Jakarta")
+    : undefined;
+
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     where: {
       status_po: {
@@ -158,8 +185,8 @@ async function calculateOD(year: number, month?: number): Promise<number> {
       },
       faktur: {
         tgl_fk: {
-          gte: startOfPeriod,
-          lt: endOfPeriod,
+          gte: startDateOfPeriod,
+          lt: endDateOfPeriod,
         },
       },
     },
