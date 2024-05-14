@@ -109,7 +109,6 @@ async function calculateSales(year: number, month?: number): Promise<number> {
 
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     where: {
-      status_po: "Selesai",
       faktur: {
         tgl_fk: {
           gte: startOfPeriod,
