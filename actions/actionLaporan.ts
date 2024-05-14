@@ -2,7 +2,6 @@
 import prisma from "@/lib/prisma";
 import { parseISO } from "date-fns";
 import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
-
 interface LaporanListData {
   status: any[];
   AR: number;
@@ -52,13 +51,24 @@ export async function getLaporanList({
       },
     });
 
+    // Konversi waktu ke zona waktu Jakarta
+    const statusWithJakartaTime = status.map((po) => ({
+      ...po,
+      faktur: {
+        ...po.faktur,
+        tgl_fk: po.faktur?.tgl_fk
+          ? utcToZonedTime(po.faktur.tgl_fk, "Asia/Jakarta")
+          : null,
+      },
+    }));
+
     const AR = await calculateAR(year, month);
     const SALES = await calculateSales(year, month);
     const OD = await calculateOD(year, month);
     const percentageOD = AR > 0 ? Math.round((OD / AR) * 100) : 0;
     const DAYS = await calculateDays(year, month);
 
-    return { status, AR, SALES, OD, percentageOD, DAYS };
+    return { status: statusWithJakartaTime, AR, SALES, OD, percentageOD, DAYS };
   } catch (error) {
     console.error(error);
     throw error;

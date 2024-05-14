@@ -13,7 +13,6 @@ import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { getLaporanList } from "@/actions/actionLaporan";
 import { MonthYearRangeFilter } from "./MonthYearRangeFilter";
 import { getLaporanSemuaBulanList } from "@/actions/actionLaporanSemuaBulan";
-import prisma from "@/lib/prisma";
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -35,32 +34,6 @@ export default async function LaporanList({
     year: selectedYear,
   });
 
-  // Calculate Jakarta date and time for each item in the data array:
-  const data = await prisma.purchaseOrder.findMany({
-    where: {
-      AND: [
-        { tgl_po: { gte: new Date(selectedYear, selectedMonth - 1, 1) } },
-        { tgl_po: { lt: new Date(selectedYear, selectedMonth, 1) } },
-      ],
-    },
-    include: {
-      faktur: true,
-    },
-  });
-
-  const jakartaTglJtArray = data.map((main) => {
-    const fakturTglJt = main.faktur?.tgl_jt ?? null;
-
-    return utcToZonedTime(
-      zonedTimeToUtc(parseISO(fakturTglJt?.toISOString() ?? ""), "UTC"),
-      "Asia/Jakarta"
-    );
-  });
-
-  jakartaTglJtArray.forEach((date) => {
-    date.setHours(0, 0, 0, 0); // Set jam to 00:00:00 for Jakarta time
-  });
-
   interface MonthlyData {
     status: any[];
     AR: number;
@@ -79,16 +52,6 @@ export default async function LaporanList({
     monthlyData.push(data);
   }
 
-  const {
-    status: allMonthsStatus,
-    AR: allMonthsAR,
-    SALES: allMonthsSALES,
-    OD: allMonthsOD,
-    percentageOD: allMonthsPercentageOD,
-  } = await getLaporanSemuaBulanList({
-    year: selectedYear,
-  });
-
   const monthNames = [
     "Januari",
     "Februari",
@@ -104,7 +67,11 @@ export default async function LaporanList({
     "Desember",
   ];
 
-  const today = new Date();
+  // Konversi tanggal jatuh tempo ke waktu Jakarta
+  const convertToJakartaTime = (date: Date) => {
+    return utcToZonedTime(date, "Asia/Jakarta");
+  };
+  const today = convertToJakartaTime(new Date());
   today.setHours(0, 0, 0, 0); // Set jam today to 00:00:00
 
   const tomorrow = new Date(today);
