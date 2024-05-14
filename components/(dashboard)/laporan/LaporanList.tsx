@@ -13,6 +13,7 @@ import { utcToZonedTime, zonedTimeToUtc } from "date-fns-tz";
 import { getLaporanList } from "@/actions/actionLaporan";
 import { MonthYearRangeFilter } from "./MonthYearRangeFilter";
 import { getLaporanSemuaBulanList } from "@/actions/actionLaporanSemuaBulan";
+import prisma from "@/lib/prisma";
 export const fetchCache = "force-no-store";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -32,6 +33,32 @@ export default async function LaporanList({
   const { AR, SALES, OD, percentageOD, DAYS } = await getLaporanList({
     month: selectedMonth,
     year: selectedYear,
+  });
+
+  // Calculate Jakarta date and time for each item in the data array:
+  const data = await prisma.purchaseOrder.findMany({
+    where: {
+      AND: [
+        { tgl_po: { gte: new Date(selectedYear, selectedMonth - 1, 1) } },
+        { tgl_po: { lt: new Date(selectedYear, selectedMonth, 1) } },
+      ],
+    },
+    include: {
+      faktur: true,
+    },
+  });
+
+  const jakartaTglJtArray = data.map((main) => {
+    const fakturTglJt = main.faktur?.tgl_jt ?? null;
+
+    return utcToZonedTime(
+      zonedTimeToUtc(parseISO(fakturTglJt?.toISOString() ?? ""), "UTC"),
+      "Asia/Jakarta"
+    );
+  });
+
+  jakartaTglJtArray.forEach((date) => {
+    date.setHours(0, 0, 0, 0); // Set jam to 00:00:00 for Jakarta time
   });
 
   interface MonthlyData {
