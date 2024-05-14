@@ -35,16 +35,16 @@ export default async function StatusSerahDokumenList({
   searchParams,
 }: {
   searchParams: {
-    startDate?: string; // Receive startDate
-    endDate?: string; // Receive endDate
+    startDate?: string;
+    endDate?: string;
   };
 }) {
   const startDateUTC = searchParams?.startDate
     ? new Date(searchParams.startDate)
-    : undefined; // Parse date string
+    : undefined;
   const endDateUTC = searchParams?.endDate
     ? new Date(searchParams.endDate)
-    : undefined; // Parse date string
+    : undefined;
 
   const startDate = startDateUTC
     ? zonedTimeToUtc(startDateUTC, "Asia/Jakarta")

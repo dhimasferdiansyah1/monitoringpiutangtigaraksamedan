@@ -67,11 +67,7 @@ export default async function LaporanList({
     "Desember",
   ];
 
-  // Konversi tanggal jatuh tempo ke waktu Jakarta
-  const convertToJakartaTime = (date: Date) => {
-    return utcToZonedTime(date, "Asia/Jakarta");
-  };
-  const today = convertToJakartaTime(new Date());
+  const today = new Date();
   today.setHours(0, 0, 0, 0); // Set jam today to 00:00:00
 
   const tomorrow = new Date(today);

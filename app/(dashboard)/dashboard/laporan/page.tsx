@@ -21,6 +21,13 @@ export default async function page({
     year: selectedYear,
   });
 
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Set jam today to 00:00:00
+
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0); // Set jam tomorrow to 00:00:00
+
   return (
     <div className="mx-auto max-w-7xl my-6">
       <div className="container mx-auto px-0">
