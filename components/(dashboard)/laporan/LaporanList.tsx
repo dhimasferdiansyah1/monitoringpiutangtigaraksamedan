@@ -29,7 +29,7 @@ export default async function LaporanList({
     parseInt(searchParams?.month || "", 10) || new Date().getMonth() + 1; // Default bulan sekarang
   const selectedYear =
     parseInt(searchParams?.year || "", 10) || new Date().getFullYear();
-  const { status, AR, SALES, OD, percentageOD } = await getLaporanList({
+  const { AR, SALES, OD, percentageOD, DAYS } = await getLaporanList({
     month: selectedMonth,
     year: selectedYear,
   });
@@ -40,6 +40,7 @@ export default async function LaporanList({
     SALES: number;
     OD: number;
     percentageOD: number;
+    DAYS: number;
   }
 
   const currentMonth = new Date().getMonth() + 1; // Bulan saat ini (1-12)
@@ -154,12 +155,12 @@ export default async function LaporanList({
             <tbody className="text-gray-700">
               <tr>
                 <td className="w-1/14 py-3 px-4 border-b border-x">DAYS</td>
-                {Array.from({ length: currentMonth }).map((_, index) => (
+                {monthlyData.map((data, index) => (
                   <td
-                    className="w-1/14 py-3 px-4 border-b border-x"
+                    className="w-1/14 py-3 px-4 border-b border-x hover:bg-gray-100"
                     key={index}
                   >
-                    {/* Kosongkan Sementara */}
+                    {data.DAYS}
                   </td>
                 ))}
               </tr>
@@ -171,7 +172,6 @@ export default async function LaporanList({
                     key={index}
                   >
                     {data.AR}
-                    {/* Gunakan allMonthsStatus */}
                   </td>
                 ))}
               </tr>
@@ -183,7 +183,6 @@ export default async function LaporanList({
                     key={index}
                   >
                     {data.OD}
-                    {/* Gunakan allMonthsStatus */}
                   </td>
                 ))}
               </tr>
@@ -195,7 +194,6 @@ export default async function LaporanList({
                     key={index}
                   >
                     {data.SALES}
-                    {/* Gunakan allMonthsStatus */}
                   </td>
                 ))}
               </tr>
@@ -206,7 +204,7 @@ export default async function LaporanList({
                     className="w-1/14 py-3 px-4 border-b border-x hover:bg-gray-100"
                     key={index}
                   >
-                    {data.percentageOD}%{/* Gunakan allMonthsStatus */}
+                    {data.percentageOD}%
                   </td>
                 ))}
               </tr>

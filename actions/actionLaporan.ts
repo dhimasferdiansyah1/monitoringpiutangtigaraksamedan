@@ -18,41 +18,17 @@ export async function getLaporanList({
   year: number;
 }): Promise<LaporanListData> {
   try {
-    const currentMonth = month || new Date().getMonth() + 1; // Bulan saat ini jika tidak ditentukan
-    const currentYear = year || new Date().getFullYear(); // Tahun saat ini jika tidak ditentukan
+    const startDate = month
+      ? new Date(year, month - 1, 1)
+      : new Date(year, 0, 1);
+    const endDate = month ? new Date(year, month, 1) : new Date(year + 1, 0, 1);
 
-    // Hitung AR, SALES, dan OD untuk bulan ini
-    const ARCurrentMonth = await calculateAR(currentYear, currentMonth);
-    const SALESCurrentMonth = await calculateSales(currentYear, currentMonth);
-    const ODCurrentMonth = await calculateOD(currentYear, currentMonth);
-
-    // Hitung AR, SALES, dan OD untuk bulan lalu
-    const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
-    const lastYear = currentMonth === 1 ? currentYear - 1 : currentYear;
-    const ARLastMonth = await calculateAR(lastYear, lastMonth);
-    const SALESLastMonth = await calculateSales(lastYear, lastMonth);
-
-    // Hitung DAYS
-    const DAYS =
-      ARLastMonth > 0
-        ? Math.round(
-            (ARLastMonth / ((SALESLastMonth + SALESCurrentMonth) / 2)) * 30
-          )
-        : 0;
-
-    // Hitung OD%
-    const percentageOD =
-      ARCurrentMonth > 0
-        ? Math.round((ODCurrentMonth / ARCurrentMonth) * 100)
-        : 0;
-
-    // Ambil data status Purchase Order
     const status = await prisma.purchaseOrder.findMany({
       where: {
         faktur: {
           tgl_fk: {
-            gte: new Date(currentYear, currentMonth - 1, 1),
-            lt: new Date(currentYear, currentMonth, 1),
+            gte: startDate,
+            lt: endDate,
           },
         },
       },
@@ -74,23 +50,27 @@ export async function getLaporanList({
       },
     });
 
-    return {
-      status,
-      AR: ARCurrentMonth,
-      SALES: SALESCurrentMonth,
-      OD: ODCurrentMonth,
-      percentageOD,
-      DAYS,
-    };
+    const AR = await calculateAR(year, month);
+    const SALES = await calculateSales(year, month);
+    const OD = await calculateOD(year, month);
+    const percentageOD = AR > 0 ? Math.round((OD / AR) * 100) : 0;
+    const DAYS = await calculateDays(year, month);
+
+    return { status, AR, SALES, OD, percentageOD, DAYS };
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
 
-async function calculateAR(year: number, month: number): Promise<number> {
-  const startDate = new Date(year, month - 1, 1);
-  const endDate = new Date(year, month, 1);
+async function calculateAR(year: number, month?: number): Promise<number> {
+  const lastYear = year - 1;
+  const startOfPeriod = month
+    ? new Date(lastYear, 11, 1)
+    : new Date(lastYear, 0, 1);
+  const endOfPeriod = month
+    ? new Date(year, month - 1, 1)
+    : new Date(year, 0, 1);
 
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     where: {
@@ -99,16 +79,8 @@ async function calculateAR(year: number, month: number): Promise<number> {
       },
       faktur: {
         tgl_fk: {
-          gte: startDate,
-          lt: endDate,
-        },
-      },
-      // Tambahkan kondisi untuk mengecualikan PO yang sudah dilunasi di bulan sebelumnya
-      NOT: {
-        tandaterimatagihan: {
-          tgl_jt: {
-            lt: startDate, // PO yang sudah dilunasi sebelum bulan ini
-          },
+          gte: startOfPeriod,
+          lt: endOfPeriod,
         },
       },
     },
@@ -127,16 +99,21 @@ async function calculateAR(year: number, month: number): Promise<number> {
   return totalAR;
 }
 
-async function calculateSales(year: number, month: number): Promise<number> {
-  const startDate = new Date(year, month - 1, 1);
-  const endDate = new Date(year, month, 1);
+async function calculateSales(year: number, month?: number): Promise<number> {
+  const startOfPeriod = month
+    ? new Date(year, month - 1, 1)
+    : new Date(year, 0, 1);
+  const endOfPeriod = month
+    ? new Date(year, month, 1)
+    : new Date(year + 1, 0, 1);
 
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     where: {
+      status_po: "Selesai",
       faktur: {
         tgl_fk: {
-          gte: startDate,
-          lt: endDate,
+          gte: startOfPeriod,
+          lt: endOfPeriod,
         },
       },
     },
@@ -155,9 +132,13 @@ async function calculateSales(year: number, month: number): Promise<number> {
   return totalSales;
 }
 
-async function calculateOD(year: number, month: number): Promise<number> {
-  const startDate = new Date(year, month - 1, 1);
-  const endDate = new Date(year, month, 1);
+async function calculateOD(year: number, month?: number): Promise<number> {
+  const startOfPeriod = month
+    ? new Date(year, month - 1, 1)
+    : new Date(year, 0, 1);
+  const endOfPeriod = month
+    ? new Date(year, month, 1)
+    : new Date(year + 1, 0, 1);
 
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     where: {
@@ -166,7 +147,8 @@ async function calculateOD(year: number, month: number): Promise<number> {
       },
       faktur: {
         tgl_fk: {
-          lt: endDate, // Jatuh tempo sebelum akhir bulan ini
+          gte: startOfPeriod,
+          lt: endOfPeriod,
         },
       },
     },
@@ -184,3 +166,17 @@ async function calculateOD(year: number, month: number): Promise<number> {
 
   return totalOD;
 }
+
+async function calculateDays(year: number, month?: number): Promise<number> {
+  const lastMonth = month ? month - 1 : 11;
+  const lastYear = month ? year : year - 1;
+  const ARLastMonth = await calculateAR(lastYear, lastMonth);
+  const salesLastMonth = await calculateSales(lastYear, lastMonth);
+  const salesThisMonth = await calculateSales(year, month);
+
+  const averageSales = (salesLastMonth + salesThisMonth) / 2;
+  const days = (ARLastMonth / (averageSales || 1)) * 30;
+
+  return Math.round(days);
+}
+
