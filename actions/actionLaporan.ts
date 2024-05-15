@@ -180,9 +180,6 @@ async function calculateOD(year: number, month?: number): Promise<number> {
 
   const purchaseOrders = await prisma.purchaseOrder.findMany({
     where: {
-      status_po: {
-        not: "Selesai",
-      },
       faktur: {
         tgl_fk: {
           gte: startDateOfPeriod,
