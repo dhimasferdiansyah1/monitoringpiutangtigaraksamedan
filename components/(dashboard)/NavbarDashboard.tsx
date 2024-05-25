@@ -21,7 +21,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { ModeToggle } from "../(landingPage)/ThemeToggle";
 import { UserButton } from "@clerk/nextjs";
-import { getUser } from "@/actions/actionRole";
 import { UserInfo } from "@prisma/client";
 
 const NavbarDashboard = () => {

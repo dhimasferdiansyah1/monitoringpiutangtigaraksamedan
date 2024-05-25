@@ -220,3 +220,27 @@ async function calculateDays(year: number, month?: number): Promise<number> {
   return Math.round(days);
 }
 
+//rata rata
+export async function calculateAverages(
+  year: number
+): Promise<{
+  avgDAYS: number;
+  avgAR: number;
+  avgOD: number;
+  avgSALES: number;
+  avgPercentageOD: number;
+}> {
+  const monthlyData = await Promise.all(
+    Array.from({ length: 12 }, (_, i) => getLaporanList({ month: i + 1, year }))
+  );
+
+  const avgDAYS =
+    (monthlyData.reduce((acc, data) => acc + data.DAYS, 0) / 12) * 30;
+  const avgAR = monthlyData.reduce((acc, data) => acc + data.AR, 0) / 12;
+  const avgOD = monthlyData.reduce((acc, data) => acc + data.OD, 0) / 12;
+  const avgSALES = monthlyData.reduce((acc, data) => acc + data.SALES, 0) / 12;
+  const avgPercentageOD =
+    monthlyData.reduce((acc, data) => acc + data.percentageOD, 0) / 12;
+
+  return { avgDAYS, avgAR, avgOD, avgSALES, avgPercentageOD };
+}
