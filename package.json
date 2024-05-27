@@ -23,6 +23,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-tooltip": "^1.0.7",
+    "@tanstack/react-table": "^8.17.3",
     "@uploadthing/react": "^6.4.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
